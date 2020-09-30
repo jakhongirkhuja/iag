@@ -30,7 +30,7 @@ class IndexController extends Controller
     public function index()
     {
         
-
+        dd('hello');
         $owner = Owner::paginate(25);
         $estate= Estate::paginate(25);
        
