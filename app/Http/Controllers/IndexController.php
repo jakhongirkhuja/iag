@@ -11,6 +11,8 @@ use App\Models\Owner;
 use App\Models\Remont;
 use App\Models\Region;
 use App\Models\City;
+use App\Models\ParsingPage;
+
 class IndexController extends Controller
 {
     public function getRightNumberFormat($number)
@@ -34,11 +36,13 @@ class IndexController extends Controller
         $owner = Owner::paginate(25);
         $estate= Estate::paginate(25);
        
+        
         return view('welcome', [
             'owner'=>$owner,
             'estate'=>$estate,
             'counto' => count(Owner::all()),
             'count'=>count(Estate::all()),
+             'pars'=>ParsingPage::all()
         ]);
     }
     public function import(Request $request) 

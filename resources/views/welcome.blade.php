@@ -11,7 +11,27 @@
             @if(Session::has('success'))
             <p class="alert {{ Session::get('alert-class', 'alert-info') }}">{{ Session::get('success') }}</p>
             @endif
-           
+            @if(isset($pars))
+            @foreach ($pars as $par)
+                <div style="display: flex">
+                    <div class="n" style="margin-right: 0.5rem; width: 250px;">
+                        {{ $par->city }} {{ $par->id }}
+                    </div>
+                    <div class="n" style="margin-right: 0.5rem; width: 150px;">
+                        {{ $par->housingtype }}
+                    </div>
+                    <div class="reg" style="width: 200px; margin-right:0.5rem">
+                        {{ $par->region }}
+                    </div>
+                    <div class="url" style="overflow:hidden; width: 900px; height:20px;">
+                        <a target="_blank" href="{{$par->url}}">{{$par->url}}</a>
+                    </div>
+                </div>    
+            @endforeach
+            @endif
+            <div>
+
+            </div>
             <br>
             <form method="post"  action="{{ route('import_excel') }}" enctype="multipart/form-data">
                 @csrf
