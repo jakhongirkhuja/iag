@@ -16,6 +16,7 @@ use App\Models\HouseType;
 use Illuminate\Support\Str;
 use App\Models\Estate;
 use App\Models\OwnerType;
+use App\Models\ParsingPage;
 use Carbon\Carbon;
 
 class ApiController extends Controller
@@ -770,5 +771,32 @@ class ApiController extends Controller
         
         
         
+    }
+
+    public function getRandomParsingPage($id)
+    {
+    	
+        $parsingPage = ParsingPage::where('site_id',$id)->where('status', 1)->get();
+    	// $parsingPage = ParsingPage::where('id',21)->get();
+        if(count($parsingPage)>0){
+            $parsingPage = $parsingPage->random();
+            $city = $parsingPage->city;
+            $category = $parsingPage->category;
+            $housingtype = $parsingPage->housingtype;
+            $url = $parsingPage->url;
+            $region = $parsingPage->region;
+            $status = true;
+            return response()->json([
+                'status'=>$status,
+                'city' => $city,
+                'category'=>$category,
+                'url' =>$url,
+                'region'=>$region,
+                'housingtype'=>$housingtype,
+            ],200);
+        }
+       return response()->json([
+            'status'=>false,
+        ],200);
     }
 }

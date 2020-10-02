@@ -33,8 +33,8 @@ class IndexController extends Controller
     {
         
         
-        $owner = Owner::paginate(25);
-        $estate= Estate::paginate(25);
+        $owner = Owner::orderby('id', 'desc')->paginate(25);
+        $estate= Estate::orderby('id', 'desc')->paginate(25);
        
         
         return view('welcome', [
@@ -42,7 +42,7 @@ class IndexController extends Controller
             'estate'=>$estate,
             'counto' => count(Owner::all()),
             'count'=>count(Estate::all()),
-             'pars'=>ParsingPage::all()
+            //  'pars'=>ParsingPage::all()
         ]);
     }
     public function import(Request $request) 

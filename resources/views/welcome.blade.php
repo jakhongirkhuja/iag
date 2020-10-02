@@ -53,11 +53,11 @@
                     </div>
                             @foreach ($estate as $item)
                                 <div style="display: flex">
-                                    <div>
-                                        {{ $item->id }}
+                                    <div style="margin-right: 0.4rem">
+                                        {{ $item->id }}: 
                                     </div>
                                     <div>
-                                        {{ $item->title }}
+                                        <a href="{{ $item->url }}">{{ $item->title }}</a>
                                     </div>
                                     <div>
                                         {{ $item->owner()->first()->number }}
