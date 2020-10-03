@@ -14,7 +14,7 @@ class CreateEstatesTable extends Migration
     public function up()
     {
         Schema::create('estates', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('ad_id',150);
             $table->integer('ad_site')->unsigned();
             $table->integer('num_rooms')->unsigned();
