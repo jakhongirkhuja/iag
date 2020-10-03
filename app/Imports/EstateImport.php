@@ -445,6 +445,13 @@ class EstateImport implements ToModel, WithHeadingRow
             
                 $title = $row['title'];
                 $title = trim(preg_replace('/\s\s+/', ' ', $title));
+                $slug = Str::slug($title, "-");
+                if(Estate::where('slug', $slug)->first()){
+                    $estite->slug = $slug.'-'.(string)time();
+                }else{
+                    $estite->slug = $slug;
+                }
+                
             $estite->title = $title;
                 $body = $row['body'];
                 $body = trim(preg_replace('/\s\s+/', ' ', $body));
@@ -680,6 +687,12 @@ class EstateImport implements ToModel, WithHeadingRow
                 
                     $title = $row['title'];
                     $title = trim(preg_replace('/\s\s+/', ' ', $title));
+                    $slug = Str::slug($title, "-");
+                if(Estate::where('slug', $slug)->first()){
+                    $estite->slug = $slug.'-'.(string)time();
+                }else{
+                    $estite->slug = $slug;
+                }
                 $estite->title = $title;
                     $body = $row['body'];
                     $body = trim(preg_replace('/\s\s+/', ' ', $body));

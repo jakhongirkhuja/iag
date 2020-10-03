@@ -435,6 +435,12 @@ class ApiController extends Controller
             
                 $title = $row['title'];
                 $title = trim(preg_replace('/\s\s+/', ' ', $title));
+                $slug = Str::slug($title, "-");
+                if(Estate::where('slug', $slug)->first()){
+                    $estite->slug = $slug.'-'.(string)time();
+                }else{
+                    $estite->slug = $slug;
+                }
             $estite->title = $title;
                 $body = $row['body'];
                 $body = trim(preg_replace('/\s\s+/', ' ', $body));
@@ -691,6 +697,12 @@ class ApiController extends Controller
                 
                     $title = $row['title'];
                     $title = trim(preg_replace('/\s\s+/', ' ', $title));
+                    $slug = Str::slug($title, "-");
+                if(Estate::where('slug', $slug)->first()){
+                    $estite->slug = $slug.'-'.(string)time();
+                }else{
+                    $estite->slug = $slug;
+                }
                 $estite->title = $title;
                     $body = $row['body'];
                     $body = trim(preg_replace('/\s\s+/', ' ', $body));
@@ -776,16 +788,18 @@ class ApiController extends Controller
     public function getRandomParsingPage($id)
     {
     	
-        $parsingPage = ParsingPage::where('site_id',$id)->where('status', 1)->get();
+        $parsingPage = ParsingPage::where('site_id',$id)->where('status', 1)->orderby('id','asc')->first();
     	// $parsingPage = ParsingPage::where('id',21)->get();
-        if(count($parsingPage)>0){
-            $parsingPage = $parsingPage->random();
+        if($parsingPage){
             $city = $parsingPage->city;
             $category = $parsingPage->category;
             $housingtype = $parsingPage->housingtype;
             $url = $parsingPage->url;
             $region = $parsingPage->region;
             $status = true;
+
+            $parsingPage->status = 2;
+            $parsingPage->save();
             return response()->json([
                 'status'=>$status,
                 'city' => $city,
@@ -794,6 +808,48 @@ class ApiController extends Controller
                 'region'=>$region,
                 'housingtype'=>$housingtype,
             ],200);
+        }else{
+            $parsingPage = ParsingPage::where('site_id',$id)->where('status', 2)->orderby('id','asc')->get();
+            if(count($parsingPage)>0){
+                $firchange = false;
+                foreach($parsingPage as $k=>$parsingP){
+                    if($k==0){
+                        $firchange = $parsingP;
+                    }
+                    $parsingP->status = 1;
+                    $parsingP->save();
+                }
+                if($firchange){
+                    $city = $firchange->city;
+                    $category = $firchange->category;
+                    $housingtype = $firchange->housingtype;
+                    $url = $firchange->url;
+                    $region = $firchange->region;
+                    $status = true;
+
+                    $firchange->status = 2;
+                    $firchange->save();
+                    return response()->json([
+                        'status'=>$status,
+                        'city' => $city,
+                        'category'=>$category,
+                        'url' =>$url,
+                        'region'=>$region,
+                        'housingtype'=>$housingtype,
+                    ],200);
+                }else{
+                    return response()->json([
+                        'status'=>false,
+                    ],200);
+                }
+                
+            }else{
+                return response()->json([
+                    'status'=>false,
+                ],200);
+            }
+            
+           
         }
        return response()->json([
             'status'=>false,

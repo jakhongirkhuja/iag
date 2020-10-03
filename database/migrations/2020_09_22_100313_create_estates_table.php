@@ -43,9 +43,10 @@ class CreateEstatesTable extends Migration
             $table->integer('city')->unsigned()->nullable();
             $table->integer('region')->unsigned()->nullable();
             $table->integer('other_loc')->unsigned()->nullable();
-            $table->text('map')->nullable();
+            $table->string('map', 190)->nullable();
             $table->longText('ad_update_at')->nullable();
             $table->integer('status')->default(1);
+            $table->text('slug');
             $table->softDeletes();
             $table->timestamps();
         });

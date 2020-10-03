@@ -31,8 +31,9 @@ class IndexController extends Controller
     }
     public function index()
     {
-        
-        
+        $slug = 'sad';
+        $d = $slug.'-'.(string)time();
+        // dd($d);
         $owner = Owner::orderby('id', 'desc')->paginate(25);
         $estate= Estate::orderby('id', 'desc')->paginate(25);
        

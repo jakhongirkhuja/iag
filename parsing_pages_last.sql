@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db
--- Generation Time: Oct 02, 2020 at 03:06 PM
+-- Generation Time: Oct 03, 2020 at 10:06 AM
 -- Server version: 5.7.22
 -- PHP Version: 7.4.4
 
@@ -103,7 +103,8 @@ INSERT INTO `parsing_pages` (`id`, `site_id`, `category`, `housingtype`, `city`,
 (58, 2, 'Продажа', 'Вторичный рынок', 'Сирдарьинская область', '', 'https://m.uybor.uz/ru/prodazha-kvartir/kvartiry-v-sirdar-inskoy-oblasti?operation_type_code=sale&region_id=11&category_id=23&order=created_at-DESC', 1, '2020-10-02 12:12:24', '2020-10-02 13:03:54'),
 (59, 2, 'Продажа', 'Вторичный рынок', 'Сурхандарьинская область', '', 'https://m.uybor.uz/ru/prodazha-kvartir/kvartiry-v-surhandar-inskoy-oblasti?operation_type_code=sale&region_id=10&category_id=23&order=created_at-DESC', 1, '2020-10-02 12:13:41', '2020-10-02 13:05:30'),
 (60, 2, 'Продажа', 'Вторичный рынок', 'Ферганская область', '', 'https://m.uybor.uz/ru/prodazha-kvartir/kvartiry-v-ferganskoy-oblasti?operation_type_code=sale&region_id=14&category_id=23&order=created_at-DESC', 1, '2020-10-02 12:15:30', '2020-10-02 13:04:15'),
-(61, 2, 'Продажа', 'Вторичный рынок', 'Хорезмская область', '', 'https://m.uybor.uz/ru/prodazha-kvartir/kvartiry-v-horezmskoy-oblasti?operation_type_code=sale&region_id=15&category_id=23&order=created_at-DESC', 1, '2020-10-02 12:17:07', '2020-10-02 13:04:35');
+(61, 2, 'Продажа', 'Вторичный рынок', 'Хорезмская область', '', 'https://m.uybor.uz/ru/prodazha-kvartir/kvartiry-v-horezmskoy-oblasti?operation_type_code=sale&region_id=15&category_id=23&order=created_at-DESC', 1, '2020-10-02 12:17:07', '2020-10-02 13:04:35'),
+(62, 2, 'Продажа', 'Вторичный рынок', 'Ташкентская область', '', 'https://m.uybor.uz/ru/prodazha-kvartir/kvartiry-v-tashkentskoy-oblasti?operation_type_code=sale&region_id=12&category_id=23&order=created_at-DESC', 1, '2020-10-02 11:35:27', '2020-10-02 12:59:52');
 
 --
 -- Indexes for dumped tables
@@ -123,7 +124,7 @@ ALTER TABLE `parsing_pages`
 -- AUTO_INCREMENT for table `parsing_pages`
 --
 ALTER TABLE `parsing_pages`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
