@@ -13,5 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/','IndexController@index')->name('index');
+
+Route::fallback('IndexController@index');
+
+Route::get('/admin','IndexController@admin')->name('admin');
+// Route::get('{any}', 'IndexController@index')->where('any', '.*');
+
 Route::post('/excell/import','IndexController@import')->name('import_excel');

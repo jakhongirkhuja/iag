@@ -19,3 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 Route::get('/getRandomUrl/{id}','Api\ApiController@getRandomParsingPage')->name('getRandomUrl');
 Route::post('/submit','Api\ApiController@index')->name('api_submit');
+
+
+Route::get('/show/estate','Api\ApiController@showing')->name('showing');

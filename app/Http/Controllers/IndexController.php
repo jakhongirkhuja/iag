@@ -35,14 +35,14 @@ class IndexController extends Controller
     public function index()
     {
         
-        $urls = Estate::where('status', 1)->get();
-        if(count($urls)>0){
-            $k = Carbon::now();
-            foreach ($urls as $url) {
-                CheckUrl::dispatch()->delay($k);
-                $k = Carbon::parse($k)->addSeconds(10);
-            }
-        }   
+        // $urls = Estate::where('status', 1)->get();
+        // if(count($urls)>0){
+        //     $k = Carbon::now();
+        //     foreach ($urls as $url) {
+        //         CheckUrl::dispatch()->delay($k);
+        //         $k = Carbon::parse($k)->addSeconds(10);
+        //     }
+        // }   
         
        
         $owner = Owner::orderby('id', 'desc')->paginate(25);
@@ -66,5 +66,9 @@ class IndexController extends Controller
            return back()->with('success', "Error");
          }
         
+    }
+    public function admin()
+    {
+        return view('admin/index');
     }
 }

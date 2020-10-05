@@ -1,0 +1,68 @@
+.main{
+    &__left__side, &__right__side{
+        width: 60px;
+        text-align: center;
+        position: relative;
+    }
+    &__left__side{
+        height: 100vh;
+        background-color: $white;
+    }
+    &__center{
+        background-color: $white;
+    }
+    &__right__side{
+        height: 100vh;
+    }
+    &__table__header{
+        height: 60px;
+        padding-right: 2rem;
+        justify-content: flex-end;
+    }
+    &__table__header__items{
+        padding-right: 0.5rem;
+        &__text, &__selection{
+            font-weight: bolder;
+            padding-right: 0.5rem;
+        }
+    }
+   
+    .filter{
+        display: flex;
+        height: 60px;
+        align-items: center;
+        justify-content: center;
+        background-color: $primary_light;
+    }
+    .filter:hover{
+        cursor: pointer;
+        background-color: $white;
+        border-bottom: 2px solid $primary_light;
+    }
+    .filter_text{
+        font-size: 0.7rem;
+        font-weight: bold;
+        writing-mode: vertical-rl;
+        text-orientation: mixed;
+        display: flex;
+        padding-top: 2rem;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    .general_list, .number_list, .scrol_up{
+        height: 60px;
+        background-color: $primary_light;
+        border-bottom: 1px solid $primary_dark;
+    }
+    .general_list.active, .general_list:hover, .number_list.active, .number_list:hover, .scrol_up.active{
+        background-color: $white;
+        border-bottom: 1px solid $primary_dark;
+    } 
+    .scrol_up{
+        border-top: 1px solid $primary_dark;
+        position: absolute;
+        bottom: 15rem;
+        width: 100%;
+        cursor: pointer;
+    } 
+}

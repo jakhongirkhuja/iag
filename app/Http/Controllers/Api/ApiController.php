@@ -855,4 +855,20 @@ class ApiController extends Controller
             'status'=>false,
         ],200);
     }
+
+    public function showing()
+    {
+        $estate = Estate::all();
+        foreach($estate as $es){
+            $es['i'] =$es->owner()->first();
+            $es['price_cur'] = json_decode($es->price)->currency;
+            $es['price'] = json_decode($es->price)->price;
+            $es['update_time'] = Carbon::parse($es->updated_at)->locale('ru_RU')->diffForHumans();
+        }
+        
+        return response()->json([
+            'status' => true,
+            'estate' =>$estate,
+        ]);
+    }
 }

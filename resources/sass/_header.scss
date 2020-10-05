@@ -1,0 +1,42 @@
+.nav{
+    position: relative;
+    z-index: 1;
+    height: 60px;
+    padding-left: 20px;
+    background-color: $white;
+    box-shadow: 0px 0px 1px black;
+    &__logo{
+        font-weight:bold;
+        font-size:2rem;
+        cursor: pointer;
+        color: black;
+    }
+    &__menu{
+        width: 60px;
+        height: 100%;
+        background-color: black;
+        color: $white;
+        font-weight: bold;
+        display: flex;
+        cursor: pointer;
+        flex-direction: column;
+        justify-content: space-around;
+        &__items{
+            padding: 0.2rem 0.5rem 0.2rem 0.7rem;
+        }
+    }
+    &__olx, &__uybor{
+        min-width: 100px;
+        height: 100%;
+        align-items: center;
+        cursor: pointer;
+        justify-content: space-around;
+    }
+    &__olx:hover, &__uybor:hover{
+        background-color: $primary_light;
+        
+    }
+    &__uybor{
+        padding-right: 1rem;
+    }
+}
