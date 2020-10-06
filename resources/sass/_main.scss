@@ -210,3 +210,19 @@ button:disabled:hover{
 .form-control::placeholder{
 	color: #D5D1D1;
 }
+
+.pagination{
+	display: flex;
+	&__prev, &__curr, &__next{
+		width: 35px;
+		height: 35px;
+		font-size: 1.2rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		border-radius: 5px;
+	}
+	&__prev, &__next{
+		background-color: $primary_dark;
+	}
+}

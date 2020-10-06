@@ -1,93 +1,61 @@
 <template>
     <div class="main fx">
         <Filter_s/>
-        <div class="main__center fx-1">
-            <div class="main__table__header fx vertical_center">
-                <div class="main__table__header__items">
-                    Подобрать по
-                </div>
-                <div class="main__table__header__items fx vertical_center">
-                    <div class="main__table__header__items__text">
-                        Цены
-                    </div>
-                    <div class="main__table__header__items__selection">
-                        <select class="form-control">
-                            <option selected disabled>Выбрать</option>
-                            <option>убыванию</option>
-                            <option>возрастанию</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="main__table__header__items fx vertical_center">
-                    <div class="main__table__header__items__text">
-                        Кол-во комнат
-                    </div>
-                    <div class="main__table__header__items__selection">
-                       <select class="form-control">
-                            <option selected disabled>Выбрать</option>
-                            <option>убыванию</option>
-                            <option>возрастанию</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="main__table__body">
-                <table class="table table-hover" style="width:100%">
-                    <thead>
-                        <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Комнт</th>
-                        <th scope="col">Район</th>
-                        <th scope="col">Площадь</th>
-                        <th scope="col">Этаж</th>
-                        <th scope="col">Цена</th>
-                        <th scope="col">Обновлено</th>
-                        </tr>
-                    </thead>
-                    <tbody style="text-align:center">
-                        <tr v-for="estate in estates" :key="estate.id">
-                        <th scope="row">НВ</th>
-                        <td>{{ estate.num_rooms }}</td>
-                        <td>Ташкент, Юнусабадский район</td>
-                        <td>{{ estate.total_area }} m <sup>2</sup></td>
-                        <td>{{ estate.floor }} ({{ estate.floor_house }})</td>
-                        <td>{{ estate.price }} {{ estate.price_cur }}</td>
-                        <td>{{ estate.update_time }}</td>
-                        </tr>
-                        
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        <TableShow  v-bind:estates='estates' v-bind:pagination ='pagination'/>
         <RigtSideBar/>
         
     </div>
 </template>
 <script>
 import Filter_s from '../layouts/Filter_s';
+import TableShow from '../views/TableShow';
 import RigtSideBar from '../layouts/RigtSideBar';
 export default {
     name: 'home',
     components: {
-      Filter_s,
-      RigtSideBar
+        Filter_s,
+        RigtSideBar,
+        TableShow
     },
     data: function(){
         return {
-            estates: []
+            estates: [],
+            url: 'api/show/estate',
+            pagination: [],
         }
     },
-    mounted () {
-        this.getEstates();
+    created () {
+        
+        var par = this.$route.query.page;
+        if(typeof(par) != 'undefined' || par != null){
+            this.url = this.url+'?page='+par;
+        }
+        this.getEstates(this.url);
     },
     methods: {
-        getEstates() {
-            axios.get('api/show/estate').then((response) => {
+        getEstates(url) {
+            console.log(url);
+            axios.get(url).then((response) => {
                 if(response.data.status){
-                    this.estates = response.data.estate;
+                    this.estates = response.data.estate.data;
+                    var curr = response.data.estate.current_page;
+                    var lastp = response.data.estate.last_page;
+                    this.pagination['current_page'] = curr;
+                    if(curr-1 == 0){
+                        this.pagination['last_page_url'] = '?page='+curr;
+                    }else{
+                        this.pagination['last_page_url'] = '?page='+(curr-1);
+                    }
+                    if(lastp+1== curr+1){
+                        this.pagination['next_page_url'] = '?page='+curr;
+                    }else{
+                        this.pagination['next_page_url'] = '?page='+(curr+1);
+                    }
+                    this.$router.push({query: {paginate: this.pagination.per_page, page: response.data.estate.current_page}}).catch(()=>{});
+                    
+                    
+                    
                 }
-                console.log(this.estates);
-                // this.estate = response.estates;
             }).catch( error => { console.log(error); });
         }
     }

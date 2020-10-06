@@ -17,4 +17,16 @@ class Estate extends Model
     {
         return $this->belongsToMany(Owner::class);
     }
+    public function getHouseType()
+    {
+        return $this->belongsTo('App\Models\HouseType', 'house_type')->first();
+    }
+    public function getCity()
+    {
+        return $this->belongsTo('App\Models\City', 'city')->first();
+    }
+    public function getRegion()
+    {
+        return $this->belongsTo('App\Models\Region', 'region')->first();
+    }
 }

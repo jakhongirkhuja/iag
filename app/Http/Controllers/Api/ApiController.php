@@ -856,13 +856,34 @@ class ApiController extends Controller
         ],200);
     }
 
-    public function showing()
+    public function showing($id = null)
     {
-        $estate = Estate::all();
+        
+        if($id==1){
+           
+            $estate = Estate::where('ad_site',$id)->orderby('updated_at', 'desc')->paginate(15);
+        }elseif($id==2){
+            
+            $estate = Estate::where('ad_site',$id)->orderby('updated_at', 'desc')->paginate(15);
+        }else{
+            $estate = Estate::orderby('updated_at', 'desc')->paginate(25); 
+        }
+        
         foreach($estate as $es){
             $es['i'] =$es->owner()->first();
             $es['price_cur'] = json_decode($es->price)->currency;
             $es['price'] = json_decode($es->price)->price;
+            if($es->getHouseType()->name == 'Вторичный рынок'){
+                $es['housingtype'] = 'вр';
+            }elseif($es->getHouseType()->name == 'Новостройки'){
+                $es['housingtype'] = 'нв';
+            }
+            if($es->getCity()){
+                $es['city'] = $es->getCity()->name;
+            }
+            if($es->getRegion()){
+                $es['region'] = $es->getRegion()->name;
+            }
             $es['update_time'] = Carbon::parse($es->updated_at)->locale('ru_RU')->diffForHumans();
         }
         
@@ -870,5 +891,28 @@ class ApiController extends Controller
             'status' => true,
             'estate' =>$estate,
         ]);
+    }
+    public function countEstates()
+    {
+        return response()->json([
+            'status'=>true,
+            'uybor' => count(Estate::where('ad_site', 2)->get()),
+            'olx'=>count(Estate::where('ad_site',1)->get()),
+        ]);
+    }
+    public function showingEstate($slug)
+    {
+        $estate = Estate::where('slug',$slug)->first();
+        if($estate){
+            return response()->json([
+                'status' => true,
+                'estate' =>$estate,
+            ]);
+        }else{
+            return response()->json([
+                'status' => false,
+                'estate' =>$estate,
+            ]);
+        }
     }
 }

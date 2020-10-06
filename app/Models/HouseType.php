@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class HouseType extends Model
 {
     use HasFactory;
+    
 }

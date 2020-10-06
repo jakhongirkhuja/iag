@@ -1,6 +1,7 @@
 import Home from './views/Home';
 import Olx from './views/Olx';
 import Uybor from './views/Uybor';
+import Estate from './views/Estate';
 export const routes = [
     {
         path: '/',
@@ -17,4 +18,9 @@ export const routes = [
         name: 'uybor',
         component: Uybor
     },
+    {
+        path: '/estate/:slug',
+        name: 'estate',
+        component: Estate
+     }
 ]

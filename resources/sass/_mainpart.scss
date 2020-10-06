@@ -19,6 +19,18 @@
         padding-right: 2rem;
         justify-content: flex-end;
     }
+    &__table__body tbody tr{
+        height: 31px;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+    &__table__body tbody{
+        margin-top: 1rem;
+        tr:hover{
+            background-color: $primary_light;
+        }
+    }
+   
     &__table__header__items{
         padding-right: 0.5rem;
         &__text, &__selection{
@@ -26,7 +38,7 @@
             padding-right: 0.5rem;
         }
     }
-   
+    
     .filter{
         display: flex;
         height: 60px;
@@ -64,5 +76,6 @@
         bottom: 15rem;
         width: 100%;
         cursor: pointer;
-    } 
+    }
+     
 }

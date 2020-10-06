@@ -1,52 +1,64 @@
 <template>
     <div class="main fx">
         <Filter_s/>
-        <div class="main__center fx-1">
-            <div class="main__table__header fx vertical_center">
-                <div class="main__table__header__items">
-                    Подобрать по
-                </div>
-                <div class="main__table__header__items fx vertical_center">
-                    <div class="main__table__header__items__text">
-                        Цены
-                    </div>
-                    <div class="main__table__header__items__selection">
-                        <select class="form-control">
-                            <option selected disabled>Выбрать</option>
-                            <option>убыванию</option>
-                            <option>возрастанию</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="main__table__header__items fx vertical_center">
-                    <div class="main__table__header__items__text">
-                        Кол-во комнат
-                    </div>
-                    <div class="main__table__header__items__selection">
-                       <select class="form-control">
-                            <option selected disabled>Выбрать</option>
-                            <option>убыванию</option>
-                            <option>возрастанию</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="main__table__body">
-                Таблица общая OLX
-            </div>
-        </div>
+        <TableShow  v-bind:estates='estates' v-bind:pagination ='pagination'/>
         <RigtSideBar/>
         
     </div>
 </template>
 <script>
+import TableShow from '../views/TableShow';
 import Filter_s from '../layouts/Filter_s';
 import RigtSideBar from '../layouts/RigtSideBar';
 export default {
     name: 'olx',
     components: {
       Filter_s,
-      RigtSideBar
+      RigtSideBar,
+      TableShow
+    },
+    data: function(){
+        return {
+            estates: [],
+            url_not:'api/show/estate/1',
+            url: 'api/show/estate/1',
+            pagination: [],
+        }
+    },
+    created(){
+        var par = this.$route.query.page;
+        if(typeof(par) != 'undefined' || par != null){
+            this.url = this.url+'?page='+par;
+        }
+        this.getEstates(this.url);
+    },
+    methods: {
+        getEstates(url) {
+            console.log(url+'here inside me');
+            axios.get(url).then((response) => {
+                if(response.data.status){
+                    this.estates = response.data.estate.data;
+                    var curr = response.data.estate.current_page;
+                    var lastp = response.data.estate.last_page;
+                    console.log('last '+lastp)
+                    this.pagination['current_page'] = curr;
+                    if(curr-1 == 0){
+                        this.pagination['last_page_url'] = '?page='+curr;
+                    }else{
+                        this.pagination['last_page_url'] = '?page='+(curr-1);
+                    }
+                    if(lastp+1== curr+1){
+                        this.pagination['next_page_url'] = '?page='+curr;
+                    }else{
+                        this.pagination['next_page_url'] = '?page='+(curr+1);
+                    }
+                    this.$router.push({query: {paginate: this.pagination.per_page, page: response.data.estate.current_page}}).catch(()=>{});
+                    
+                    
+                    
+                }
+            }).catch( error => { console.log(error); });
+        }
     }
 }
 </script>
