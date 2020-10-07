@@ -51,6 +51,9 @@ body{
 	    -ms-flex-direction: column;
 	        flex-direction: column;
 }
+.col-50{
+	flex-grow: 1;
+}
 .fx-1{
 	-webkit-box-flex:1;
 	    -ms-flex:1;

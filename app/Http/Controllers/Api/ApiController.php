@@ -903,6 +903,23 @@ class ApiController extends Controller
     public function showingEstate($slug)
     {
         $estate = Estate::where('slug',$slug)->first();
+        if($estate->getCity()){
+            $estate['city'] = $estate->getCity()->name;
+        }
+        if($estate->getRegion()){
+            $estate['region'] = $estate->getRegion()->name;
+        }
+        $estate['update_time'] = Carbon::parse($estate->updated_at)->locale('ru_RU')->isoFormat('LLLL'); 
+        $estate['price_cur'] = json_decode($estate->price)->currency;
+        $estate['price'] = json_decode($estate->price)->price;
+        if(Str::contains($estate->img, 'https')){
+            $estate['imgs']= explode(",", Str::of($estate->img)->replace('[', '')->replace(']', '')->replace("'", '')->replace(' ','')); 
+        }
+       
+        
+        
+       
+        
         if($estate){
             return response()->json([
                 'status' => true,
