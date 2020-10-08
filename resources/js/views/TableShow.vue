@@ -30,6 +30,7 @@
                 </div>
             </div>
             <div class="main__table__body">
+                
                 <table class="table table-hover" style="width:100%">
                     <thead>
                         <tr>
@@ -92,7 +93,10 @@ export default {
         },
         openEstate(slug){
             console.log(slug);
-            this.$router.push({ name: 'estate', params: { slug: slug } });
+            // let routeData = this.$router.resolve({ name: 'estate', params: { slug: slug } });
+            // window.open(routeData.href, '_blank');
+            let routeData = this.$router.push({ name: 'estate', params: { slug: slug } });
+            
         }
     },
 }

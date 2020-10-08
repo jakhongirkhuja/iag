@@ -59,6 +59,14 @@ class CheckUrl implements ShouldQueue
                         }
                         var_dump($contains);
                         
+                        $contains = Str::contains($str, 'Объявление не активно');
+                        if($contains){
+                            $estate = Estate::find($url->id);
+                            $estate->status = 2;
+                            $estate->save();
+                        }
+                        var_dump($contains);
+                        
                     }
                     if($response->status()==404){
                         $estate = Estate::find($url->id);

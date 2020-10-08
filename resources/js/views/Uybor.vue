@@ -26,6 +26,7 @@ export default {
         }
     },
     created(){
+        this.$Progress.start()
         var par = this.$route.query.page;
         if(typeof(par) != 'undefined' || par != null){
             this.url = this.url+'?page='+par;
@@ -53,7 +54,7 @@ export default {
                     }
                     this.$router.push({query: {paginate: this.pagination.per_page, page: response.data.estate.current_page}}).catch(()=>{});
                     
-                    
+                    this.$Progress.finish()
                     
                 }
             }).catch( error => { console.log(error); });

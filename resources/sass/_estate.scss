@@ -1,6 +1,90 @@
 .estate{
     background-color: $white;
-    
+    &__secondary{
+        padding: 1rem;
+        &__convenience{
+            padding: 1rem;
+            background-color: $primary_light;
+            &__has{
+                justify-content: space-between;
+            }
+            &__inside div, &__body div{
+                margin-top: 0.5rem;
+            }
+            &__body{
+                border-top: 4px solid white;
+                margin-top: 1rem;
+            }
+        }
+        &__owner{
+            padding: 1rem;
+            &__info{
+                display: flex;
+                width: 100%;
+                
+                align-items: center;
+                flex-direction: column;
+                text-align: center;
+                &-name{
+                    h3{
+                        font-size: 1.5rem;
+                        font-weight: 600;
+                    }
+                    p{
+                        font-size: 1.2rem;
+                        font-weight: 400;
+                    }
+                }
+                &-number{
+                    margin-top: 1rem;
+                    div{
+                        text-transform: capitalize;
+                    }
+                    
+                }
+            }
+            &__others{
+                margin-top: 2rem;
+                h3{
+                    font-size: 0.9rem;
+                    text-align: right;
+                    text-decoration: underline;
+                    margin-bottom: 1rem;
+                }
+                &__item_title{
+                    font-size: 1.1rem;
+                    color: $primary;
+                    font-weight: bold;
+                    
+                }
+                &__item_l_u, &-a{
+                    color: initial;
+                    margin-top: 0.5rem;
+                    justify-content: space-between;
+                    &_p{
+                        font-size: 2rem;
+                        font-weight: bold;
+                    }
+                }
+                &__item{
+                    display: block;
+                    padding: 1rem 0.5rem;
+                    border-bottom: 1px solid $primary_dark;
+                }
+                &__item:hover{
+        
+                    background-color: $primary_light;
+
+                }
+                &-l, &-u{
+                    font-size: 0.8rem;
+                }
+            }
+        }
+    }
+}
+pre{
+    white-space: break-spaces;
 }
 .estate__mainpart__imgs{
     padding: 1rem;

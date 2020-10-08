@@ -24,6 +24,10 @@ export default {
             pagination: [],
         }
     },
+    mounted () {
+        //  [App.vue specific] When App.vue is finish loading finish the progress bar
+       
+    },
     created () {
         
         var par = this.$route.query.page;
@@ -31,6 +35,7 @@ export default {
             this.url = this.url+'?page='+par;
         }
         this.getEstates(this.url);
+        this.$Progress.start()
     },
     methods: {
         getEstates(url) {
@@ -53,7 +58,7 @@ export default {
                     }
                     this.$router.push({query: {paginate: this.pagination.per_page, page: response.data.estate.current_page}}).catch(()=>{});
                     
-                    
+                    this.$Progress.finish()
                     
                 }
             }).catch( error => { console.log(error); });

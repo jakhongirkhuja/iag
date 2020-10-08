@@ -83,7 +83,73 @@
                     </div>
                 </div>
             </div>
-            
+            <div class="estate__secondary fx">
+                <div class="estate__secondary__convenience fx-1">
+                    <div class="estate__secondary__convenience__has fx">
+                        <div class="estate__secondary__convenience__app" v-if="this.estate.apartment_has">
+                            <div class="estate__secondary__convenience__inside" >
+                                <h3>Есть помещение:</h3>
+                                <div v-html="this.estate.apartment_has"></div>
+                                <!-- <pre>{{ this.estate.apartment_has }}</pre> -->
+                            </div>
+                        </div>
+                        <div class="estate__secondary__convenience__near" v-if="this.estate.near_has" >
+                            <div class="estate__secondary__convenience__inside" >
+                                <h3>Есть рядом:</h3>
+                                <div v-html="this.estate.near_has"></div>
+                                <!-- <pre>{{ this.estate.near_has }}</pre> -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="estate__secondary__convenience__body pt-1" v-if="this.estate.body">
+                        <h3>Общая информация</h3>
+                        <div v-html="this.estate.body"></div>
+                    </div>
+                </div>
+                <div class="estate__secondary__owner fx fx-col fx-1">
+                    <div class="estate__secondary__owner__info">
+                        <div class="estate__secondary__owner__info-name" v-if="this.estate.owner">
+                            <h3>{{ this.estate.owner.name }}</h3>
+                            <p v-if="this.estate.announcement">  {{ this.estate.announcement.name  }}</p>
+                        </div>
+                        <div class="estate__secondary__owner__info-number" v-if="this.estate.owner">
+                            <div class="btn btn-primary">Открыть номер</div>
+                        </div>
+                    </div>
+                    <div class="estate__secondary__owner__others" v-if="this.estate.owner_estates">
+                        <h3>другие объявления автора</h3>
+                        <div  class="estate__secondary__owner__others__items">
+                            <router-link  
+                                :to="{ 
+                                    name: 'estate', 
+                                    params: { slug: ownother.slug } 
+                                }" 
+                                v-for="ownother in this.estate.owner_estates" 
+                                :key="ownother.id" target="_blank" class="estate__secondary__owner__others__item">
+                                    <div class="estate__secondary__owner__others__item_title">
+                                        {{ ownother.title.substring(0,50)+"..." }}
+                                    </div>
+                                    <div class="estate__secondary__owner__others__item_l_u fx">
+                                        <div class="estate__secondary__owner__others-l">
+                                            {{ ownother.city}}, {{ ownother.region }}
+                                        </div>
+                                         <div class="estate__secondary__owner__others-u">
+                                            {{ ownother.update_time }}
+                                        </div>
+                                    </div>
+                                    <div class="estate__secondary__owner__others__item_a_p">
+                                        <div class="estate__secondary__owner__others-a fx">
+                                            <div>комнат: {{ ownother.num_rooms }}</div>
+                                            <div>площадь: {{ ownother.total_area}} m <sup>2</sup></div>
+                                            
+                                            <div class="estate__secondary__owner__others-a_p">{{ ownother.price }} {{ownother.price_cur}}</div>
+                                        </div>
+                                    </div>
+                            </router-link>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -112,6 +178,7 @@ export default {
                 this.estate = response.data.estate;
                 if(response.data.estate.imgs != undefined){
                     this.imgs = response.data.estate.imgs;
+                    
                 }else{
                     console.log('here');
                 }
@@ -119,11 +186,13 @@ export default {
             }
             //  console.log(this.response.data);
             // this.estate = response.estates;
+            this.$Progress.finish()
         }).catch( error => { console.log(error); });
             
         }
     },
     created() {
+        this.$Progress.start()
         this.getEstate(this.$route.params.slug);
     }
 }

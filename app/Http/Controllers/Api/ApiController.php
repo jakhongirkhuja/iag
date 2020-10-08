@@ -915,6 +915,33 @@ class ApiController extends Controller
         if(Str::contains($estate->img, 'https')){
             $estate['imgs']= explode(",", Str::of($estate->img)->replace('[', '')->replace(']', '')->replace("'", '')->replace(' ','')); 
         }
+        $estate['owner'] = $estate->owner()->first();
+        if($estate->owner()->first() && count($estate->owner()->first()->estates()->where('estates.id','!=',$estate->id )->get())>0){
+            
+            $estate['owner_estates'] = $estate->owner()->first()->estates()->where('estates.id','!=',$estate->id )->get();
+            foreach($estate['owner_estates'] as $own){
+                if($own->getCity()){
+                    $own['city'] = $own->getCity()->name;
+                }
+                if($own->getRegion()){
+                    $own['region'] = $own->getRegion()->name;
+                }
+                $own['update_time'] = Carbon::parse($own->updated_at)->locale('ru_RU')->isoFormat('LLLL'); 
+                $own['price_cur'] = json_decode($own->price)->currency;
+                $own['price'] = json_decode($own->price)->price;
+            }
+        }
+        
+        $estate['announcement'] =null;
+        $estate['apartment_has'] =''.Str::of($estate->apartment_has)->replace(', ','<br>')->replace("\n", "<br>");
+        $estate['near_has'] =''.Str::of($estate->near_has)->replace('Средняя', '<br>Средняя')->replace("\n", "<br>")->replace(",", "<br>");
+        $estate['body'] =''.Str::of($estate->body)->replace('- показать телефон -', '');
+
+        
+        if($estate->owner()->first()){
+            $estate['announcement'] = $estate->owner()->first()->type()->first();
+        }
+        
        
         
         

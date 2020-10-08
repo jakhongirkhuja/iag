@@ -10,4 +10,8 @@ class Owner extends Model
     {
         return $this->belongsToMany('App\Models\Estate');
     }
+    public function type()
+    {
+        return $this->belongsTo('App\Models\OwnerType', 'announcement');
+    }
 }
