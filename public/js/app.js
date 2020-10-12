@@ -2534,6 +2534,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'tableshow',
   props: ['estates', 'pagination'],
@@ -3373,7 +3378,17 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "estate__mainpart__shortinfo fx-1" }, [
           _c("div", { staticClass: "estate__mainpart__shortinfo__title" }, [
-            _c("h1", [_vm._v(_vm._s(this.estate.title))])
+            _c("h1", [
+              _vm._v(_vm._s(this.estate.title) + " "),
+              _c(
+                "a",
+                {
+                  staticStyle: { "font-size": "0.8rem" },
+                  attrs: { target: "_blank", href: this.estate.url }
+                },
+                [_vm._v("перейти на сайт")]
+              )
+            ])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "estate__mainpart__shortinfo__loc_upd" }, [
@@ -3953,11 +3968,25 @@ var render = function() {
                     _vm._v(_vm._s(estate.housingtype))
                   ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(estate.num_rooms))]),
+                  _c(
+                    "td",
+                    {
+                      staticStyle: {
+                        "text-align": "left",
+                        "padding-left": "1rem"
+                      }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(estate.city) + ", " + _vm._s(estate.region) + " "
+                      ),
+                      estate.ad_site == 1
+                        ? _c("span", [_vm._v("(ol)")])
+                        : _c("span", [_vm._v("(uy)")])
+                    ]
+                  ),
                   _vm._v(" "),
-                  _c("td", [
-                    _vm._v(_vm._s(estate.city) + " " + _vm._s(estate.region))
-                  ]),
+                  _c("td", [_vm._v(_vm._s(estate.num_rooms))]),
                   _vm._v(" "),
                   _c("td", [
                     _vm._v(_vm._s(estate.total_area) + " m "),
@@ -3979,7 +4008,15 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(estate.update_time))])
+                  _c("td", [_vm._v(_vm._s(estate.remont))]),
+                  _vm._v(" "),
+                  _c("td", [
+                    _vm._v(
+                      _vm._s(estate.update_time) +
+                        " " +
+                        _vm._s(estate.created_time)
+                    )
+                  ])
                 ]
               )
             }),
@@ -4097,15 +4134,24 @@ var staticRenderFns = [
       _c("tr", [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Комнт")]),
+        _c(
+          "th",
+          {
+            staticStyle: { "text-align": "left", "padding-left": "1rem" },
+            attrs: { scope: "col" }
+          },
+          [_vm._v("Район")]
+        ),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Район")]),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Комнат")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Площадь")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Этаж")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Цена")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Ремонт")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Обновлено")])
       ])

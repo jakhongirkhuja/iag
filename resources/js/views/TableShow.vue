@@ -35,23 +35,28 @@
                     <thead>
                         <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Комнт</th>
-                        <th scope="col">Район</th>
+                        <th scope="col" style="text-align:left; padding-left:1rem">Район</th>
+                        <th scope="col">Комнат</th>
                         <th scope="col">Площадь</th>
                         <th scope="col">Этаж</th>
                         <th scope="col">Цена</th>
+                        <th scope="col">Ремонт</th>
+                        
                         <th scope="col">Обновлено</th>
                         </tr>
                     </thead>
                     <tbody style="text-align:center">
                         <tr v-for="estate in estates" :key="estate.id" v-on:click="openEstate(estate.slug)">
                             <th scope="row">{{estate.housingtype}}</th>
+                            
+                            <td style="text-align:left; padding-left:1rem">{{ estate.city }}, {{ estate.region }} <span v-if="estate.ad_site==1">(ol)</span> <span v-else>(uy)</span></td>
                             <td>{{ estate.num_rooms }}</td>
-                            <td>{{ estate.city }} {{ estate.region }}</td>
                             <td>{{ estate.total_area }} m <sup>2</sup></td>
                             <td>{{ estate.floor }} ({{ estate.floor_house }})</td>
                             <td>{{ estate.price }} {{ estate.price_cur }}</td>
-                            <td>{{ estate.update_time }}</td>
+                            <td>{{ estate.remont }}</td>
+                            
+                            <td>{{ estate.update_time }} {{estate.created_time}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -66,6 +71,7 @@
         </div>
 </template>
 <script>
+
 export default {
     name: 'tableshow',
     props: ['estates', 'pagination'],

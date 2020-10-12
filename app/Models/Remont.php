@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class Remont extends Model
 {
     use HasFactory;
+    
 }

@@ -239,12 +239,18 @@ class ApiController extends Controller
     {
         $time_change = json_decode($oldprice, true);
         
-        if(count($time_change)==3){
-            $ok =  end($time_change);
-        }else{
-            $ok =end($time_change)['time'];
-        }
+        // if(count($time_change)==3){
+        //     $ok =  end($time_change);
+        // }else{
+        //     $ok =end($time_change)['time'];
+        // }
         
+        
+        if(count($time_change)>3){
+            $ok = last($time_change)['time'];
+        }else{
+            $ok = $time_change['time'];
+        }
         if($ok != $time){
             
             if(Str::contains($price, 'сум')){
@@ -871,13 +877,26 @@ class ApiController extends Controller
         
         foreach($estate as $es){
             $es['i'] =$es->owner()->first();
-            $es['price_cur'] = json_decode($es->price)->currency;
-            $es['price'] = json_decode($es->price)->price;
+            $items =json_decode($es->price, true); 
+            if(count($items)>3){
+                $es['price'] = last($items)['price'];
+                $es['price_cur'] = last($items)['currency'];
+            }else{
+                $es['price_cur'] = $items['currency'];
+                $es['price'] = $items['price'];
+            }
+            // $es['price_cur'] = json_decode($es->price)->currency;
+            // $es['price'] = json_decode($es->price)->price;
             if($es->getHouseType()->name == 'Вторичный рынок'){
                 $es['housingtype'] = 'вр';
             }elseif($es->getHouseType()->name == 'Новостройки'){
                 $es['housingtype'] = 'нв';
             }
+            // $es['remont'] = ' ';
+            if($es->getRemont()){
+                $es['remont'] = $es->getRemont()->name;
+            }
+           
             if($es->getCity()){
                 $es['city'] = $es->getCity()->name;
             }
@@ -885,6 +904,7 @@ class ApiController extends Controller
                 $es['region'] = $es->getRegion()->name;
             }
             $es['update_time'] = Carbon::parse($es->updated_at)->locale('ru_RU')->diffForHumans();
+            $es['created_time'] = Carbon::parse($es->created_at)->locale('ru_RU')->diffForHumans();
         }
         
         return response()->json([
@@ -903,15 +923,29 @@ class ApiController extends Controller
     public function showingEstate($slug)
     {
         $estate = Estate::where('slug',$slug)->first();
+        // dd($estate);
         if($estate->getCity()){
             $estate['city'] = $estate->getCity()->name;
         }
         if($estate->getRegion()){
             $estate['region'] = $estate->getRegion()->name;
         }
+        $items =json_decode($estate->price, true); 
+        // dd($items);
+        // dd($items['currency']);
+        // dd(last($items));
+        // dd(count($items));
         $estate['update_time'] = Carbon::parse($estate->updated_at)->locale('ru_RU')->isoFormat('LLLL'); 
-        $estate['price_cur'] = json_decode($estate->price)->currency;
-        $estate['price'] = json_decode($estate->price)->price;
+        if(count($items)>3){
+            $estate['price'] = last($items)['price'];
+            $estate['price_cur'] = last($items)['currency'];
+        }else{
+            $estate['price_cur'] = $items['currency'];
+            $estate['price'] = $items['price'];
+        }
+        
+        
+        
         if(Str::contains($estate->img, 'https')){
             $estate['imgs']= explode(",", Str::of($estate->img)->replace('[', '')->replace(']', '')->replace("'", '')->replace(' ','')); 
         }
@@ -927,8 +961,15 @@ class ApiController extends Controller
                     $own['region'] = $own->getRegion()->name;
                 }
                 $own['update_time'] = Carbon::parse($own->updated_at)->locale('ru_RU')->isoFormat('LLLL'); 
-                $own['price_cur'] = json_decode($own->price)->currency;
-                $own['price'] = json_decode($own->price)->price;
+                $items_own =json_decode($own->price, true); 
+                if(count($items_own)>3){
+                    $own['price'] = last($items_own)['price'];
+                    $own['price_cur'] = last($items_own)['currency'];
+                }else{
+                    $own['price_cur'] = $items_own['currency'];
+                    $own['price'] = $items_own['price'];
+                }
+                
             }
         }
         

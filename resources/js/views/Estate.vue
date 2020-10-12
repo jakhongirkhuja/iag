@@ -14,7 +14,7 @@
                 </div>
                 <div class="estate__mainpart__shortinfo fx-1">
                     <div class="estate__mainpart__shortinfo__title">
-                        <h1>{{ this.estate.title }}</h1>
+                        <h1>{{ this.estate.title }} <a style="font-size:0.8rem;" target="_blank" v-bind:href=this.estate.url>перейти на сайт</a></h1>
                     </div>
                     <div class="estate__mainpart__shortinfo__loc_upd">
                         <div class="estate__mainpart__shortinfo__loc_upd-l">
@@ -154,6 +154,7 @@
     </div>
 </template>
 <script>
+
 export default {
     name:'estate',
     data() {

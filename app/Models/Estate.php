@@ -29,4 +29,8 @@ class Estate extends Model
     {
         return $this->belongsTo('App\Models\Region', 'region')->first();
     }
+    public function getRemont()
+    {
+        return $this->belongsTo('App\Models\Remont', 'remont' ,'id')->first();
+    }
 }
