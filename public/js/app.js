@@ -2242,10 +2242,17 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       estate: [],
+      main_image: this.$api_url + '/img/no.jpg',
       imgs: [this.$api_url + '/img/no.jpg', this.$api_url + '/img/no.jpg', this.$api_url + '/img/no.jpg', this.$api_url + '/img/no.jpg', this.$api_url + '/img/no.jpg', this.$api_url + '/img/no.jpg']
     };
   },
   methods: {
+    changemainimg: function changemainimg(img) {
+      this.main_image = img;
+    },
+    printpage: function printpage() {
+      window.print();
+    },
     getEstate: function getEstate(slug) {
       var _this = this;
 
@@ -2255,6 +2262,7 @@ __webpack_require__.r(__webpack_exports__);
 
           if (response.data.estate.imgs != undefined) {
             _this.imgs = response.data.estate.imgs;
+            _this.main_image = response.data.estate.imgs[0];
           } else {
             console.log('here');
           }
@@ -2310,6 +2318,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       estates: [],
       url: 'api/show/estate',
+      url_filter: 'api/show/filter/table',
       pagination: []
     };
   },
@@ -2360,6 +2369,43 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (error) {
         console.log(error);
+      });
+    },
+    filterEstates: function filterEstates(price, room) {
+      var _this2 = this;
+
+      console.log('price:' + price, 'room:' + room);
+      axios.post(this.url_filter, {
+        price: price,
+        room: room
+      }).then(function (response) {
+        if (response.data.status) {
+          _this2.estates = response.data.estate.data;
+          var curr = response.data.estate.current_page;
+          var lastp = response.data.estate.last_page;
+          _this2.pagination['current_page'] = curr;
+
+          if (curr - 1 == 0) {
+            _this2.pagination['last_page_url'] = '?page=' + curr;
+          } else {
+            _this2.pagination['last_page_url'] = '?page=' + (curr - 1);
+          }
+
+          if (lastp + 1 == curr + 1) {
+            _this2.pagination['next_page_url'] = '?page=' + curr;
+          } else {
+            _this2.pagination['next_page_url'] = '?page=' + (curr + 1);
+          }
+
+          _this2.$router.push({
+            query: {
+              paginate: _this2.pagination.per_page,
+              page: response.data.estate.current_page
+            }
+          })["catch"](function () {});
+
+          _this2.$Progress.finish();
+        }
       });
     }
   }
@@ -2543,10 +2589,21 @@ __webpack_require__.r(__webpack_exports__);
   name: 'tableshow',
   props: ['estates', 'pagination'],
   data: function data() {
-    return {};
+    return {
+      price_filter: 0,
+      room_filter: 0
+    };
   },
   mounted: function mounted() {},
   methods: {
+    onChangePrice: function onChangePrice(event) {
+      this.price_filter = event.target.value;
+      this.$parent.filterEstates(this.price_filter, this.room_filter);
+    },
+    onChangeRoom: function onChangeRoom(event) {
+      this.room_filter = event.target.value;
+      this.$parent.filterEstates(this.price_filter, this.room_filter);
+    },
     changepagination: function changepagination(url) {
       var ur = 'api/show/estate' + url;
 
@@ -3361,16 +3418,25 @@ var render = function() {
       _c("div", { staticClass: "estate__mainpart fx" }, [
         _c("div", { staticClass: "estate__mainpart__imgs fx-1" }, [
           _c("div", { staticClass: "estate__mainpart__imgs_big" }, [
-            _c("img", { attrs: { src: _vm.imgs[0] } })
+            _c("img", { attrs: { src: _vm.main_image } })
           ]),
           _vm._v(" "),
           _c(
             "div",
             { staticClass: "estate__mainpart__imgs__thumbnails" },
             _vm._l(this.imgs, function(img) {
-              return _c("div", { key: img.id }, [
-                _c("img", { attrs: { src: img } })
-              ])
+              return _c(
+                "div",
+                {
+                  key: img.id,
+                  on: {
+                    click: function($event) {
+                      return _vm.changemainimg(img)
+                    }
+                  }
+                },
+                [_c("img", { attrs: { src: img } })]
+              )
             }),
             0
           )
@@ -3563,7 +3629,8 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "estate__mainpart__shortinfo__icons__items__text"
+                      "estate__mainpart__shortinfo__icons__items__text",
+                    on: { click: _vm.printpage }
                   },
                   [
                     _vm._v(
@@ -3940,7 +4007,67 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "main__center fx-1" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "main__table__header fx vertical_center" }, [
+      _c("div", { staticClass: "main__table__header__items" }, [
+        _vm._v("\n                Подобрать по\n            ")
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "main__table__header__items fx vertical_center" },
+        [
+          _c("div", { staticClass: "main__table__header__items__text" }, [
+            _vm._v("\n                    Цены\n                ")
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "main__table__header__items__selection" }, [
+            _c(
+              "select",
+              {
+                staticClass: "form-control",
+                on: {
+                  change: function($event) {
+                    return _vm.onChangePrice($event)
+                  }
+                }
+              },
+              [
+                _c("option", { attrs: { selected: "", disabled: "" } }, [
+                  _vm._v("Выбрать")
+                ]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "1" } }, [_vm._v("убыванию")]),
+                _vm._v(" "),
+                _c("option", { attrs: { value: "2" } }, [_vm._v("возрастанию")])
+              ]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "main__table__header__items fx vertical_center" },
+        [
+          _c("div", { staticClass: "main__table__header__items__text" }, [
+            _vm._v("\n                    Кол-во комнат\n                ")
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            {
+              staticClass: "main__table__header__items__selection",
+              on: {
+                change: function($event) {
+                  return _vm.onChangeRoom($event)
+                }
+              }
+            },
+            [_vm._m(0)]
+          )
+        ]
+      )
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "main__table__body" }, [
       _c(
@@ -4004,19 +4131,17 @@ var render = function() {
                   _vm._v(" "),
                   _c("td", [
                     _vm._v(
-                      _vm._s(estate.price) + " " + _vm._s(estate.price_cur)
+                      _vm._s(estate.price) +
+                        " " +
+                        _vm._s(estate.price_cur) +
+                        " " +
+                        _vm._s(estate.count_price)
                     )
                   ]),
                   _vm._v(" "),
                   _c("td", [_vm._v(_vm._s(estate.remont))]),
                   _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(estate.update_time) +
-                        " " +
-                        _vm._s(estate.created_time)
-                    )
-                  ])
+                  _c("td", [_vm._v(_vm._s(estate.update_time))])
                 ]
               )
             }),
@@ -4064,67 +4189,15 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "main__table__header fx vertical_center" },
-      [
-        _c("div", { staticClass: "main__table__header__items" }, [
-          _vm._v("\n                Подобрать по\n            ")
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "main__table__header__items fx vertical_center" },
-          [
-            _c("div", { staticClass: "main__table__header__items__text" }, [
-              _vm._v("\n                    Цены\n                ")
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "main__table__header__items__selection" },
-              [
-                _c("select", { staticClass: "form-control" }, [
-                  _c("option", { attrs: { selected: "", disabled: "" } }, [
-                    _vm._v("Выбрать")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("убыванию")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("возрастанию")])
-                ])
-              ]
-            )
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "main__table__header__items fx vertical_center" },
-          [
-            _c("div", { staticClass: "main__table__header__items__text" }, [
-              _vm._v("\n                    Кол-во комнат\n                ")
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "main__table__header__items__selection" },
-              [
-                _c("select", { staticClass: "form-control" }, [
-                  _c("option", { attrs: { selected: "", disabled: "" } }, [
-                    _vm._v("Выбрать")
-                  ]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("убыванию")]),
-                  _vm._v(" "),
-                  _c("option", [_vm._v("возрастанию")])
-                ])
-              ]
-            )
-          ]
-        )
-      ]
-    )
+    return _c("select", { staticClass: "form-control" }, [
+      _c("option", { attrs: { selected: "", disabled: "" } }, [
+        _vm._v("Выбрать")
+      ]),
+      _vm._v(" "),
+      _c("option", { attrs: { value: "1" } }, [_vm._v("убыванию")]),
+      _vm._v(" "),
+      _c("option", { attrs: { value: "2" } }, [_vm._v("возрастанию")])
+    ])
   },
   function() {
     var _vm = this

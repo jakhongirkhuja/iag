@@ -9,10 +9,10 @@
                         Цены
                     </div>
                     <div class="main__table__header__items__selection">
-                        <select class="form-control">
+                        <select class="form-control" @change="onChangePrice($event)">
                             <option selected disabled>Выбрать</option>
-                            <option>убыванию</option>
-                            <option>возрастанию</option>
+                            <option value="1">убыванию</option>
+                            <option value="2">возрастанию</option>
                         </select>
                     </div>
                 </div>
@@ -20,11 +20,11 @@
                     <div class="main__table__header__items__text">
                         Кол-во комнат
                     </div>
-                    <div class="main__table__header__items__selection">
+                    <div class="main__table__header__items__selection" @change="onChangeRoom($event)">
                        <select class="form-control">
                             <option selected disabled>Выбрать</option>
-                            <option>убыванию</option>
-                            <option>возрастанию</option>
+                            <option value="1">убыванию</option>
+                            <option value="2">возрастанию</option>
                         </select>
                     </div>
                 </div>
@@ -53,10 +53,10 @@
                             <td>{{ estate.num_rooms }}</td>
                             <td>{{ estate.total_area }} m <sup>2</sup></td>
                             <td>{{ estate.floor }} ({{ estate.floor_house }})</td>
-                            <td>{{ estate.price }} {{ estate.price_cur }}</td>
+                            <td>{{ estate.price }} {{ estate.price_cur }} {{estate.count_price}}</td>
                             <td>{{ estate.remont }}</td>
                             
-                            <td>{{ estate.update_time }} {{estate.created_time}}</td>
+                            <td>{{ estate.update_time }}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -77,7 +77,8 @@ export default {
     props: ['estates', 'pagination'],
     data: function(){
         return {
-             
+               price_filter: 0,
+               room_filter: 0,
         }
     },
     mounted () {
@@ -85,6 +86,14 @@ export default {
       
     },
     methods: {
+        onChangePrice(event){
+            this.price_filter = event.target.value;
+            this.$parent.filterEstates(this.price_filter, this.room_filter);
+        },
+        onChangeRoom(event){
+            this.room_filter = event.target.value;
+            this.$parent.filterEstates(this.price_filter, this.room_filter);
+        },
         changepagination(url){
             var ur = 'api/show/estate'+url;
             

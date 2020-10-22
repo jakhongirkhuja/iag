@@ -21,6 +21,7 @@ export default {
         return {
             estates: [],
             url: 'api/show/estate',
+            url_filter: 'api/show/filter/table',
             pagination: [],
         }
     },
@@ -62,6 +63,34 @@ export default {
                     
                 }
             }).catch( error => { console.log(error); });
+        },
+        filterEstates(price, room){
+            console.log('price:'+price, 'room:'+room);
+            axios.post(this.url_filter,{price: price, room:room})
+            .then((response)=>{
+
+                if(response.data.status){
+                    this.estates = response.data.estate.data;
+                    var curr = response.data.estate.current_page;
+                    var lastp = response.data.estate.last_page;
+                    this.pagination['current_page'] = curr;
+                    if(curr-1 == 0){
+                        this.pagination['last_page_url'] = '?page='+curr;
+                    }else{
+                        this.pagination['last_page_url'] = '?page='+(curr-1);
+                    }
+                    if(lastp+1== curr+1){
+                        this.pagination['next_page_url'] = '?page='+curr;
+                    }else{
+                        this.pagination['next_page_url'] = '?page='+(curr+1);
+                    }
+                    this.$router.push({query: {paginate: this.pagination.per_page, page: response.data.estate.current_page}}).catch(()=>{});
+                    
+                    this.$Progress.finish()
+                    
+                }
+
+            })
         }
     }
 }

@@ -17,6 +17,7 @@ use App\Models\OtherLoc;
 use Illuminate\Support\Arr;
 use App\Models\HouseType;
 use App\Models\OwnerType;
+use App\Models\Price;
 use Carbon\Carbon;
 
 class EstateImport implements ToModel, WithHeadingRow
@@ -228,53 +229,32 @@ class EstateImport implements ToModel, WithHeadingRow
             
         }
     }
-    public function getPrice($price, $time)
+    public function getPrice($price)
     {
-        if(Str::contains($price, 'сум')){
-            $currency = 'сум';
-        }else{
-            $currency = 'у.е';
-        }
         $price = (string)Str::of($price)->replace(' ', '');
-        
-        $json_price = [
-            'price' => (int)$price,
-            'time' => $time,
-            'currency'=>$currency
-        ];
        
-        return json_encode($json_price);
+         return (int)$price;
     }
-    public function CheckUpdatePrice($oldprice, $price, $time)
+    public function CheckUpdatePrice($estate_id, $price, $time)
     {
-        $time_change = json_decode($oldprice, true);
-        
-        if(count($time_change)==3){
-            $ok =  end($time_change);
-        }else{
-            $ok =end($time_change)['time'];
-        }
-        
-        if($ok != $time){
-            
+        $price_notchanged = (string)Str::of($price)->replace(' ', '');
+        $check_price= Price::where('estate_id', $estate_id)->where('price', (int)$price_notchanged)->first();
+        if(!$check_price){
             if(Str::contains($price, 'сум')){
                 $currency = 'сум';
             }else{
                 $currency = 'у.е';
             }
             $price = (string)Str::of($price)->replace(' ', '');
-            $time_changed = [
-                'price' => (int)$price,
-                'time' => $time,
-                'currency'=>$currency
-            ];
-            $doceded= json_decode(json_encode($time_changed), true);
-            
-            $time_change[] = $doceded;
-            
-            $overall = json_encode($time_change);
-        } 
-        return $overall;
+            $price_new = new Price();
+            $price_new->estate_id = $estate_id;
+            $price_new->price = (int)$price;
+            $price_new->currency = $currency;
+            $price_new->updated_at = Str::of($time)->replace('"','');
+            $price_new->save();
+        }
+
+        return (int)$price_notchanged;
     }
     public function checkTime($time)
     {
@@ -371,7 +351,7 @@ class EstateImport implements ToModel, WithHeadingRow
             
         }
         if($changedsmth){
-            $estite->price = $this->CheckUpdatePrice($estite->price,$row['price'], $time);
+            $estite->price = $this->CheckUpdatePrice($estite->id,$row['price'], $time);
             $estite->num_rooms = (int)$row['num_rooms'];
             $estite->total_area = (float)$row['total_area'];
             if((float)$row['living_space']==0){
@@ -583,10 +563,11 @@ class EstateImport implements ToModel, WithHeadingRow
                 }
                 if(!$just_changed){
                     $owner =  new Owner();
+                   
                     $owner->name = $row['name'];
                     $name_added = [
                         'name' => $row['name'],
-                        'site' => $row['site_id'],
+                        'site' => 1,
                         'time' => Carbon::now(),
                     ];
                     $name_history = json_encode($name_added);
@@ -713,7 +694,7 @@ class EstateImport implements ToModel, WithHeadingRow
                     ];
                     $estite->ad_update_at = json_encode($time_change);
                 }
-                $estite->price = $this->getPrice($row['price'], $time);
+                $estite->price = $this->getPrice($row['price']);
 
                 $city = $this->checkcity($row['city']);
                 if($city){
@@ -747,6 +728,17 @@ class EstateImport implements ToModel, WithHeadingRow
                     $estite->category = null;
                 }
                 if($estite->save()){
+                     if(Str::contains($row['price'], 'сум')){
+                        $currency = 'сум';
+                    }else{
+                        $currency = 'у.е';
+                    }
+                    $price_new = new Price();
+                    $price_new->estate_id= $estite->id;
+                    $price_new->price = $this->getPrice($row['price']);
+                    $price_new->currency = $currency;
+                    $price_new->updated_at = Str::of($time)->replace('"','');
+                    $price_new->save();
                     if(!$estite->owner()->where('owners.id', $owner->id)->exists()){
                         $estite->owner()->attach($owner);
                     } 

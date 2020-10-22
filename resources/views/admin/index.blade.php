@@ -1,1 +1,10 @@
-<h1>Admin asdASdasdas da asd as das d</h1>
+<html>
+<head>
+  <title>Title of the document</title>
+</head>
+
+<body>
+ @include('include')
+</body>
+
+</html>

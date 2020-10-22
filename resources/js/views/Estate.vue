@@ -4,10 +4,10 @@
             <div class="estate__mainpart fx">
                 <div class="estate__mainpart__imgs fx-1">
                     <div class="estate__mainpart__imgs_big">
-                        <img :src=imgs[0] >
+                        <img :src=main_image >
                     </div>
                     <div class="estate__mainpart__imgs__thumbnails">
-                        <div v-for="img in this.imgs" :key="img.id">
+                        <div v-for="img in this.imgs" :key="img.id" v-on:click="changemainimg(img)">
                             <img :src=img>
                         </div>    
                     </div>
@@ -68,7 +68,7 @@
                             <div class="estate__mainpart__shortinfo__icons__items__img">
                                 <img :src="this.$api_url+'/img/print.svg'" width="20">
                             </div>
-                            <div class="estate__mainpart__shortinfo__icons__items__text">
+                            <div v-on:click="printpage" class="estate__mainpart__shortinfo__icons__items__text">
                                 Распечатать
                             </div>
                         </div>
@@ -160,6 +160,7 @@ export default {
     data() {
         return {
             estate: [],
+            main_image: this.$api_url+'/img/no.jpg',
             imgs: [
                 this.$api_url+'/img/no.jpg',
                 this.$api_url+'/img/no.jpg',
@@ -172,6 +173,12 @@ export default {
     },
 
     methods: {
+        changemainimg(img){
+            this.main_image = img;
+        },
+        printpage(){
+            window.print();
+        },
         getEstate(slug){
             axios.get(this.$api_url+'/api/estate/'+slug).then((response) => {
             
@@ -179,7 +186,7 @@ export default {
                 this.estate = response.data.estate;
                 if(response.data.estate.imgs != undefined){
                     this.imgs = response.data.estate.imgs;
-                    
+                    this.main_image = response.data.estate.imgs[0];
                 }else{
                     console.log('here');
                 }

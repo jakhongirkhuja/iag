@@ -17,6 +17,7 @@ use Illuminate\Support\Str;
 use App\Models\Estate;
 use App\Models\OwnerType;
 use App\Models\ParsingPage;
+use App\Models\Price;
 use Carbon\Carbon;
 
 class ApiController extends Controller
@@ -218,26 +219,46 @@ class ApiController extends Controller
             
         }
     }
-    public function getPrice($price, $time)
+    public function getPrice($price)
     {
-        if(Str::contains($price, 'сум')){
-            $currency = 'сум';
-        }else{
-            $currency = 'у.е';
-        }
+        // if(Str::contains($price, 'сум')){
+        //     $currency = 'сум';
+        // }else{
+        //     $currency = 'у.е';
+        // }
         $price = (string)Str::of($price)->replace(' ', '');
-        
-        $json_price = [
-            'price' => (int)$price,
-            'time' => $time,
-            'currency'=>$currency
-        ];
+        // $price_new = new Price();
+        // $price_new->price = (int)$price;
+        // $price_new->currency = $currency;
+        // $price_new->updated_at = Str::of($time)->replace('"','');
+        // $price_new->save();
+        // $json_price = [
+        //     'price' => (int)$price,
+        //     'time' => $time,
+        //     'currency'=>$currency
+        // ];
        
-        return json_encode($json_price);
+        return (int)$price;
     }
-    public function CheckUpdatePrice($oldprice, $price, $time)
+    public function CheckUpdatePrice($estate_id, $price, $time)
     {
-        $time_change = json_decode($oldprice, true);
+        $price_notchanged = (string)Str::of($price)->replace(' ', '');
+        $check_price= Price::where('estate_id', $estate_id)->where('price', (int)$price_notchanged)->first();
+        if(!$check_price){
+            if(Str::contains($price, 'сум')){
+                $currency = 'сум';
+            }else{
+                $currency = 'у.е';
+            }
+            $price = (string)Str::of($price)->replace(' ', '');
+            $price_new = new Price();
+            $price_new->estate_id = $estate_id;
+            $price_new->price = (int)$price;
+            $price_new->currency = $currency;
+            $price_new->updated_at = Carbon::now();
+            $price_new->save();
+        }
+        // $time_change = json_decode($oldprice, true);
         
         // if(count($time_change)==3){
         //     $ok =  end($time_change);
@@ -246,31 +267,31 @@ class ApiController extends Controller
         // }
         
         
-        if(count($time_change)>3){
-            $ok = last($time_change)['time'];
-        }else{
-            $ok = $time_change['time'];
-        }
-        if($ok != $time){
+        // if(count($time_change)>3){
+        //     $ok = last($time_change)['price'];
+        // }else{
+        //     $ok = $time_change['price'];
+        // }
+        // if($ok != $price){
             
-            if(Str::contains($price, 'сум')){
-                $currency = 'сум';
-            }else{
-                $currency = 'у.е';
-            }
-            $price = (string)Str::of($price)->replace(' ', '');
-            $time_changed = [
-                'price' => (int)$price,
-                'time' => $time,
-                'currency'=>$currency
-            ];
-            $doceded= json_decode(json_encode($time_changed), true);
+        //     if(Str::contains($price, 'сум')){
+        //         $currency = 'сум';
+        //     }else{
+        //         $currency = 'у.е';
+        //     }
+        //     $price = (string)Str::of($price)->replace(' ', '');
+        //     $time_changed = [
+        //         'price' => (int)$price,
+        //         'time' => $time,
+        //         'currency'=>$currency
+        //     ];
+        //     $doceded= json_decode(json_encode($time_changed), true);
             
-            $time_change[] = $doceded;
+        //     $time_change[] = $doceded;
             
-            $overall = json_encode($time_change);
-        } 
-        return $overall;
+        //     $overall = json_encode($time_change);
+        // } 
+        return (int)$price_notchanged;
     }
     public function checkTime($time)
     {
@@ -367,7 +388,7 @@ class ApiController extends Controller
             
         }
         if($changedsmth){
-            $estite->price = $this->CheckUpdatePrice($estite->price,$row['price'], $time);
+            $estite->price = $this->CheckUpdatePrice($estite->id,$row['price'], $time);
             $estite->num_rooms = (int)$row['num_rooms'];
             $estite->total_area = (float)$row['total_area'];
             $estite->map=$row['map'];
@@ -729,7 +750,7 @@ class ApiController extends Controller
                     ];
                     $estite->ad_update_at = json_encode($time_change);
                 }
-                $estite->price = $this->getPrice($row['price'], $time);
+                $estite->price = $this->getPrice($row['price']);
 
                 $city = $this->checkcity($row['city']);
                 if($city){
@@ -764,6 +785,17 @@ class ApiController extends Controller
                 }
                 
                 if($estite->save()){
+                    if(Str::contains($row['price'], 'сум')){
+                        $currency = 'сум';
+                    }else{
+                        $currency = 'у.е';
+                    }
+                    $price_new = new Price();
+                    $price_new->estate_id= $estite->id;
+                    $price_new->price = $this->getPrice($row['price']);
+                    $price_new->currency = $currency;
+                    $price_new->updated_at = Str::of($time)->replace('"','');
+                    $price_new->save();
                     if(!$estite->owner()->where('owners.id', $owner->id)->exists()){
                         $estite->owner()->attach($owner);
                     } 
@@ -867,25 +899,31 @@ class ApiController extends Controller
         
         if($id==1){
            
-            $estate = Estate::where('ad_site',$id)->orderby('updated_at', 'desc')->paginate(15);
+            $estate = Estate::where('ad_site',$id)->orderby('updated_at', 'desc')->paginate(50);
         }elseif($id==2){
             
-            $estate = Estate::where('ad_site',$id)->orderby('updated_at', 'desc')->paginate(15);
+            $estate = Estate::where('ad_site',$id)->orderby('updated_at', 'desc')->paginate(50);
         }else{
-            $estate = Estate::orderby('updated_at', 'desc')->paginate(25); 
+            $estate = Estate::orderby('updated_at', 'desc')->paginate(80); 
         }
         
         foreach($estate as $es){
             $es['i'] =$es->owner()->first();
-            $items =json_decode($es->price, true); 
-            if(count($items)>3){
-                $es['price'] = last($items)['price'];
-                $es['price_cur'] = last($items)['currency'];
-            }else{
-                $es['price_cur'] = $items['currency'];
-                $es['price'] = $items['price'];
+            
+                $price = Price::where('estate_id',$es->id)->where('price', $es->price)->first();
+                if($price){
+                    $es['price'] = $price->price;
+                    $es['price_cur'] = $price->currency;
+                }else{
+                    $es['price'] = $price->price;
+                    $es['price_cur'] = 'у.е';
+                }
+                
+            $c = count(Price::where('estate_id',$es->id)->get());
+            if($c>1){
+                $es['count_price'] = $c;
             }
-            // $es['price_cur'] = json_decode($es->price)->currency;
+            
             // $es['price'] = json_decode($es->price)->price;
             if($es->getHouseType()->name == 'Вторичный рынок'){
                 $es['housingtype'] = 'вр';
@@ -924,24 +962,26 @@ class ApiController extends Controller
     {
         $estate = Estate::where('slug',$slug)->first();
         // dd($estate);
+        // dd(Price::where('estate_id', $estate->id)->get());
         if($estate->getCity()){
             $estate['city'] = $estate->getCity()->name;
         }
         if($estate->getRegion()){
             $estate['region'] = $estate->getRegion()->name;
         }
-        $items =json_decode($estate->price, true); 
+       
         // dd($items);
         // dd($items['currency']);
         // dd(last($items));
         // dd(count($items));
         $estate['update_time'] = Carbon::parse($estate->updated_at)->locale('ru_RU')->isoFormat('LLLL'); 
-        if(count($items)>3){
-            $estate['price'] = last($items)['price'];
-            $estate['price_cur'] = last($items)['currency'];
+        $price = Price::where('estate_id',$estate->id)->where('price', $estate->price)->first();
+        if($price){
+            $estate['price'] = $price->price;
+            $estate['price_cur'] = $price->currency;
         }else{
-            $estate['price_cur'] = $items['currency'];
-            $estate['price'] = $items['price'];
+            $estate['price'] = $price->price;
+            $estate['price_cur'] = 'у.е';
         }
         
         
@@ -961,14 +1001,23 @@ class ApiController extends Controller
                     $own['region'] = $own->getRegion()->name;
                 }
                 $own['update_time'] = Carbon::parse($own->updated_at)->locale('ru_RU')->isoFormat('LLLL'); 
-                $items_own =json_decode($own->price, true); 
-                if(count($items_own)>3){
-                    $own['price'] = last($items_own)['price'];
-                    $own['price_cur'] = last($items_own)['currency'];
+                $price_own = Price::where('estate_id',$own->id)->where('price', $own->price)->first();
+                if($price_own){
+                    $own['price'] = $price_own->price;
+                    $own['price_cur'] = $price_own->currency;
                 }else{
-                    $own['price_cur'] = $items_own['currency'];
-                    $own['price'] = $items_own['price'];
+                    $own['price'] = $own->price;
+                    $own['price_cur'] = 'у.е';
                 }
+
+                // $items_own =json_decode($own->price, true); 
+                // if(count($items_own)>3){
+                //     $own['price'] = last($items_own)['price'];
+                //     $own['price_cur'] = last($items_own)['currency'];
+                // }else{
+                //     $own['price_cur'] = $items_own['currency'];
+                //     $own['price'] = $items_own['price'];
+                // }
                 
             }
         }
