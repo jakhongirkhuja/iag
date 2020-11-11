@@ -1,13 +1,15 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Http\Request;
 use App\Models\Estate;
+use Illuminate\Database\Eloquent\Builder;
 use App\Imports\EstateImport;
 use App\Jobs\CheckUrl;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
 use App\Models\Owner;
 use App\Models\Remont;
@@ -19,6 +21,7 @@ use Carbon\Carbon;
 
 class IndexController extends Controller
 {
+    private $token;
     public function getRightNumberFormat($number)
     {
         $s = Str::of($number)->replace(' ', '')
@@ -46,15 +49,11 @@ class IndexController extends Controller
         // }   
         
        
-        $owner = Owner::orderby('id', 'desc')->paginate(25);
-        $estate= Estate::orderby('id', 'desc')->paginate(25);
+        
        
         
         return view('welcome', [
-            'owner'=>$owner,
-            'estate'=>$estate,
-            'counto' => count(Owner::all()),
-            'count'=>count(Estate::all()),
+           
             //  'pars'=>ParsingPage::all()
         ]);
     }
@@ -68,8 +67,61 @@ class IndexController extends Controller
          }
         
     }
+    public function getToken(){
+        $client = new GuzzleClient([
+            'headers' => [ 'Content-Type' => 'application/json' ]
+        ]);
+        $response = $client->post('notify.eskiz.uz/api/auth/login',
+            ['body' => json_encode(
+                [
+                    'email' => 'erkin0717@gmail.com',
+                    'password'=> 'QOq649bKjSo5DfqqjvRexnqyYiLNQcni7a80GWd0',
+                ]
+            )]
+        );
+        if($response->getStatusCode()==200){
+            return json_decode($response->getBody()->getContents())->data->token;
+        }else{
+            return '';
+        }
+        
+    }
+    public function updateToken($token)
+    {
+        $headers = [
+            'Authorization' => 'Bearer '.$token,
+        ];
+        $client = new GuzzleClient([
+            'headers' => [ 
+                'Content-Type' => 'application/json',
+                'headers' => $headers,
+                ]
+        ]);
+        $response = $client->patch('notify.eskiz.uz/api/auth/refresh');
+        if($response->getStatusCode()==200){
+            return json_decode($response->getBody()->getContents())->data->token;
+        }else{
+            return '';
+        }
+    }
     public function admin()
     {
+        // $estate = Estate::where('currency', null)->get();
+        // dd($estate);
+        // foreach($estate as $es){
+        //     $check_price= Price::where('estate_id', $es->id)->where('price', $es->price)->first();
+        //     if($check_price){
+        //         $es->currency = $check_price->currency;
+        //         $es->save();
+        //     }
+        // }
+        
+		// $content = 'nomer: '.$number.',  summa: '.$price.', zakaz-id: '.$order_id;
+		// $body = '{"mobile_phone":"'.$number.'", "message":"'.$content.'"}';
+		// $r = $client->request('POST', 'notify.eskiz.uz/api/message/sms/send', [
+		// 	'body' => $body
+		// ]);
+		// $response = $r->getBody()->getContents();
         // $estates = Estate::all();
         // foreach ($estates as $key => $estate) {
         //     $items =json_decode($estate->price, true); 
@@ -135,19 +187,45 @@ class IndexController extends Controller
     //     ->latest()
     //     ->take(1)
     // ])Price::where('estate_id', $estate_id)->where('price', (int)$price_notchanged)->first();
-
-      
-        $slug = '245-ulucs-panel-cilanzar-20-61m2-balkon-26';
-        dd(Carbon::now(), Price::orderby('created_at','desc')->where('estate_id',Estate::where('slug', $slug)->first()->id)->get(), 
-            Estate::where('slug', $slug)->first());
+    $yesterday = date("Y-m-d", strtotime( '-1 days' ) );
+    $countYesterdayOLX = Estate::where('ad_site',1)->whereDate('created_at', $yesterday )->get();
+    if(count($countYesterdayOLX)>0){
+        echo 'Olx:'.'('.Carbon::parse($countYesterdayOLX[0]->created_at)->format('d-m-Y').' ) '.count($countYesterdayOLX);
+    }else{
+        echo 'Olx: 0';
+    }
+    echo '<br>';
+    $countYesterdayUybor = Estate::where('ad_site',2)->whereDate('created_at', $yesterday )->get();
+    if(count($countYesterdayUybor)>0){
+        echo 'Uybor:'.'('.Carbon::parse($countYesterdayUybor[0]->created_at)->format('d-m-Y').' ) '.count($countYesterdayUybor);
+    }else{
+        echo 'Uybor: 0';
+    }
+    
+    
+    // $users = DB::table('estates')
+    
+    //         ->join('prices', function  ($join){
+    //             $join->on('estates.id', '=', 'prices.estate_id');
+    //             $join->on('estates.price','=','prices.price');
+    //         })
+            
+    //         ->where('prices.currency','сум')
+            
+    //         ->get()->take(5);
+    // dd($users);
+    
+                    // $slug = '245-ulucs-panel-cilanzar-20-61m2-balkon-26';
+        // dd(Carbon::now(), Price::orderby('created_at','desc')->where('estate_id',Estate::where('slug', $slug)->first()->id)->get(), 
+            // Estate::where('slug', $slug)->first());
        
-        $estate = Estate::where('slug', $slug)->first();
-         $time_change = json_decode($estate->ad_update_at, true);
-         if(count($time_change)==1){
-               $ok =  end($time_change);
-            }else{
-                $ok =end($time_change)['time'];
-            }
+        // $estate = Estate::where('slug', $slug)->first();
+        //  $time_change = json_decode($estate->ad_update_at, true);
+        //  if(count($time_change)==1){
+        //        $ok =  end($time_change);
+        //     }else{
+        //         $ok =end($time_change)['time'];
+        //     }
              // dd($ok, $estate);
         // $estate = Estate::where('slug','prodam-dvuxurovnevuyu-kvartiru-489-v-zk-parisien-1603015869')->first();
         // dd($estate);

@@ -214,6 +214,10 @@ button:disabled:hover {
 
 .pagination {
 	display: flex;
+	margin-top: 1rem;
+    border-top: 1px solid $primary_dark;
+	padding-top: 1rem;
+	padding-bottom: 1rem;
 	&__prev,
 	&__curr,
 	&__next {
@@ -228,6 +232,11 @@ button:disabled:hover {
 	&__prev,
 	&__next {
 		background-color: $primary_dark;
+		margin-left: 3px;
+		cursor: pointer;
+	}
+	&__prev:hover,&__next:hover{
+		background-color: $primary_light;
 	}
 }
 /* width */

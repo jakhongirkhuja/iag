@@ -36,6 +36,7 @@ class CreateEstatesTable extends Migration
             $table->text('near_has')->nullable();
             $table->integer('remont')->nullable();
             $table->integer('price')->unsigned()->nullable();
+            $table->string('currency',100)->nullable();
             $table->string('commission',150)->nullable();
             $table->string('url',150)->nullable();
             $table->integer('house_type')->unsigned()->nullable();

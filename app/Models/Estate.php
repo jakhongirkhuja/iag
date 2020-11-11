@@ -8,6 +8,7 @@ use App\Models\Owner;
 use Illuminate\Database\Eloquent\SoftDeletes;
 class Estate extends Model
 {
+    
     protected $casts = [
         'price' => 'array',
         'ad_update_at'=>'array',

@@ -6,7 +6,7 @@
             <div class="number_list fx center">
                 <img src="/people.svg" width="25">
             </div>
-            <div class="scrol_up active fx center">
+            <div class="scrol_up active fx center" @click="goUp">
                 <img src="/up.svg" width="10">
             </div>
         </div>
@@ -14,5 +14,10 @@
 <script>
 export default {
     name: 'rightsidebar',
+    methods:{
+        goUp(){
+            window.scrollTo(0, 0);
+        }
+    }
 }
 </script>

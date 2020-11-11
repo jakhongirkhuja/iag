@@ -352,6 +352,12 @@ class EstateImport implements ToModel, WithHeadingRow
         }
         if($changedsmth){
             $estite->price = $this->CheckUpdatePrice($estite->id,$row['price'], $time);
+            if(Str::contains($row['price'], 'сум')){
+                $currency_new = 'сум';
+            }else{
+                $currency_new = 'у.е';
+            }
+            $estite->currency = $currency_new;
             $estite->num_rooms = (int)$row['num_rooms'];
             $estite->total_area = (float)$row['total_area'];
             if((float)$row['living_space']==0){
@@ -495,6 +501,7 @@ class EstateImport implements ToModel, WithHeadingRow
     public function model(array $row)
     {
         $inside = true;
+        
         if($this->site_name_id==1){
             $olx_strs = explode(' +', $row['number']);
             if(count($olx_strs)==1){
@@ -512,7 +519,7 @@ class EstateImport implements ToModel, WithHeadingRow
                 }
                 $s = json_encode($s);
             }
-            
+           
         }else{
             $uybor = Str::of($row['number'])->replace(' +', '');
             $uybor_strs = explode('+', $uybor);
@@ -695,7 +702,13 @@ class EstateImport implements ToModel, WithHeadingRow
                     $estite->ad_update_at = json_encode($time_change);
                 }
                 $estite->price = $this->getPrice($row['price']);
-
+                if(Str::contains($row['price'], 'сум')){
+                    $currency_new = 'сум';
+                }else{
+                    $currency_new = 'у.е';
+                }
+                $estite->currency = $currency_new;
+                
                 $city = $this->checkcity($row['city']);
                 if($city){
                     $estite->city = $city;

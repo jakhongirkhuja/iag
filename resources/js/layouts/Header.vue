@@ -4,24 +4,6 @@
             Iagent Test
         </div>
        
-            <router-link :to="'/olx'" class="nav__olx fx" >
-                 <div class="nav__text">
-                    Olx
-                </div>
-                <div class="nav__count">
-                    {{ olx }}
-                </div>
-            </router-link>
-           
-       
-        <router-link :to="'/uybor'" class="nav__uybor fx">
-            <div class="nav__text">
-                Uybor
-            </div>
-            <div class="nav__count">
-                {{ uybor }}
-            </div>
-        </router-link>
         <div class="nav__menu">
             <div class="fx">
                 <div class="nav__menu__items">
@@ -53,24 +35,13 @@ export default {
     }
   },
   created() {
-      this.getEstates();
+     
   },
   methods:{
     gotohomepage(){
         this.$router.push('/');
     },
-    getEstates() {
-        
-        axios.get(this.$api_url+'/api/count/estates').then((response) => {
-            console.log(response.data);
-            if(response.data.status){
-                this.uybor = response.data.uybor;
-                this.olx = response.data.olx;
-            }
-            //  console.log(this.response.data);
-            // this.estate = response.estates;
-        }).catch( error => { console.log(error); });
-    }
+    
   },
 }
 </script>

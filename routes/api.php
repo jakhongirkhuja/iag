@@ -21,9 +21,10 @@ Route::get('/getRandomUrl/{id}','Api\ApiController@getRandomParsingPage')->name(
 Route::post('/submit','Api\ApiController@index')->name('api_submit');
 
 
-Route::get('/show/estate/{id?}','Api\ApiController@showing')->name('showing');
+Route::get('/show/estate/','Api\ApiController@showing')->name('showing');
 Route::get('/estate/{slug}','Api\ApiController@showingEstate')->name('showingEstate');
-Route::get('/count/estates','Api\ApiController@countEstates')->name('countEstates');
 
 
-Route::post('/show/filter/table/{id?}','Api\FilterController@table')->name('table');
+
+Route::get('/remont/types','Api\FilterController@getRemonts')->name('getRemonts');
+Route::get('/remont/generalFilter','Api\FilterController@generalFilter')->name('generalFilter');

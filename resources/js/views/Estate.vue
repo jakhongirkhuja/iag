@@ -104,6 +104,19 @@
                     <div class="estate__secondary__convenience__body pt-1" v-if="this.estate.body">
                         <h3>Общая информация</h3>
                         <div v-html="this.estate.body"></div>
+
+                        <div class="estate__secondary__convenience__body-map">
+                            <h3>Карта</h3>
+                            <iframe class="pt-1"
+  width="100%" 
+  height="300" 
+  frameborder="0" 
+  marginheight="0" 
+  marginwidth="0" 
+  :src="this.estate.map"
+ >
+ </iframe>  
+                        </div>                        
                     </div>
                 </div>
                 <div class="estate__secondary__owner fx fx-col fx-1">
@@ -151,8 +164,10 @@
                 </div>
             </div>
         </div>
+         
     </div>
 </template>
+
 <script>
 
 export default {
@@ -199,9 +214,15 @@ export default {
             
         }
     },
-    created() {
+    created() { 
+        
         this.$Progress.start()
         this.getEstate(this.$route.params.slug);
+        
+    },
+    
+    mounted(){
+         
     }
 }
 </script>

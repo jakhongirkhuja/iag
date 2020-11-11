@@ -4,68 +4,31 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Estate;
+use App\Models\Owner;
 use App\Models\Price;
+use App\Models\Remont;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class FilterController extends Controller
 {
-    public function table($id=null, Request $request)
+    public function generalFilter(Request $request)
     {
-
-        if($id==1){
-            $estate = Estate::where('ad_site',$id);
-        }elseif($id==2){
-            
-            $estate = Estate::where('ad_site',$id);
+        $search = request()->search;
+        
+        if(request()->item == 1){
+            $estate = Estate::where('status',1)->where('title', 'like', '%'.$search.'%')
+            ->orwhere('body', 'like', '%'.$search.'%')
+            ->orderby('updated_at','desc')->get()->take(10);
+        }elseif(request()->item == 2){
+            $estate = Owner::where('number', 'like', '%'.$search.'%')
+            ->orderby('updated_at','desc')->get()->take(10);
+        }elseif(request()->item == 3){
+            $estate = Estate::where('status',1)
+            ->where('url', 'like', '%'.$search.'%')
+            ->orderby('updated_at','desc')->get()->take(10);
         }else{
-            $estate = Estate::where('ad_site',1)->orwhere('ad_site',2); 
-        }
-        if($request->room == '1'){
-            $estate->orderby('num_rooms','desc');
-            // dd('room down');
-        }
-        if($request->room == '2'){
-            $estate->orderby('num_rooms','asc');
-        }
-        if($request->price == '1'){
-            $estate->orderby('price','desc');
-        }
-        if($request->price == '2'){
-            $estate->orderby('price','asc');
-        }
-        $estate = $estate->paginate(25);
-       
-        foreach($estate as $es){
-            $es['i'] =$es->owner()->first();
-            $check_price= Price::where('estate_id', $es->id)->where('price', (int)$es->price)->first();
-            if ($check_price) {
-               $es['price'] = $check_price->price;
-               $es['price_cur'] =  $check_price->currency;
-            }else{
-                $es['price'] = '0';
-                $es['price_cur'] =  'у.е';
-            }
-            // $es['price_cur'] = json_decode($es->price)->currency;
-            // $es['price'] = json_decode($es->price)->price;
-            if($es->getHouseType()->name == 'Вторичный рынок'){
-                $es['housingtype'] = 'вр';
-            }elseif($es->getHouseType()->name == 'Новостройки'){
-                $es['housingtype'] = 'нв';
-            }
-            // $es['remont'] = ' ';
-            if($es->getRemont()){
-                $es['remont'] = $es->getRemont()->name;
-            }
-           
-            if($es->getCity()){
-                $es['city'] = $es->getCity()->name;
-            }
-            if($es->getRegion()){
-                $es['region'] = $es->getRegion()->name;
-            }
-            $es['update_time'] = Carbon::parse($es->updated_at)->locale('ru_RU')->diffForHumans();
-            $es['created_time'] = Carbon::parse($es->created_at)->locale('ru_RU')->diffForHumans();
+            $estate = null;
         }
         
         return response()->json([
@@ -73,4 +36,21 @@ class FilterController extends Controller
             'estate' =>$estate,
         ]);
     }
+    public function getRemonts()
+    {
+        $remonts = Remont::all();
+        if(count($remonts)>0){
+            return response()->json([
+                'status' => true,
+                'remonts' =>$remonts,
+            ]);
+        }else{
+            return response()->json([
+                'status' => false,
+                'remonts' =>null,
+            ]);
+        }
+        
+    }
+    
 }

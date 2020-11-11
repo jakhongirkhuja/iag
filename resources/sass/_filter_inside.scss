@@ -1,0 +1,70 @@
+.filter__items{
+    position: fixed;
+    padding: 30px 15px 50px 15px;
+    background-color: white;
+    top: 0;
+    box-shadow: 0 21px 28px -6px black;
+    min-width: 350px;
+    height: 100%;
+    display: block;
+    overflow-y: auto;
+    z-index: 2;
+
+    input[type=radio] {
+        display:none;
+    }
+    
+    input[type=radio] + label {
+        display: inline-block;
+        border: 1px solid whitesmoke;
+        padding: 8px 15px;
+        cursor: pointer;
+    }
+    
+    input[type=radio]:checked + label, input[type=radio] + label:hover {
+        border: 1px solid #ccc8c8;
+    }
+    &-type, &-building, &-btns{
+        display: flex;
+        label{
+            flex: 1 1 0px;
+        }
+    }
+    &-t{
+        display: flex;
+        align-items: center;
+        &--title{
+            text-align: left;
+            flex: 1;
+        }
+        
+        
+    }
+    .close{
+        position: fixed;
+        right: 0;
+        display: block;
+        height: 100%;
+        background-color: #ffffff9e;
+        top: 0;
+        width: calc(100% - 350px);
+    }
+    &_selection{
+        width: 100%;
+        padding: 8px 5px;
+        color: inherit;
+        font-size: 1rem;
+        cursor: pointer;
+        option{
+            padding: 8px 5px;
+        }
+    }
+    &-btns{
+        justify-content: space-around;
+        div{
+            text-transform: none;
+        }
+    }
+}
+
+

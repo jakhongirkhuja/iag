@@ -389,6 +389,12 @@ class ApiController extends Controller
         }
         if($changedsmth){
             $estite->price = $this->CheckUpdatePrice($estite->id,$row['price'], $time);
+            if(Str::contains($row['price'], 'сум')){
+                $currency_new = 'сум';
+            }else{
+                $currency_new = 'у.е';
+            }
+            $estite->currency = $currency_new;
             $estite->num_rooms = (int)$row['num_rooms'];
             $estite->total_area = (float)$row['total_area'];
             $estite->map=$row['map'];
@@ -750,7 +756,13 @@ class ApiController extends Controller
                     ];
                     $estite->ad_update_at = json_encode($time_change);
                 }
+                if(Str::contains($row['price'], 'сум')){
+                    $currency_new = 'сум';
+                }else{
+                    $currency_new = 'у.е';
+                }
                 $estite->price = $this->getPrice($row['price']);
+                $estite->currency = $currency_new;
 
                 $city = $this->checkcity($row['city']);
                 if($city){
@@ -894,18 +906,119 @@ class ApiController extends Controller
         ],200);
     }
 
-    public function showing($id = null)
+    public function showing()
     {
         
-        if($id==1){
+
+        $selected_city = request()->selected_city;
+        $area_from = request()->area_from;
+        $area_to = request()->area_to;
+        $type = request()->type;
+        $house_type = request()->house_type;
+        $room = request()->room;
+        $floor = request()->floor;
+        $remont_id = request()->remont_id;
+        $currency = request()->currency;
+        $latest = request()->latest;
+        $itemsorder = request()->itemsorder;
+        
+        $estate = Estate::where('status', 1)->when($selected_city, function ($query, $selected_city) {
+                if((int)$selected_city==0){
+                    return $query->where('city', 1);
+                }elseif((int)$selected_city==1600){
+                    return $query->where('city', 2);
+                }else{
+                    return $query->where('region', (int)$selected_city);
+                }
            
-            $estate = Estate::where('ad_site',$id)->orderby('updated_at', 'desc')->paginate(50);
-        }elseif($id==2){
+        })
+        ->when($area_from, function ($query, $area_from) {
+            return $query->where('total_area','>', (int)$area_from);
+        })
+        ->when($area_to, function ($query,  $area_to) {
+            return $query->where('total_area','<', (int)$area_to);
+        })
+        ->when($type, function ($query,  $type) {
+            return $query->where('category', (int)$type);
+        })
+        ->when($house_type, function ($query,  $house_type) {
+            return $query->where('house_type', (int)$house_type);
+        })
+        ->when($room, function ($query,  $room) {
+            if((int)$room == 5){
+                return $query->where('num_rooms', '>',4);
+            }else{
+                return $query->where('num_rooms', (int)$room);
+            }
+        })
+        ->when($floor, function ($query, $floor) {
+            return $query->where('floor', (int)$floor);
+        })
+        ->when($remont_id, function ($query, $remont_id) {
+            if((int)$remont_id!=0){
+                return $query->where('remont', (int)$remont_id);
+            }
+        })
+        ->when($currency==1, function ($query) {
             
-            $estate = Estate::where('ad_site',$id)->orderby('updated_at', 'desc')->paginate(50);
-        }else{
-            $estate = Estate::orderby('updated_at', 'desc')->paginate(80); 
-        }
+            $converted_from = (int)request()->price_sum_from * 10400;
+            $converted_to = (int)request()->price_sum_to * 10400;
+                return $query->where('currency','!=','сум' )->where('price', '>', (int)request()->price_sum_from)
+                ->where('price', '<',(int)request()->price_sum_to)->orWhere(function($query) use ($converted_from, $converted_to) {
+                    $query->where('currency','сум' )->where('price', '>', $converted_from)
+                          ->where('price', '<', $converted_to);
+                });
+            
+        })
+        ->when($currency==2, function ($query) {
+            $converted_from = (int)request()->price_sum_y_from / 10400;
+            $converted_to = (int)request()->price_sum_y_to / 10400;
+                return $query->where('currency','сум' )->where('price', '>', (int)request()->price_sum_from)
+                ->where('price', '<', (int)request()->price_sum_to)->orWhere(function($query) use ($converted_from, $converted_to) {
+                    $query->where('currency','!=','сум' )->where('price', '>', $converted_from)
+                          ->where('price', '<', $converted_to);
+                });
+            
+        })
+        ->when($latest, function ($query, $latest) {
+            
+            if((int)$latest==1){
+                $date = \Carbon\Carbon::today()->subDays(7);
+                return $query->where('updated_at','>=',$date);
+            }elseif((int)$latest==2){
+                $date = \Carbon\Carbon::today()->subDays(14);
+                return $query->where('updated_at','>=',$date);
+            }
+            elseif((int)$latest==3){
+                $date = \Carbon\Carbon::today()->subDays(25);
+                return $query->where('updated_at','>=',$date);
+            }
+            elseif((int)$latest==4){
+                $date = \Carbon\Carbon::today()->subMonth();
+                return $query->where('updated_at','>=',$date);
+            }
+        }, function ($query) {
+            
+                $date = \Carbon\Carbon::today()->subDays(7);
+                return $query->where('updated_at','>=',$date);
+           
+        })
+        ->when($itemsorder, function ($query, $itemsorder) {
+            if((int)$itemsorder==1){
+                return $query->orderby('updated_at', 'desc');
+            }elseif((int)$itemsorder==2){
+                return $query->orderby('updated_at', 'asc');
+            }elseif((int)$itemsorder==3){
+                
+            }elseif((int)$itemsorder==4){
+                
+            }
+            
+        }, function ($query) {
+            return $query->orderby('updated_at', 'desc');
+        })
+        ->paginate(30);
+        
         
         foreach($estate as $es){
             $es['i'] =$es->owner()->first();
@@ -936,6 +1049,7 @@ class ApiController extends Controller
             }
            
             if($es->getCity()){
+                
                 $es['city'] = $es->getCity()->name;
             }
             if($es->getRegion()){
@@ -950,16 +1064,11 @@ class ApiController extends Controller
             'estate' =>$estate,
         ]);
     }
-    public function countEstates()
-    {
-        return response()->json([
-            'status'=>true,
-            'uybor' => count(Estate::where('ad_site', 2)->get()),
-            'olx'=>count(Estate::where('ad_site',1)->get()),
-        ]);
-    }
+    
+  
     public function showingEstate($slug)
     {
+       
         $estate = Estate::where('slug',$slug)->first();
         // dd($estate);
         // dd(Price::where('estate_id', $estate->id)->get());
@@ -983,9 +1092,12 @@ class ApiController extends Controller
             $estate['price'] = $price->price;
             $estate['price_cur'] = 'у.е';
         }
-        
-        
-        
+        $map = explode(',', Str::of($estate->map)->replace('{','')->replace('}','')->replace(' ',''));
+        $lat = Str::of(explode(':', $map[0])[1])->replace("'","");
+        $lon = Str::of(explode(':', $map[1])[1])->replace("'","");
+       
+        $d= 'https://www.google.com/maps/embed/v1/place?q='.$lat.','.$lon.'&key=AIzaSyC63KzZYIxs4DNt5X_Avua9a_HgSyyVXMw&language=ru';
+        $estate['map']=$d;
         if(Str::contains($estate->img, 'https')){
             $estate['imgs']= explode(",", Str::of($estate->img)->replace('[', '')->replace(']', '')->replace("'", '')->replace(' ','')); 
         }

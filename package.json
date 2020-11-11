@@ -28,6 +28,7 @@
         "vue-loader": "^15.9.3",
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.4.5",
+        "vue-simple-range-slider": "^0.1.10",
         "vuex": "^3.5.1"
     }
 }
