@@ -12,11 +12,12 @@ class Estate extends Model
     protected $casts = [
         'price' => 'array',
         'ad_update_at'=>'array',
+        
     ];
     use SoftDeletes;
     public function owner()
     {
-        return $this->belongsToMany(Owner::class);
+        return $this->belongsToMany('App\Models\Owner');
     }
     public function getHouseType()
     {

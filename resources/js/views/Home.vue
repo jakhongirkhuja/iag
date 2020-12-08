@@ -1,15 +1,17 @@
 <template>
   <div class="main fx">
-    <Filter_s />
-    <TableShow
-      v-bind:estates="estates"
-      v-bind:count_all="count_all"
-      v-bind:next_page="next_page"
-      v-bind:prev_page="prev_page"
-      v-bind:cur_page="cur_page"
-      v-bind:last_page="last_page"
-      v-bind:empty_estate="empty_estate"
-    />
+    <div class="fx-1">
+      <Filter_s />
+      <TableShow
+        v-bind:estates="estates"
+        v-bind:count_all="count_all"
+        v-bind:next_page="next_page"
+        v-bind:prev_page="prev_page"
+        v-bind:cur_page="cur_page"
+        v-bind:last_page="last_page"
+        v-bind:empty_estate="empty_estate"
+      />
+    </div>
     <RigtSideBar />
   </div>
 </template>

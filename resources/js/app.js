@@ -4,8 +4,12 @@ import VueProgressBar from 'vue-progressbar';
 window.axios = require('axios');
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import Chartkick from 'vue-chartkick'
+import Chart from 'chart.js'
+
 import App from './layouts/App'
 import {routes} from  './routes'
+
 Vue.config.productionTip = false;
 Vue.config.devtools=false
 
@@ -13,6 +17,7 @@ Vue.config.devtools=false
 Vue.prototype.$api_url = "http://localhost:8500";
 
 Vue.use(VueRouter)
+
 const options = {
     color: '#bffaf3',
     failedColor: '#874b4b',
@@ -28,7 +33,7 @@ const options = {
   }
   
   Vue.use(VueProgressBar, options)
-
+  Vue.use(Chartkick.use(Chart))
 const router = new VueRouter({
     mode: 'history',
     routes,
@@ -40,3 +45,4 @@ const app = new Vue({
     components: { App },
     router,
 });
+

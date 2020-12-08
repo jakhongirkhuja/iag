@@ -106,6 +106,15 @@ class IndexController extends Controller
     }
     public function admin()
     {
+        // $st1 = 'sd';
+        // $st2 = 'sd';
+        // dd($st1==$st2);
+        // $owner = Owner::with('estates')
+        // ->withCount('estates')
+        // ->orderBy('estates_count', 'asc')
+        // ->get()->take(5);
+        // dd($owner, Owner::first()->estates->count());
+        // dd(Estate::first());
         // $estate = Estate::where('currency', null)->get();
         // dd($estate);
         // foreach($estate as $es){

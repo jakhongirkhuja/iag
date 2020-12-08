@@ -28,3 +28,12 @@ Route::get('/estate/{slug}','Api\ApiController@showingEstate')->name('showingEst
 
 Route::get('/remont/types','Api\FilterController@getRemonts')->name('getRemonts');
 Route::get('/remont/generalFilter','Api\FilterController@generalFilter')->name('generalFilter');
+
+
+Route::get('/show/owners/','Api\ApiController@getOwners')->name('owners');
+Route::get('/show/owners/ownerstype','Api\ApiController@getOwnersType')->name('ownersType');
+
+Route::get('/show/owner/estate/{id}','Api\ApiController@OwnerEstate')->name('OwnerEstate');
+Route::get('/show/owner/info/{id}','Api\ApiController@OwnerInfo')->name('OwnerInfo');
+
+Route::post('/getnumber','Api\ApiController@getnumber')->name('getnumber');

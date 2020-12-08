@@ -103,19 +103,28 @@
                     </div>
                     <div class="estate__secondary__convenience__body pt-1" v-if="this.estate.body">
                         <h3>Общая информация</h3>
+                       
                         <div v-html="this.estate.body"></div>
 
                         <div class="estate__secondary__convenience__body-map">
                             <h3>Карта</h3>
-                            <iframe class="pt-1"
-  width="100%" 
-  height="300" 
-  frameborder="0" 
-  marginheight="0" 
-  marginwidth="0" 
-  :src="this.estate.map"
- >
- </iframe>  
+                            <div>
+                                <iframe class="pt-1"
+                                width="100%" 
+                                height="300" 
+                                frameborder="0" 
+                                marginheight="0" 
+                                marginwidth="0" 
+                                :src="this.estate.map"
+                                >
+                                </iframe> 
+                            </div>
+                             
+                        </div>  
+                        <div v-if="prices.length!=1 && prices.length!=0" class="estate__secondary__convenience__body-map">
+                            <h3>История цен</h3>
+                            <line-chart :data="chartData"></line-chart>
+                            
                         </div>                        
                     </div>
                 </div>
@@ -125,12 +134,17 @@
                             <h3>{{ this.estate.owner.name }}</h3>
                             <p v-if="this.estate.announcement">  {{ this.estate.announcement.name  }}</p>
                         </div>
-                        <div class="estate__secondary__owner__info-number" v-if="this.estate.owner">
-                            <div class="btn btn-primary">Открыть номер</div>
+                        <div class="estate__secondary__owner__info-number" v-if="estate.owner" >
+                            <div class="btn btn-primary" @click="getNumber( estate.owner.id,estate.owner.update_at)" v-if="number.length==0">Открыть номер</div>
+                            <div v-else >
+                                <div v-for="num in number" :key="num.id">
+                                    <a style="padding: 0.5rem 0.5rem; color: inherit; font-size: 1.5rem;"  v-bind:href="'tel:'+num">{{num}}</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="estate__secondary__owner__others" v-if="this.estate.owner_estates">
-                        <h3>другие объявления автора</h3>
+                        <h3 style="cursor:pointer" @click="OpenOwnerEstates">другие объявления автора</h3>
                         <div  class="estate__secondary__owner__others__items">
                             <router-link  
                                 :to="{ 
@@ -184,10 +198,50 @@ export default {
                 this.$api_url+'/img/no.jpg',
                 this.$api_url+'/img/no.jpg',
             ],
+            td: null,
+            p: new Date().getDate()+new Date().getMonth()+1,
+            s: new Date().getDate()*(new Date().getMonth()+1),
+            y: new Date().getFullYear(),
+            m: null,
+            number: [],
+            prices: [],
+            chartData: new Object()
         }
     },
 
     methods: {
+        po(d){
+            return parseInt(d*this.m);
+        },
+        o(t){
+            return parseInt(t.match(/\d/g).join("")); 
+        },
+        h(h){
+            return window.btoa(h);
+        },
+        getNumber(id, t){
+            //  let sd = window.btoa(t);
+            let sd =  this.po(id)+this.o(t);
+            const article = { id: id, t: this.h(sd)};
+            axios.post(this.$api_url + "/api/getnumber", article)
+            .then((response) => {
+                if(response.data.status){
+                this.number =response.data.number; 
+                
+                }else{
+                console.log(response.data.error);
+                }
+                
+            })
+            .catch(error => {
+                console.error("There was an error!", error);
+            });
+            
+        
+        },
+        OpenOwnerEstates(){
+            this.$router.push({ name: "OwnersEach", params: {id:this.estate.owner.id} });
+        },
         changemainimg(img){
             this.main_image = img;
         },
@@ -199,6 +253,11 @@ export default {
             
             if(response.data.status){
                 this.estate = response.data.estate;
+                this.prices = response.data.all_prices;
+                for (let index = 0; index < this.prices.length; index++) {
+                    this.chartData[Object.keys(this.prices[index])]= this.prices[index][Object.keys(this.prices[index])]; 
+                }
+                
                 if(response.data.estate.imgs != undefined){
                     this.imgs = response.data.estate.imgs;
                     this.main_image = response.data.estate.imgs[0];
@@ -218,6 +277,7 @@ export default {
         
         this.$Progress.start()
         this.getEstate(this.$route.params.slug);
+        this.m = this.p*this.s*this.y;
         
     },
     

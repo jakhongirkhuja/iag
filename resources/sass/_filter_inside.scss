@@ -1,14 +1,17 @@
 .filter__items{
-    position: fixed;
-    padding: 30px 15px 50px 15px;
-    background-color: white;
-    top: 0;
-    box-shadow: 0 21px 28px -6px black;
-    min-width: 350px;
-    height: 100%;
-    display: block;
-    overflow-y: auto;
-    z-index: 2;
+    padding: 2px 15px 22px 15px;
+    border-bottom: 1px solid silver;
+       
+    &_div{
+        display: flex;
+        justify-content: space-between;
+        div.fx-1{
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            justify-content: space-between;
+        }
+    }
 
     input[type=radio] {
         display:none;
@@ -60,11 +63,46 @@
         }
     }
     &-btns{
-        justify-content: space-around;
+        img{
+            position: absolute;
+            left: 60px;
+            bottom: 18px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        img:hover{
+            transform: scale(1.2);
+        }
+        justify-content: flex-end;
         div{
             text-transform: none;
+            margin-right: 1rem;
+
+    padding: 9px 25px;
+
         }
     }
 }
 
 
+
+.openfilter{
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: black;
+    padding: 2px 7px;
+    z-index: 1;
+    color: white;
+    padding: 3px 14px;
+    
+    &:hover{
+        
+        cursor: pointer;
+        color: inherit;
+        background-color: white;
+        border: 1px solid #676e7b;
+        ;
+    }
+}

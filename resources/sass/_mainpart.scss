@@ -6,8 +6,12 @@
         position: relative;
     }
     &__left__side {
-        height: 100vh;
+        width: 100%;
         background-color: $white;
+        transition: all 0.2s ease-in-out;
+    }
+    &__left__side.closedactive{
+        margin-top: -303px;
     }
     &__center {
         background-color: $white;
@@ -233,6 +237,7 @@
         height: 60px;
         background-color: $primary_light;
         border-bottom: 1px solid $primary_dark;
+        cursor: pointer;
     }
     .general_list.active,
     .general_list:hover,
@@ -248,6 +253,64 @@
         bottom: 7rem;
         width: 60px;
         cursor: pointer;
+    }
+}
+
+.modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #0000001f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__body{
+        position: relative;
+    }
+    &__close{
+        cursor: pointer;
+        position: absolute;
+        right: 0;
+        top: 0rem;
+        font-size: 2rem;
+        padding: 0rem 1rem;
+        transition: all 0.2s ease-in-out;
+        &:hover{
+            transform: rotate(180deg);
+        }
+    }
+
+    &__content{
+        background-color: white;
+        min-width: 350px;
+        min-height: 150px;
+        box-shadow: 0px 0px 15px #00000066;
+    }
+    &__name{
+        font-size: 1.5rem;
+        text-align: center;
+        padding-top: 2rem;
+    }
+    &__numbers{
+        display: flex;
+        justify-content: center;
+        ul{
+            list-style-type: none;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            li a{
+                color: inherit;
+                padding: 6px;
+                font-size: 1.2rem;
+                display: flex;
+                align-items: center;
+                img{
+                    margin-left: 1rem;
+                }
+            }
+        }
     }
 }
 

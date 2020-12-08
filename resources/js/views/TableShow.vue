@@ -73,7 +73,7 @@
         <div class="main__table-results" 
         @focusout="handleFocusOut"
         tabindex="0" v-if="search_results.length!=0">
-          <div class="result" @click="openwithslug(result.slug)" v-for="result in search_results" :key="result.id">
+          <div class="result 3" @click="openwithslug(result.id, result.slug)" v-for="result in search_results" :key="result.id">
             <p v-html="result.title"></p>
             <p v-html='result.body.length>100 ? "..."+result.body.substring(0,100)+"..." : result.body+"..."'></p>
           </div>
@@ -444,11 +444,17 @@ export default {
         params: { slug: slug },
       });
     },
-    openwithslug(slug){
-      let routeData = this.$router.push({
-        name: "estate",
-        params: { slug: slug },
-      });
+    openwithslug(id,slug){
+      
+      if(slug==undefined){
+            this.$router.push({ name: "OwnersEach", params: {id:id} });
+      }else{
+          let routeData = this.$router.push({
+            name: "estate",
+            params: { slug: slug },
+          });
+      }
+      
     }
   },
 };

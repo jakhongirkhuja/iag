@@ -24,7 +24,9 @@
     },
     "dependencies": {
         "babel-loader": "^8.1.0",
+        "chart.js": "^2.9.4",
         "vue": "^2.6.12",
+        "vue-chartkick": "^0.6.1",
         "vue-loader": "^15.9.3",
         "vue-progressbar": "^0.7.5",
         "vue-router": "^3.4.5",
