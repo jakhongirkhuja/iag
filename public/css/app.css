@@ -96,14 +96,14 @@ button:disabled:hover {
 }
 
 .btn-primary {
-  background-color: #2888E5;
+  background-color: #9cbef1;
   color: white;
-  border: 1px solid #2888E5;
+  border: 1px solid #9cbef1;
 }
 
 .btn-primary:hover {
   background-color: white;
-  color: #2888E5;
+  color: #9cbef1;
 }
 
 .btn-secondary {
@@ -252,7 +252,7 @@ button:disabled:hover {
 /* Handle */
 
 ::-webkit-scrollbar-thumb {
-  background: #2888E5;
+  background: #9cbef1;
 }
 
 /* Handle on hover */
@@ -264,7 +264,7 @@ button:disabled:hover {
 .nav {
   position: relative;
   z-index: 1;
-  height: 30px;
+  height: 36px;
   padding-left: 20px;
   background-color: white;
   box-shadow: 0px 0px 1px black;
@@ -278,15 +278,41 @@ button:disabled:hover {
 }
 
 .nav__menu {
-  width: 60px;
-  height: 100%;
-  background-color: black;
-  color: white;
-  font-weight: bold;
-  display: flex;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.nav__menu__user {
   cursor: pointer;
+  display: flex;
   align-items: center;
-  justify-content: space-around;
+}
+
+.nav__menu__user span {
+  margin-left: 0.5rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav__menu__user span.active {
+  transform: rotate(180deg);
+}
+
+.nav__menu__dash {
+  position: absolute;
+  right: 0;
+  left: 0;
+  text-align: left;
+  top: 33px;
+  background-color: white;
+}
+
+.nav__menu__dash-items {
+  padding: 0.3rem 0 0.3rem 0.5rem;
+  cursor: pointer;
+}
+
+.nav__menu__dash-items:hover {
+  background-color: #f5f5f5;
 }
 
 .nav__olx,
@@ -321,7 +347,7 @@ button:disabled:hover {
 }
 
 .main__left__side.closedactive {
-  margin-top: -303px;
+  margin-top: -223px;
 }
 
 .main__center {
@@ -746,6 +772,10 @@ button:disabled:hover {
   transform: translate(-50%, -50%);
 }
 
+.estate__secondary__convenience__body-map div#chart-1::after {
+  display: none;
+}
+
 .estate__secondary__owner {
   padding: 1rem;
 }
@@ -789,7 +819,7 @@ button:disabled:hover {
 
 .estate__secondary__owner__others__item_title {
   font-size: 1.1rem;
-  color: #2888E5;
+  color: #9cbef1;
   font-weight: bold;
 }
 
@@ -933,7 +963,7 @@ pre {
 .estate__mainpart__shortinfo__icons__items {
   display: flex;
   align-items: center;
-  box-shadow: 0px 0px 2px #2888E5;
+  box-shadow: 0px 0px 2px #9cbef1;
   padding: 0.5rem 1rem;
   border-radius: 1.2rem;
   cursor: pointer;
@@ -945,7 +975,7 @@ pre {
 
 .estate__mainpart__shortinfo__icons__items__text {
   font-size: 0.8rem;
-  color: #2888E5;
+  color: #9cbef1;
 }
 
 .estate__mainpart__shortinfo__icons__items:hover {

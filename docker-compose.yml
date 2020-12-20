@@ -66,6 +66,7 @@ services:
       MYSQL_USER: root
       MYSQL_PASSWORD: your_mysql_root_password
       MYSQL_ROOT_PASSWORD: your_mysql_root_password
+      UPLOAD_LIMIT: 3000000000
     depends_on:
       - db_mysql
     networks:

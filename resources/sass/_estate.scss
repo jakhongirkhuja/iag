@@ -31,6 +31,9 @@
                             transform: translate(-50%, -50%);
                        } 
                     }
+                    div#chart-1::after{
+                        display: none;
+                    }
                 }
             }
         }

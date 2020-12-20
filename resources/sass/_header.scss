@@ -1,7 +1,7 @@
 .nav{
     position: relative;
     z-index: 1;
-    height: 30px;
+    height: 36px;
     padding-left: 20px;
     background-color: $white;
     box-shadow: 0px 0px 1px black;
@@ -12,15 +12,37 @@
         color: black;
     }
     &__menu{
-        width: 60px;
-        height: 100%;
-        background-color: black;
-        color: $white;
-        font-weight: bold;
-        display: flex;
-        cursor: pointer;
-        align-items: center;
-        justify-content: space-around;
+        padding: 0 1rem;
+        position: relative;
+        &__user{
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            span{
+                margin-left: 0.5rem;
+                transition: all 0.3s ease-in-out;
+                &.active{
+                    transform: rotate(180deg);
+                }
+            }
+        }
+        &__dash{
+            position: absolute;
+            right: 0;
+            left: 0;
+            text-align: left;
+            top: 33px;
+            background-color: white;
+            &-items{
+                padding: 0.3rem 0 0.3rem 0.5rem;
+                cursor: pointer;
+                &:hover{
+                    background-color: #f5f5f5;
+                }
+            }
+        }
+        
+        
        
     }
     &__olx, &__uybor{

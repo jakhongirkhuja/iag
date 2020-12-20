@@ -1,15 +1,23 @@
 .filter__items{
-    padding: 2px 15px 22px 15px;
+    font-size: 0.8rem;
     border-bottom: 1px solid silver;
        
     &_div{
         display: flex;
         justify-content: space-between;
+        background-color: #2888e52e;
         div.fx-1{
             display: flex;
             flex-direction: column;
             padding: 1rem;
             justify-content: space-between;
+        }
+        &_items{
+            width: 100%;
+            justify-content: space-around;
+            padding: 5px;
+            background-color: #2888e566;
+            color: black;
         }
     }
 
@@ -20,27 +28,87 @@
     input[type=radio] + label {
         display: inline-block;
         border: 1px solid whitesmoke;
-        padding: 8px 15px;
+        padding: 5px 8px;
         cursor: pointer;
     }
     
     input[type=radio]:checked + label, input[type=radio] + label:hover {
         border: 1px solid #ccc8c8;
+        background-color: whitesmoke;
     }
+    input[type=radio] + label span.good{
+        display: none;
+    }
+    input[type=radio]:checked + label span.bad{
+        display: none;
+    }
+    input[type=radio]:checked + label span{
+        display: inline-block;
+    }
+    input[type=checkbox] {
+        display:none;
+    }
+    
+    input[type=checkbox] + label {
+        display: inline-block;
+        border: 1px solid whitesmoke;
+        padding: 5px 8px;
+        cursor: pointer;
+    }
+    
+    input[type=checkbox]:checked + label, input[type=checkbox] + label:hover {
+        border: 1px solid #ccc8c8;
+        background-color: whitesmoke;
+    }
+    input[type=checkbox] + label span.good{
+        display: none;
+    }
+    input[type=checkbox]:checked + label span.good{
+        display: inline-block;
+    }
+    input[type=checkbox] + label span.bad{
+        display: inline-block;
+    }
+    input[type=checkbox]:checked + label span.bad{
+        display: none;
+    }
+
+
     &-type, &-building, &-btns{
         display: flex;
         label{
-            flex: 1 1 0px;
+            // flex: 1 1 0px;
+            display: block;
         }
     }
     &-t{
         display: flex;
         align-items: center;
         &--title{
-            text-align: left;
+            text-align: right;
             flex: 1;
+            margin-right: 5px;
         }
-        
+        &--c {
+            span:first-child{
+                width: 30px;
+            }
+            div{
+                display: none;
+                &.active{
+                    display: block;
+                }
+                
+            }
+            &:hover div{
+                display: block;
+
+                &:hover{
+                    color: white;
+                    cursor: pointer;
+                }
+            }
+        }
         
     }
     .close{
@@ -53,13 +121,20 @@
         width: calc(100% - 350px);
     }
     &_selection{
-        width: 100%;
-        padding: 8px 5px;
+        width: 260px;
+        padding: 5px;
         color: inherit;
-        font-size: 1rem;
+        font-size: 0.8rem;
         cursor: pointer;
+        margin: 0 0.5rem;
         option{
-            padding: 8px 5px;
+            padding: 5px;
+        }
+        &_inputs{
+            height: fit-content;
+            padding: 5px;
+            width: 100px;
+            margin: 0 0.3rem;
         }
     }
     &-btns{
@@ -73,12 +148,31 @@
         img:hover{
             transform: scale(1.2);
         }
-        justify-content: flex-end;
+        justify-content: space-evenly;
+        padding: 0.5rem;
+        background-color: #2888e52e;
         div{
             text-transform: none;
             margin-right: 1rem;
-
-    padding: 9px 25px;
+            padding: 9px 25px;
+            position: relative;
+            cursor: pointer;
+            text-decoration: underline;
+            &.btn{
+                text-decoration: none;
+                box-shadow: 0px 0px 15px whitesmoke;
+            }
+            span{
+                font-size: 2rem;
+                position: absolute;
+                left: 0;
+                top: 0;
+                transition: all 0.3s ease-in-out;
+                
+            }
+            &:hover span{
+                transform: rotate(360deg);
+            }
 
         }
     }
@@ -104,5 +198,41 @@
         background-color: white;
         border: 1px solid #676e7b;
         ;
+    }
+}
+
+.ownerDiv{
+    position: relative;
+    &__selection{
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        width: 100%;
+        align-items: self-start;
+        &-items{
+            border: 1px solid whitesmoke;
+            padding: 5px 8px;
+            width: 100%;
+            background-color: white;
+            text-align: left;
+            cursor: pointer;
+        }
+    }
+    &__input{
+        border: 1px solid whitesmoke;
+        padding: 5px 8px;
+        min-width: 150px;
+        
+        display: flex;
+        overflow-x: auto;
+        justify-content: center;
+        &-items{
+            margin-right: 0.2rem;
+        }
+    }
+    &:hover &__selection{
+        display: flex;
+        
+        
     }
 }

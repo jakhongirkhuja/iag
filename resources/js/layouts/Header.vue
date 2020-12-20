@@ -5,23 +5,16 @@
         </div>
        
         <div class="nav__menu">
-            <div class="fx">
-                <div class="nav__menu__items">
-                    м
-                </div>
-                <div class="nav__menu__items">
-                    е
-                </div>
+            <div class="nav__menu__user" @click="showmenu=!showmenu">
+                <img src="/ava.jpg" width="30">
+                <span>Tamara Kulikova</span>
+                <span v-bind:class="{active: showmenu}">&#9660;</span>
+            </div> 
+            <div class="nav__menu__dash" v-if="showmenu">
+                <div class="nav__menu__dash-items">Профиль</div>
+                <div class="nav__menu__dash-items">Объявление</div>
+                <div class="nav__menu__dash-items">Виход</div>
             </div>
-            <div class="fx">
-                <div class="nav__menu__items">
-                    н
-                </div>
-                <div class="nav__menu__items">
-                    ю
-                </div>
-            </div>
-            
             
         </div>
     </div>
@@ -30,8 +23,8 @@
 export default {
     data() {
     return {
-        uybor: 0,
-        olx: 0,
+        showmenu: false,
+        
     }
   },
   created() {
@@ -39,7 +32,8 @@ export default {
   },
   methods:{
     gotohomepage(){
-        this.$router.push('/');
+        window.location.href = this.$api_url
+        
     },
     
   },

@@ -272,7 +272,7 @@ export default {
         &--counting{
             display: flex;
             margin-top: 0.5rem;
-            &-items:first-child{
+            &-items{
               margin-right: 1rem;
             }
         }

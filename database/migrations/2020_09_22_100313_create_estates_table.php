@@ -47,6 +47,7 @@ class CreateEstatesTable extends Migration
             $table->string('map', 190)->nullable();
             $table->longText('ad_update_at')->nullable();
             $table->integer('status')->default(1);
+            $table->integer('announcement')->nullable();
             $table->text('slug');
             $table->softDeletes();
             $table->timestamps();

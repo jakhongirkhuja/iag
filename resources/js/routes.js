@@ -1,26 +1,23 @@
-import Home from './views/Home';
-import Estate from './views/Estate';
-import Owners from './views/Owners';
-import OwnersEach from './views/OwnersEach';
+
 export const routes = [
     {
         path: '/',
         name: 'home',
-        component: Home
+        component: () => import(/* webpackChunkName: "home" */ './views/Home')
     },
     {
         path: '/estate/:slug',
         name: 'estate',
-        component: Estate
+        component: ()=>import(/* webpackChunkName: "Estate" */ './views/Estate')    
     },
     {
         path: '/owners',
         name: 'owners',
-        component: Owners
+        component: ()=>import(/* webpackChunkName: "Owner" */ './views/Owners'),
     },
     {
         path: '/owners/:id',
         name: 'OwnersEach',
-        component: OwnersEach
+        component: ()=>import(/* webpackChunkName: "OwnerEach" */ './views/OwnersEach'),
     },
 ]

@@ -254,6 +254,7 @@ export default {
             if(response.data.status){
                 this.estate = response.data.estate;
                 this.prices = response.data.all_prices;
+                console.log(this.prices);
                 for (let index = 0; index < this.prices.length; index++) {
                     this.chartData[Object.keys(this.prices[index])]= this.prices[index][Object.keys(this.prices[index])]; 
                 }

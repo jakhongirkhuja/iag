@@ -35,4 +35,5 @@ class Estate extends Model
     {
         return $this->belongsTo('App\Models\Remont', 'remont' ,'id')->first();
     }
+    
 }

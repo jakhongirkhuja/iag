@@ -149,7 +149,7 @@
             <td>{{ estate.total_area }} m <sup>2</sup></td>
             <td>{{ estate.floor }} ({{ estate.floor_house }})</td>
             <td>
-              {{ estate.price }} {{ estate.price_cur }} {{ estate.count_price }}
+              {{ estate.price }} {{ estate.currency }} {{ estate.count_price }}
             </td>
             <td>{{ estate.remont }}</td>
 
