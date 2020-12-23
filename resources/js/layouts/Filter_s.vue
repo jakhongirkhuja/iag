@@ -12,279 +12,272 @@
     <div class="filter_text fx-1" @click="showrange">ПОКАЗАТЬ ФИЛЬТР</div> -->
     <div class="filter__items">
       <div class="filter__items_div">
-        <div class="filter__items_div_items fx">
-          <div>
-            <div class="filter__items-type">
-              <!-- <input type="radio"  v-model="type" v-bind:value="1" name="prodaja" id="prodaja" />
-                <label for="prodaja"><span>&#10003;</span> Продажа</label> -->
-              <!-- <input type="radio" disabled name="prodaja" v-model="type" v-bind:value="2" id="arenda" />
-                <label style=" user-select: none;" for="arenda"><span>&#10003;</span> Аренда</label> -->
-            </div>
-          </div>
-          <div>
-            <div class="filter__items-rooms fx vertical_center">
-              <div class="filter__items-t--title">Квартиры</div>
-              <div>
-               
-                <input
-                  type="checkbox"
-                  v-model="room1"
-                  true-value="yes"
-                  false-value="no"
-                  name="room1"
-                  id="room1"
-                />
-                <label for="room1">1</label>
-                <input
-                  type="checkbox"
-                  v-model="room2"
-                  true-value="yes"
-                  false-value="no"
-                  name="room2"
-                  id="room2"
-                />
-                <label for="room2">2</label>
-                <input
-                  type="checkbox"
-                  v-model="room3"
-                  true-value="yes"
-                  false-value="no"
-                  name="room3"
-                  id="room3"
-                />
-                <label for="room3">3</label>
-                <input
-                  type="checkbox"
-                  v-model="room4"
-                  true-value="yes"
-                  false-value="no"
-                  name="room4"
-                  id="room4"
-                />
-                <label for="room4">4</label>
-                <input
-                  type="checkbox"
-                  v-model="room5"
-                  true-value="yes"
-                  false-value="no"
-                  name="room5"
-                  id="room5"
-                />
-                <label for="room5">5+</label>
+        <div style="background-color: #2888e566; width:100%">
+          <div class="filter__items_div_items fx">
+            <div>
+              <div class="filter__items-type">
+                <!-- <input type="radio"  v-model="type" v-bind:value="1" name="prodaja" id="prodaja" />
+                  <label for="prodaja"><span>&#10003;</span> Продажа</label> -->
+                <!-- <input type="radio" disabled name="prodaja" v-model="type" v-bind:value="2" id="arenda" />
+                  <label style=" user-select: none;" for="arenda"><span>&#10003;</span> Аренда</label> -->
               </div>
-              <div style="padding-left: 5px">- комн.</div>
             </div>
-          </div>
-          <div class="fx vertical_center">
-            <div class="filter__items-price">
-              <div class="filter__items-t">
-                <div class="filter__items-t--title">Цена:</div>
+            <div>
+              <div class="filter__items-rooms fx vertical_center">
+                <div class="filter__items-t--title">Квартиры</div>
+                <div>
+                
+                  <input
+                    type="checkbox"
+                    v-model="room1"
+                    true-value="yes"
+                    false-value="no"
+                    name="room1"
+                    id="room1"
+                  />
+                  <label for="room1">1</label>
+                  <input
+                    type="checkbox"
+                    v-model="room2"
+                    true-value="yes"
+                    false-value="no"
+                    name="room2"
+                    id="room2"
+                  />
+                  <label for="room2">2</label>
+                  <input
+                    type="checkbox"
+                    v-model="room3"
+                    true-value="yes"
+                    false-value="no"
+                    name="room3"
+                    id="room3"
+                  />
+                  <label for="room3">3</label>
+                  <input
+                    type="checkbox"
+                    v-model="room4"
+                    true-value="yes"
+                    false-value="no"
+                    name="room4"
+                    id="room4"
+                  />
+                  <label for="room4">4</label>
+                  <input
+                    type="checkbox"
+                    v-model="room5"
+                    true-value="yes"
+                    false-value="no"
+                    name="room5"
+                    id="room5"
+                  />
+                  <label for="room5">5+</label>
+                </div>
+                <div style="padding-left: 5px">- комн.</div>
+              </div>
+            </div>
+            <div class="fx vertical_center">
+              <div class="filter__items-price">
+                <div class="filter__items-t">
+                  <div class="filter__items-t--title">Цена:</div>
+                  <input
+                    class="filter__items_selection_inputs"
+                    type="number"
+                    v-model="price_from"
+                    placeholder="от"
+                  />&#8212;
+                  <input
+                    class="filter__items_selection_inputs"
+                    type="number"
+                    v-model="price_to"
+                    placeholder="до"
+                  />
+                  <div class="filter__items-t--c fx">
+                    <span>
+                      <div
+                        @click="latest(date.id)"
+                        v-for="date in show_cur"
+                        :key="date.id"
+                        v-bind:class="{ active: date.selected }"
+                      >
+                        {{ date.name }}
+                      </div>
+                    </span>
+                    <span>&#9660;</span>
+                    <!-- <input type="radio" v-model="currency" v-bind:value="1" name="c" id="ye" />
+                        <label for="ye">у.е</label>
+                        <input type="radio" v-model="currency" v-bind:value="2" name="c" id="psum" />
+                        <label for="psum">сум</label> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="filter__items-building">
                 <input
-                  class="filter__items_selection_inputs"
-                  type="number"
-                  v-model="price_from"
-                  placeholder="от"
-                />&#8212;
-                <input
-                  class="filter__items_selection_inputs"
-                  type="number"
-                  v-model="price_to"
-                  placeholder="до"
+                  type="radio"
+                  v-model="photo_exist"
+                  v-bind:value="1"
+                  @click="photoExist"
+                  name="photo_exist"
+                  id="photo_exist"
                 />
-                <div class="filter__items-t--c fx">
-                  <span>
-                    <div
-                      @click="latest(date.id)"
-                      v-for="date in show_cur"
-                      :key="date.id"
-                      v-bind:class="{ active: date.selected }"
-                    >
-                      {{ date.name }}
+                <label for="photo_exist"><span class="bad">&#9744;</span><span class="good">&#9745;</span> есть фото</label>
+              </div>
+            </div>
+            <div>
+              <div class="filter__items-building">
+                <input
+                  type="radio"
+                  v-model="house_type"
+                  v-bind:value="2"
+                  @click="houseType"
+                  name="building"
+                  id="building-n"
+                />
+                <label for="building-n"><span class="bad">&#9744;</span><span class="good">&#9745;</span> новостройки</label>
+              </div>
+            </div>
+            <div>
+              <div class="filter__items-type">
+                <div class="ownerDiv">
+                  <div class="ownerDiv__input">
+                    <div v-if="ownerstypeSelected.length==0" class="ownerDiv-items_exist">
+                      Выберите владельца
                     </div>
-                  </span>
-                  <span>&#9660;</span>
-                  <!-- <input type="radio" v-model="currency" v-bind:value="1" name="c" id="ye" />
-                      <label for="ye">у.е</label>
-                      <input type="radio" v-model="currency" v-bind:value="2" name="c" id="psum" />
-                      <label for="psum">сум</label> -->
+                    <div class="ownerDiv__input-items" v-for="selected in ownerstypeSelected" :key="selected.id">
+                      {{ selected.name }} <span v-if="ownerstypeSelected.length!=1 && ownerstypeSelected.length!=0">,</span>
+                    </div>
+                  </div>
+                  <div class="ownerDiv__selection">
+                    <div class="ownerDiv__selection-items" v-for="type in ownerstype" :key="type.id" @click = checkownertype(type.id)>
+                      <span v-if="type.selected==true">&#10003;</span> {{ type.name}} 
+                    </div>
+                  </div>
                 </div>
+              
               </div>
-            </div>
-          </div>
-          <div>
-            <div class="filter__items-building">
-              <input
-                type="radio"
-                v-model="photo_exist"
-                v-bind:value="1"
-                @click="photoExist"
-                name="photo_exist"
-                id="photo_exist"
-              />
-              <label for="photo_exist"><span class="bad">&#9744;</span><span class="good">&#9745;</span> есть фото</label>
-            </div>
-          </div>
-          <div>
-            <div class="filter__items-building">
-              <input
-                type="radio"
-                v-model="house_type"
-                v-bind:value="2"
-                @click="houseType"
-                name="building"
-                id="building-n"
-              />
-              <label for="building-n"><span class="bad">&#9744;</span><span class="good">&#9745;</span> новостройки</label>
-            </div>
-          </div>
-          <div>
-            <div class="filter__items-type">
-              <div class="ownerDiv">
-                <div class="ownerDiv__input">
-                  <div v-if="ownerstypeSelected.length==0" class="ownerDiv-items_exist">
-                     Выберите владельца
-                  </div>
-                  <div class="ownerDiv__input-items" v-for="selected in ownerstypeSelected" :key="selected.id">
-                    {{ selected.name }} <span v-if="ownerstypeSelected.length!=1 && ownerstypeSelected.length!=0">,</span>
-                  </div>
-                </div>
-                <div class="ownerDiv__selection">
-                  <div class="ownerDiv__selection-items" v-for="type in ownerstype" :key="type.id" @click = checkownertype(type.id)>
-                    <span v-if="type.selected==true">&#10003;</span> {{ type.name}} 
-                  </div>
-                </div>
-              </div>
-              <!-- <input
-                type="radio"
-                v-model="owner_type"
-                v-bind:value="2"
-                @click="ownerType"
-                name="owners"
-                id="onwer_u"
-              />
-              <label for="onwer_u"><span>&#10003;</span>от хозяев</label> -->
-              <!-- <input type="radio" name="owners" v-model="owner_type" v-bind:value="1" id="owner_a" />
-                <label for="owner_a" style="margin-left:5px;"><span>&#10003;</span>от агентств</label> -->
             </div>
           </div>
         </div>
       </div>
       <div class="filter__items_div">
-        <!-- <span class="close" @click="closefilter"></span> -->
+          <div class="fx max-w">
 
-        <div class="fx-1">
-          <div class="fx vertical_center">
-            <div class="filter__items-t--title">Тип дома</div>
-            <div>
-              <select
-                class="filter__items_selection"
-                name="building_type"
-                v-model="buildingType"
-              >
-                <option
-                  v-for="buil in building_type"
-                  :key="buil.id"
-                  :value="buil.id"
+            <div class="fx-1">
+              <div class="fx vertical_center">
+                <div class="filter__items-t--title">Тип дома</div>
+                <div>
+                  <select
+                    class="filter__items_selection"
+                    name="building_type"
+                    v-model="buildingType"
+                  >
+                    <option
+                      v-for="buil in building_type"
+                      :key="buil.id"
+                      :value="buil.id"
+                    >
+                      {{ buil.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="fx vertical_center pt-1">
+                <div class="filter__items-t--title">Ремонт:</div>
+                <select
+                  class="filter__items_selection"
+                  name="remont"
+                  v-model="remont_id"
                 >
-                  {{ buil.name }}
-                </option>
-              </select>
+                  <option selected value="0">Все</option>
+                  <option
+                    v-for="remont in remonts"
+                    :key="remont.id"
+                    :value="remont.id"
+                  >
+                    {{ remont.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="fx-1">
+              <div class="filter__items-floor">
+                <div class="filter__items-floor fx vertical_center">
+                  <div class="filter__items-t--title">Этаж:</div>
+                  <input
+                    class="filter__items_selection_inputs"
+                    type="number"
+                    v-model="floor_from"
+                    placeholder="от"
+                  />&#8212;
+                  <input
+                    class="filter__items_selection_inputs"
+                    type="number"
+                    v-model="floor_to"
+                    placeholder="до"
+                  />
+                </div>
+              </div>
+              <div class="filter__items-floor pt-1">
+                <div class="filter__items-floor fx vertical_center">
+                  <div class="filter__items-t--title">Этажей в доме:</div>
+                  <input
+                    class="filter__items_selection_inputs"
+                    type="number"
+                    v-model="floor_c_from"
+                    placeholder="от"
+                  />&#8212;
+                  <input
+                    class="filter__items_selection_inputs"
+                    type="number"
+                    v-model="floor_c_to"
+                    placeholder="до"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="fx-1">
+              <div class="filter__items-price fx vertical_center">
+                <div class="filter__items-t--title">Площадь:</div>
+                <input
+                  type="number"
+                  class="filter__items_selection_inputs"
+                  v-model="area_from"
+                  placeholder="от"
+                />&#8212;
+                <input
+                  type="number"
+                  class="filter__items_selection_inputs"
+                  v-model="area_to"
+                  placeholder="до"
+                />м<sup>2</sup>
+              </div>
+              <div class="filter__items-city fx vertical_center pt-1">
+                <div class="filter__items-t--title">Район:</div>
+                <select
+                  name="choosecity"
+                  v-model="selected_city"
+                  class="filter__items_selection"
+                >
+                  <option value="0">Город Ташкен</option>
+                  <option value="1600">Ташкентская область</option>
+                  <option value="1">Чиланзарский район</option>
+                  <option value="5">Алмазарский район</option>
+                  <option value="8">Яккасарайский район</option>
+                  <option value="11">Юнусабадский район</option>
+                  <option value="13">Мирзо-Улугбекский район</option>
+                  <option value="15">Яшнабадский район</option>
+                  <option value="16">Олмазорский район</option>
+                  <option value="17">Шайхантахурский район</option>
+                  <option value="18">Сергелийский район</option>
+                  <option value="19">Учтепинский район</option>
+                  <option value="20">Мирабадский район</option>
+                  <option value="22">Бектемирский район</option>
+                </select>
+              </div>
             </div>
           </div>
-          <div class="fx vertical_center pt-1">
-            <div class="filter__items-t--title">Ремонт:</div>
-            <select
-              class="filter__items_selection"
-              name="remont"
-              v-model="remont_id"
-            >
-              <option selected value="0">Все</option>
-              <option
-                v-for="remont in remonts"
-                :key="remont.id"
-                :value="remont.id"
-              >
-                {{ remont.name }}
-              </option>
-            </select>
-          </div>
-        </div>
-        <div class="fx-1">
-          <div class="filter__items-floor">
-            <div class="filter__items-floor fx vertical_center">
-              <div class="filter__items-t--title">Этаж:</div>
-              <input
-                class="filter__items_selection_inputs"
-                type="number"
-                v-model="floor_from"
-                placeholder="от"
-              />&#8212;
-              <input
-                class="filter__items_selection_inputs"
-                type="number"
-                v-model="floor_to"
-                placeholder="до"
-              />
-            </div>
-          </div>
-          <div class="filter__items-floor pt-1">
-            <div class="filter__items-floor fx vertical_center">
-              <div class="filter__items-t--title">Этажей в доме:</div>
-              <input
-                class="filter__items_selection_inputs"
-                type="number"
-                v-model="floor_c_from"
-                placeholder="от"
-              />&#8212;
-              <input
-                class="filter__items_selection_inputs"
-                type="number"
-                v-model="floor_c_to"
-                placeholder="до"
-              />
-            </div>
-          </div>
-        </div>
-        <div class="fx-1">
-          <div class="filter__items-price fx vertical_center">
-            <div class="filter__items-t--title">Площадь:</div>
-            <input
-              type="number"
-              class="filter__items_selection_inputs"
-              v-model="area_from"
-              placeholder="от"
-            />&#8212;
-            <input
-              type="number"
-              class="filter__items_selection_inputs"
-              v-model="area_to"
-              placeholder="до"
-            />м<sup>2</sup>
-          </div>
-          <div class="filter__items-city fx vertical_center pt-1">
-            <div class="filter__items-t--title">Район:</div>
-            <select
-              name="choosecity"
-              v-model="selected_city"
-              class="filter__items_selection"
-            >
-              <option value="0">Город Ташкен</option>
-              <option value="1600">Ташкентская область</option>
-              <option value="1">Чиланзарский район</option>
-              <option value="5">Алмазарский район</option>
-              <option value="8">Яккасарайский район</option>
-              <option value="11">Юнусабадский район</option>
-              <option value="13">Мирзо-Улугбекский район</option>
-              <option value="15">Яшнабадский район</option>
-              <option value="16">Олмазорский район</option>
-              <option value="17">Шайхантахурский район</option>
-              <option value="18">Сергелийский район</option>
-              <option value="19">Учтепинский район</option>
-              <option value="20">Мирабадский район</option>
-              <option value="22">Бектемирский район</option>
-            </select>
-          </div>
-        </div>
       </div>
      
        

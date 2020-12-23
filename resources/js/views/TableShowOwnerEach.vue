@@ -222,7 +222,7 @@ export default {
           this.show_date[key].selected = false;
         }
         this.show_date.find((item) => item.id === id).selected = true;
-        this.$parent.changeLatest(id, currentid2);
+        // this.$parent.changeLatest(id, currentid2);
       }
     },
     orderItems(id) {

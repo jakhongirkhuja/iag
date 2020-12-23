@@ -434,8 +434,7 @@ __webpack_require__.r(__webpack_exports__);
 
         this.show_date.find(function (item) {
           return item.id === id;
-        }).selected = true;
-        this.$parent.changeLatest(id, currentid2);
+        }).selected = true; // this.$parent.changeLatest(id, currentid2);
       }
     },
     orderItems: function orderItems(id) {

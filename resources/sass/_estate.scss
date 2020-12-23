@@ -111,9 +111,11 @@ pre{
     padding: 1rem;
     &_big{
         text-align: center;
+       
         img{
             max-width: 100%;
             max-height: 301px;
+            cursor:nesw-resize;
         }
     }
     
@@ -145,6 +147,7 @@ pre{
         margin-top: 2rem;
         &-u{
             text-align: right;
+            font-size: 0.8rem;
             span{
                 font-size: 0.7rem;
             }
@@ -211,5 +214,62 @@ pre{
         &__items:hover{
             background-color: $primary_dark;
         }
+    }
+}
+.modal__image{
+    position: fixed;
+    left: 0;
+    top:0;
+    bottom: 0;
+    right: 0;
+    background: rgba($color: #000000, $alpha: 0.5);
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__container{
+        background-color: white;
+    }
+    &-close{
+        color: white;
+        position: absolute;
+        z-index: 1;
+        right: 2rem;
+        top: 2rem;
+        font-size: 2.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        &:hover{
+            transform: rotate(180deg);
+        }
+    }
+    .numbertext{
+        position: absolute;
+        margin-left: 1rem;
+        margin-top: 1rem;
+    }
+    .slideshow-container{
+        position: relative;
+    }
+    .prev, .next{
+        position: absolute;
+        top: 50%;
+        transform: translate(0, -50%);
+        display: flex;
+        height: 35px;
+        width: 35px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .prev{
+       left: 1rem;
+    }
+    .next{
+        right: 1rem;
+    }
+    .slideshow-container:hover .prev, .slideshow-container:hover .next{
+        background-color: #ffffff94;
     }
 }

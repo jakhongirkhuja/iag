@@ -314,13 +314,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "filter_s",
   data: function data() {
@@ -1212,14 +1205,16 @@ __webpack_require__.r(__webpack_exports__);
     openEstate: function openEstate(slug) {
       // console.log(show_date)
       // console.log(slug);
-      // let routeData = this.$router.resolve({ name: 'estate', params: { slug: slug } });
-      // window.open(routeData.href, '_blank');
-      var routeData = this.$router.push({
-        name: "estate",
+      var routeData = this.$router.resolve({
+        name: 'estate',
         params: {
           slug: slug
         }
       });
+      window.open(routeData.href, '_blank'); // let routeData = this.$router.push({
+      //   name: "estate",
+      //   params: { slug: slug },
+      // });
     },
     openwithslug: function openwithslug(id, slug) {
       if (slug == undefined) {
@@ -1255,7 +1250,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".filter__items[data-v-d1000c60] {\n  font-size: 0.8rem;\n  border-bottom: 1px solid silver;\n}\n.filter__items_div[data-v-d1000c60] {\n  display: flex;\n  justify-content: space-between;\n  background-color: #2888e52e;\n}\n.filter__items_div div.fx-1[data-v-d1000c60] {\n  display: flex;\n  flex-direction: column;\n  padding: 1rem;\n  justify-content: space-between;\n}\n.filter__items_div_items[data-v-d1000c60] {\n  width: 100%;\n  justify-content: space-around;\n  padding: 5px;\n  background-color: #2888e566;\n  color: black;\n}\n.filter__items input[type=radio][data-v-d1000c60] {\n  display: none;\n}\n.filter__items input[type=radio] + label[data-v-d1000c60] {\n  display: inline-block;\n  border: 1px solid whitesmoke;\n  padding: 5px 8px;\n  cursor: pointer;\n}\n.filter__items input[type=radio]:checked + label[data-v-d1000c60], .filter__items input[type=radio] + label[data-v-d1000c60]:hover {\n  border: 1px solid #ccc8c8;\n  background-color: whitesmoke;\n}\n.filter__items input[type=radio] + label span.good[data-v-d1000c60] {\n  display: none;\n}\n.filter__items input[type=radio]:checked + label span.bad[data-v-d1000c60] {\n  display: none;\n}\n.filter__items input[type=radio]:checked + label span[data-v-d1000c60] {\n  display: inline-block;\n}\n.filter__items input[type=checkbox][data-v-d1000c60] {\n  display: none;\n}\n.filter__items input[type=checkbox] + label[data-v-d1000c60] {\n  display: inline-block;\n  border: 1px solid whitesmoke;\n  padding: 5px 8px;\n  cursor: pointer;\n}\n.filter__items input[type=checkbox]:checked + label[data-v-d1000c60], .filter__items input[type=checkbox] + label[data-v-d1000c60]:hover {\n  border: 1px solid #ccc8c8;\n  background-color: whitesmoke;\n}\n.filter__items input[type=checkbox] + label span.good[data-v-d1000c60] {\n  display: none;\n}\n.filter__items input[type=checkbox]:checked + label span.good[data-v-d1000c60] {\n  display: inline-block;\n}\n.filter__items input[type=checkbox] + label span.bad[data-v-d1000c60] {\n  display: inline-block;\n}\n.filter__items input[type=checkbox]:checked + label span.bad[data-v-d1000c60] {\n  display: none;\n}\n.filter__items-type[data-v-d1000c60], .filter__items-building[data-v-d1000c60], .filter__items-btns[data-v-d1000c60] {\n  display: flex;\n}\n.filter__items-type label[data-v-d1000c60], .filter__items-building label[data-v-d1000c60], .filter__items-btns label[data-v-d1000c60] {\n  display: block;\n}\n.filter__items-t[data-v-d1000c60] {\n  display: flex;\n  align-items: center;\n}\n.filter__items-t--title[data-v-d1000c60] {\n  text-align: right;\n  flex: 1;\n  margin-right: 5px;\n}\n.filter__items-t--c span[data-v-d1000c60]:first-child {\n  width: 30px;\n}\n.filter__items-t--c div[data-v-d1000c60] {\n  display: none;\n}\n.filter__items-t--c div.active[data-v-d1000c60] {\n  display: block;\n}\n.filter__items-t--c:hover div[data-v-d1000c60] {\n  display: block;\n}\n.filter__items-t--c:hover div[data-v-d1000c60]:hover {\n  color: white;\n  cursor: pointer;\n}\n.filter__items .close[data-v-d1000c60] {\n  position: fixed;\n  right: 0;\n  display: block;\n  height: 100%;\n  background-color: #ffffff9e;\n  top: 0;\n  width: calc(100% - 350px);\n}\n.filter__items_selection[data-v-d1000c60] {\n  width: 260px;\n  padding: 5px;\n  color: inherit;\n  font-size: 0.8rem;\n  cursor: pointer;\n  margin: 0 0.5rem;\n}\n.filter__items_selection option[data-v-d1000c60] {\n  padding: 5px;\n}\n.filter__items_selection_inputs[data-v-d1000c60] {\n  height: -webkit-fit-content;\n  height: -moz-fit-content;\n  height: fit-content;\n  padding: 5px;\n  width: 100px;\n  margin: 0 0.3rem;\n}\n.filter__items-btns[data-v-d1000c60] {\n  justify-content: space-evenly;\n  padding: 0.5rem;\n  background-color: #2888e52e;\n}\n.filter__items-btns img[data-v-d1000c60] {\n  position: absolute;\n  left: 60px;\n  bottom: 18px;\n  cursor: pointer;\n  transition: all 0.2s ease-in-out;\n}\n.filter__items-btns img[data-v-d1000c60]:hover {\n  transform: scale(1.2);\n}\n.filter__items-btns div[data-v-d1000c60] {\n  text-transform: none;\n  margin-right: 1rem;\n  padding: 9px 25px;\n  position: relative;\n  cursor: pointer;\n  text-decoration: underline;\n}\n.filter__items-btns div.btn[data-v-d1000c60] {\n  text-decoration: none;\n  box-shadow: 0px 0px 15px whitesmoke;\n}\n.filter__items-btns div span[data-v-d1000c60] {\n  font-size: 2rem;\n  position: absolute;\n  left: 0;\n  top: 0;\n  transition: all 0.3s ease-in-out;\n}\n.filter__items-btns div:hover span[data-v-d1000c60] {\n  transform: rotate(360deg);\n}\n.openfilter[data-v-d1000c60] {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  transform: translate(-50%, 0);\n  background-color: black;\n  padding: 2px 7px;\n  z-index: 1;\n  color: white;\n  padding: 3px 14px;\n}\n.openfilter[data-v-d1000c60]:hover {\n  cursor: pointer;\n  color: inherit;\n  background-color: white;\n  border: 1px solid #676e7b;\n}\n.ownerDiv[data-v-d1000c60] {\n  position: relative;\n}\n.ownerDiv__selection[data-v-d1000c60] {\n  display: none;\n  flex-direction: column;\n  position: absolute;\n  width: 100%;\n  align-items: self-start;\n}\n.ownerDiv__selection-items[data-v-d1000c60] {\n  border: 1px solid whitesmoke;\n  padding: 5px 8px;\n  width: 100%;\n  background-color: white;\n  text-align: left;\n  cursor: pointer;\n}\n.ownerDiv__input[data-v-d1000c60] {\n  border: 1px solid whitesmoke;\n  padding: 5px 8px;\n  min-width: 150px;\n  display: flex;\n  overflow-x: auto;\n  justify-content: center;\n}\n.ownerDiv__input-items[data-v-d1000c60] {\n  margin-right: 0.2rem;\n}\n.ownerDiv:hover .ownerDiv__selection[data-v-d1000c60] {\n  display: flex;\n}", ""]);
+exports.push([module.i, ".filter__items[data-v-d1000c60] {\n  font-size: 0.8rem;\n  border-bottom: 1px solid silver;\n}\n.filter__items_div[data-v-d1000c60] {\n  background-color: #2888e52e;\n}\n.filter__items_div div.fx-1[data-v-d1000c60] {\n  display: flex;\n  flex-direction: column;\n  padding: 1rem;\n  justify-content: space-between;\n}\n.filter__items_div_items[data-v-d1000c60] {\n  max-width: 1100px;\n  margin: 0 auto;\n  justify-content: space-around;\n  padding: 5px;\n  color: black;\n}\n.filter__items_div .max-w[data-v-d1000c60] {\n  max-width: 1100px;\n  margin: 0 auto;\n}\n.filter__items input[type=radio][data-v-d1000c60] {\n  display: none;\n}\n.filter__items input[type=radio] + label[data-v-d1000c60] {\n  display: inline-block;\n  border: 1px solid whitesmoke;\n  padding: 5px 8px;\n  cursor: pointer;\n}\n.filter__items input[type=radio]:checked + label[data-v-d1000c60], .filter__items input[type=radio] + label[data-v-d1000c60]:hover {\n  border: 1px solid #ccc8c8;\n  background-color: whitesmoke;\n}\n.filter__items input[type=radio] + label span.good[data-v-d1000c60] {\n  display: none;\n}\n.filter__items input[type=radio]:checked + label span.bad[data-v-d1000c60] {\n  display: none;\n}\n.filter__items input[type=radio]:checked + label span[data-v-d1000c60] {\n  display: inline-block;\n}\n.filter__items input[type=checkbox][data-v-d1000c60] {\n  display: none;\n}\n.filter__items input[type=checkbox] + label[data-v-d1000c60] {\n  display: inline-block;\n  border: 1px solid whitesmoke;\n  padding: 5px 8px;\n  cursor: pointer;\n}\n.filter__items input[type=checkbox]:checked + label[data-v-d1000c60], .filter__items input[type=checkbox] + label[data-v-d1000c60]:hover {\n  border: 1px solid #ccc8c8;\n  background-color: whitesmoke;\n}\n.filter__items input[type=checkbox] + label span.good[data-v-d1000c60] {\n  display: none;\n}\n.filter__items input[type=checkbox]:checked + label span.good[data-v-d1000c60] {\n  display: inline-block;\n}\n.filter__items input[type=checkbox] + label span.bad[data-v-d1000c60] {\n  display: inline-block;\n}\n.filter__items input[type=checkbox]:checked + label span.bad[data-v-d1000c60] {\n  display: none;\n}\n.filter__items-type[data-v-d1000c60], .filter__items-building[data-v-d1000c60], .filter__items-btns[data-v-d1000c60] {\n  display: flex;\n}\n.filter__items-type label[data-v-d1000c60], .filter__items-building label[data-v-d1000c60], .filter__items-btns label[data-v-d1000c60] {\n  display: block;\n}\n.filter__items-t[data-v-d1000c60] {\n  display: flex;\n  align-items: center;\n}\n.filter__items-t--title[data-v-d1000c60] {\n  text-align: right;\n  flex: 1;\n  margin-right: 5px;\n}\n.filter__items-t--c span[data-v-d1000c60]:first-child {\n  width: 30px;\n}\n.filter__items-t--c div[data-v-d1000c60] {\n  display: none;\n}\n.filter__items-t--c div.active[data-v-d1000c60] {\n  display: block;\n}\n.filter__items-t--c:hover div[data-v-d1000c60] {\n  display: block;\n}\n.filter__items-t--c:hover div[data-v-d1000c60]:hover {\n  color: white;\n  cursor: pointer;\n}\n.filter__items .close[data-v-d1000c60] {\n  position: fixed;\n  right: 0;\n  display: block;\n  height: 100%;\n  background-color: #ffffff9e;\n  top: 0;\n  width: calc(100% - 350px);\n}\n.filter__items_selection[data-v-d1000c60] {\n  width: 260px;\n  padding: 5px;\n  color: inherit;\n  font-size: 0.8rem;\n  cursor: pointer;\n  margin: 0 0.5rem;\n}\n.filter__items_selection option[data-v-d1000c60] {\n  padding: 5px;\n}\n.filter__items_selection_inputs[data-v-d1000c60] {\n  height: -webkit-fit-content;\n  height: -moz-fit-content;\n  height: fit-content;\n  padding: 5px;\n  width: 100px;\n  margin: 0 0.3rem;\n}\n.filter__items-btns[data-v-d1000c60] {\n  justify-content: space-evenly;\n  padding: 0.5rem;\n  background-color: #2888e52e;\n}\n.filter__items-btns img[data-v-d1000c60] {\n  position: absolute;\n  left: 60px;\n  bottom: 18px;\n  cursor: pointer;\n  transition: all 0.2s ease-in-out;\n}\n.filter__items-btns img[data-v-d1000c60]:hover {\n  transform: scale(1.2);\n}\n.filter__items-btns div[data-v-d1000c60] {\n  text-transform: none;\n  margin-right: 1rem;\n  padding: 9px 25px;\n  position: relative;\n  cursor: pointer;\n  text-decoration: underline;\n}\n.filter__items-btns div.btn[data-v-d1000c60] {\n  text-decoration: none;\n  box-shadow: 0px 0px 15px whitesmoke;\n}\n.filter__items-btns div span[data-v-d1000c60] {\n  font-size: 2rem;\n  position: absolute;\n  left: 0;\n  top: 0;\n  transition: all 0.3s ease-in-out;\n}\n.filter__items-btns div:hover span[data-v-d1000c60] {\n  transform: rotate(360deg);\n}\n.openfilter[data-v-d1000c60] {\n  position: absolute;\n  bottom: 0;\n  left: 50%;\n  transform: translate(-50%, 0);\n  background-color: black;\n  padding: 2px 7px;\n  z-index: 1;\n  color: white;\n  padding: 3px 14px;\n}\n.openfilter[data-v-d1000c60]:hover {\n  cursor: pointer;\n  color: inherit;\n  background-color: white;\n  border: 1px solid #676e7b;\n}\n.ownerDiv[data-v-d1000c60] {\n  position: relative;\n}\n.ownerDiv__selection[data-v-d1000c60] {\n  display: none;\n  flex-direction: column;\n  position: absolute;\n  width: 100%;\n  align-items: self-start;\n}\n.ownerDiv__selection-items[data-v-d1000c60] {\n  border: 1px solid whitesmoke;\n  padding: 5px 8px;\n  width: 100%;\n  background-color: white;\n  text-align: left;\n  cursor: pointer;\n}\n.ownerDiv__input[data-v-d1000c60] {\n  border: 1px solid whitesmoke;\n  padding: 5px 8px;\n  min-width: 150px;\n  display: flex;\n  overflow-x: auto;\n  justify-content: center;\n}\n.ownerDiv__input-items[data-v-d1000c60] {\n  margin-right: 0.2rem;\n}\n.ownerDiv:hover .ownerDiv__selection[data-v-d1000c60] {\n  display: flex;\n}", ""]);
 
 // exports
 
@@ -1324,262 +1319,724 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "filter__items" }, [
         _c("div", { staticClass: "filter__items_div" }, [
-          _c("div", { staticClass: "filter__items_div_items fx" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", [
-              _c(
-                "div",
-                { staticClass: "filter__items-rooms fx vertical_center" },
-                [
-                  _c("div", { staticClass: "filter__items-t--title" }, [
-                    _vm._v("Квартиры")
-                  ]),
-                  _vm._v(" "),
-                  _c("div", [
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.room1,
-                          expression: "room1"
-                        }
-                      ],
-                      attrs: {
-                        type: "checkbox",
-                        "true-value": "yes",
-                        "false-value": "no",
-                        name: "room1",
-                        id: "room1"
-                      },
-                      domProps: {
-                        checked: Array.isArray(_vm.room1)
-                          ? _vm._i(_vm.room1, null) > -1
-                          : _vm._q(_vm.room1, "yes")
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.room1,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? "yes" : "no"
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 && (_vm.room1 = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.room1 = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
+          _c(
+            "div",
+            { staticStyle: { "background-color": "#2888e566", width: "100%" } },
+            [
+              _c("div", { staticClass: "filter__items_div_items fx" }, [
+                _vm._m(0),
+                _vm._v(" "),
+                _c("div", [
+                  _c(
+                    "div",
+                    { staticClass: "filter__items-rooms fx vertical_center" },
+                    [
+                      _c("div", { staticClass: "filter__items-t--title" }, [
+                        _vm._v("Квартиры")
+                      ]),
+                      _vm._v(" "),
+                      _c("div", [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.room1,
+                              expression: "room1"
                             }
-                          } else {
-                            _vm.room1 = $$c
+                          ],
+                          attrs: {
+                            type: "checkbox",
+                            "true-value": "yes",
+                            "false-value": "no",
+                            name: "room1",
+                            id: "room1"
+                          },
+                          domProps: {
+                            checked: Array.isArray(_vm.room1)
+                              ? _vm._i(_vm.room1, null) > -1
+                              : _vm._q(_vm.room1, "yes")
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.room1,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? "yes" : "no"
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 && (_vm.room1 = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.room1 = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.room1 = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "room1" } }, [_vm._v("1")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.room2,
+                              expression: "room2"
+                            }
+                          ],
+                          attrs: {
+                            type: "checkbox",
+                            "true-value": "yes",
+                            "false-value": "no",
+                            name: "room2",
+                            id: "room2"
+                          },
+                          domProps: {
+                            checked: Array.isArray(_vm.room2)
+                              ? _vm._i(_vm.room2, null) > -1
+                              : _vm._q(_vm.room2, "yes")
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.room2,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? "yes" : "no"
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 && (_vm.room2 = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.room2 = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.room2 = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "room2" } }, [_vm._v("2")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.room3,
+                              expression: "room3"
+                            }
+                          ],
+                          attrs: {
+                            type: "checkbox",
+                            "true-value": "yes",
+                            "false-value": "no",
+                            name: "room3",
+                            id: "room3"
+                          },
+                          domProps: {
+                            checked: Array.isArray(_vm.room3)
+                              ? _vm._i(_vm.room3, null) > -1
+                              : _vm._q(_vm.room3, "yes")
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.room3,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? "yes" : "no"
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 && (_vm.room3 = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.room3 = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.room3 = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "room3" } }, [_vm._v("3")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.room4,
+                              expression: "room4"
+                            }
+                          ],
+                          attrs: {
+                            type: "checkbox",
+                            "true-value": "yes",
+                            "false-value": "no",
+                            name: "room4",
+                            id: "room4"
+                          },
+                          domProps: {
+                            checked: Array.isArray(_vm.room4)
+                              ? _vm._i(_vm.room4, null) > -1
+                              : _vm._q(_vm.room4, "yes")
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.room4,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? "yes" : "no"
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 && (_vm.room4 = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.room4 = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.room4 = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "room4" } }, [_vm._v("4")]),
+                        _vm._v(" "),
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.room5,
+                              expression: "room5"
+                            }
+                          ],
+                          attrs: {
+                            type: "checkbox",
+                            "true-value": "yes",
+                            "false-value": "no",
+                            name: "room5",
+                            id: "room5"
+                          },
+                          domProps: {
+                            checked: Array.isArray(_vm.room5)
+                              ? _vm._i(_vm.room5, null) > -1
+                              : _vm._q(_vm.room5, "yes")
+                          },
+                          on: {
+                            change: function($event) {
+                              var $$a = _vm.room5,
+                                $$el = $event.target,
+                                $$c = $$el.checked ? "yes" : "no"
+                              if (Array.isArray($$a)) {
+                                var $$v = null,
+                                  $$i = _vm._i($$a, $$v)
+                                if ($$el.checked) {
+                                  $$i < 0 && (_vm.room5 = $$a.concat([$$v]))
+                                } else {
+                                  $$i > -1 &&
+                                    (_vm.room5 = $$a
+                                      .slice(0, $$i)
+                                      .concat($$a.slice($$i + 1)))
+                                }
+                              } else {
+                                _vm.room5 = $$c
+                              }
+                            }
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("label", { attrs: { for: "room5" } }, [_vm._v("5+")])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticStyle: { "padding-left": "5px" } }, [
+                        _vm._v("- комн.")
+                      ])
+                    ]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "fx vertical_center" }, [
+                  _c("div", { staticClass: "filter__items-price" }, [
+                    _c("div", { staticClass: "filter__items-t" }, [
+                      _c("div", { staticClass: "filter__items-t--title" }, [
+                        _vm._v("Цена:")
+                      ]),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.price_from,
+                            expression: "price_from"
+                          }
+                        ],
+                        staticClass: "filter__items_selection_inputs",
+                        attrs: { type: "number", placeholder: "от" },
+                        domProps: { value: _vm.price_from },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.price_from = $event.target.value
                           }
                         }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "room1" } }, [_vm._v("1")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.room2,
-                          expression: "room2"
-                        }
-                      ],
-                      attrs: {
-                        type: "checkbox",
-                        "true-value": "yes",
-                        "false-value": "no",
-                        name: "room2",
-                        id: "room2"
-                      },
-                      domProps: {
-                        checked: Array.isArray(_vm.room2)
-                          ? _vm._i(_vm.room2, null) > -1
-                          : _vm._q(_vm.room2, "yes")
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.room2,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? "yes" : "no"
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 && (_vm.room2 = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.room2 = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
+                      }),
+                      _vm._v("—\n                "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.price_to,
+                            expression: "price_to"
+                          }
+                        ],
+                        staticClass: "filter__items_selection_inputs",
+                        attrs: { type: "number", placeholder: "до" },
+                        domProps: { value: _vm.price_to },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
                             }
-                          } else {
-                            _vm.room2 = $$c
+                            _vm.price_to = $event.target.value
                           }
                         }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "room2" } }, [_vm._v("2")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.room3,
-                          expression: "room3"
-                        }
-                      ],
-                      attrs: {
-                        type: "checkbox",
-                        "true-value": "yes",
-                        "false-value": "no",
-                        name: "room3",
-                        id: "room3"
-                      },
-                      domProps: {
-                        checked: Array.isArray(_vm.room3)
-                          ? _vm._i(_vm.room3, null) > -1
-                          : _vm._q(_vm.room3, "yes")
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.room3,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? "yes" : "no"
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 && (_vm.room3 = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.room3 = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
-                            }
-                          } else {
-                            _vm.room3 = $$c
-                          }
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "room3" } }, [_vm._v("3")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.room4,
-                          expression: "room4"
-                        }
-                      ],
-                      attrs: {
-                        type: "checkbox",
-                        "true-value": "yes",
-                        "false-value": "no",
-                        name: "room4",
-                        id: "room4"
-                      },
-                      domProps: {
-                        checked: Array.isArray(_vm.room4)
-                          ? _vm._i(_vm.room4, null) > -1
-                          : _vm._q(_vm.room4, "yes")
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.room4,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? "yes" : "no"
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 && (_vm.room4 = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.room4 = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
-                            }
-                          } else {
-                            _vm.room4 = $$c
-                          }
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "room4" } }, [_vm._v("4")]),
-                    _vm._v(" "),
-                    _c("input", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.room5,
-                          expression: "room5"
-                        }
-                      ],
-                      attrs: {
-                        type: "checkbox",
-                        "true-value": "yes",
-                        "false-value": "no",
-                        name: "room5",
-                        id: "room5"
-                      },
-                      domProps: {
-                        checked: Array.isArray(_vm.room5)
-                          ? _vm._i(_vm.room5, null) > -1
-                          : _vm._q(_vm.room5, "yes")
-                      },
-                      on: {
-                        change: function($event) {
-                          var $$a = _vm.room5,
-                            $$el = $event.target,
-                            $$c = $$el.checked ? "yes" : "no"
-                          if (Array.isArray($$a)) {
-                            var $$v = null,
-                              $$i = _vm._i($$a, $$v)
-                            if ($$el.checked) {
-                              $$i < 0 && (_vm.room5 = $$a.concat([$$v]))
-                            } else {
-                              $$i > -1 &&
-                                (_vm.room5 = $$a
-                                  .slice(0, $$i)
-                                  .concat($$a.slice($$i + 1)))
-                            }
-                          } else {
-                            _vm.room5 = $$c
-                          }
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("label", { attrs: { for: "room5" } }, [_vm._v("5+")])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticStyle: { "padding-left": "5px" } }, [
-                    _vm._v("- комн.")
+                      }),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "filter__items-t--c fx" }, [
+                        _c(
+                          "span",
+                          _vm._l(_vm.show_cur, function(date) {
+                            return _c(
+                              "div",
+                              {
+                                key: date.id,
+                                class: { active: date.selected },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.latest(date.id)
+                                  }
+                                }
+                              },
+                              [
+                                _vm._v(
+                                  "\n                      " +
+                                    _vm._s(date.name) +
+                                    "\n                    "
+                                )
+                              ]
+                            )
+                          }),
+                          0
+                        ),
+                        _vm._v(" "),
+                        _c("span", [_vm._v("▼")])
+                      ])
+                    ])
                   ])
-                ]
-              )
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("div", { staticClass: "filter__items-building" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.photo_exist,
+                          expression: "photo_exist"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        name: "photo_exist",
+                        id: "photo_exist"
+                      },
+                      domProps: {
+                        value: 1,
+                        checked: _vm._q(_vm.photo_exist, 1)
+                      },
+                      on: {
+                        click: _vm.photoExist,
+                        change: function($event) {
+                          _vm.photo_exist = 1
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(1)
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("div", { staticClass: "filter__items-building" }, [
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.house_type,
+                          expression: "house_type"
+                        }
+                      ],
+                      attrs: {
+                        type: "radio",
+                        name: "building",
+                        id: "building-n"
+                      },
+                      domProps: {
+                        value: 2,
+                        checked: _vm._q(_vm.house_type, 2)
+                      },
+                      on: {
+                        click: _vm.houseType,
+                        change: function($event) {
+                          _vm.house_type = 2
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _vm._m(2)
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("div", { staticClass: "filter__items-type" }, [
+                    _c("div", { staticClass: "ownerDiv" }, [
+                      _c(
+                        "div",
+                        { staticClass: "ownerDiv__input" },
+                        [
+                          _vm.ownerstypeSelected.length == 0
+                            ? _c(
+                                "div",
+                                { staticClass: "ownerDiv-items_exist" },
+                                [
+                                  _vm._v(
+                                    "\n                    Выберите владельца\n                  "
+                                  )
+                                ]
+                              )
+                            : _vm._e(),
+                          _vm._v(" "),
+                          _vm._l(_vm.ownerstypeSelected, function(selected) {
+                            return _c(
+                              "div",
+                              {
+                                key: selected.id,
+                                staticClass: "ownerDiv__input-items"
+                              },
+                              [
+                                _vm._v(
+                                  "\n                    " +
+                                    _vm._s(selected.name) +
+                                    " "
+                                ),
+                                _vm.ownerstypeSelected.length != 1 &&
+                                _vm.ownerstypeSelected.length != 0
+                                  ? _c("span", [_vm._v(",")])
+                                  : _vm._e()
+                              ]
+                            )
+                          })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        { staticClass: "ownerDiv__selection" },
+                        _vm._l(_vm.ownerstype, function(type) {
+                          return _c(
+                            "div",
+                            {
+                              key: type.id,
+                              staticClass: "ownerDiv__selection-items",
+                              on: {
+                                click: function($event) {
+                                  return _vm.checkownertype(type.id)
+                                }
+                              }
+                            },
+                            [
+                              type.selected == true
+                                ? _c("span", [_vm._v("✓")])
+                                : _vm._e(),
+                              _vm._v(
+                                " " +
+                                  _vm._s(type.name) +
+                                  " \n                  "
+                              )
+                            ]
+                          )
+                        }),
+                        0
+                      )
+                    ])
+                  ])
+                ])
+              ])
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "filter__items_div" }, [
+          _c("div", { staticClass: "fx max-w" }, [
+            _c("div", { staticClass: "fx-1" }, [
+              _c("div", { staticClass: "fx vertical_center" }, [
+                _c("div", { staticClass: "filter__items-t--title" }, [
+                  _vm._v("Тип дома")
+                ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.buildingType,
+                          expression: "buildingType"
+                        }
+                      ],
+                      staticClass: "filter__items_selection",
+                      attrs: { name: "building_type" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.buildingType = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    _vm._l(_vm.building_type, function(buil) {
+                      return _c(
+                        "option",
+                        { key: buil.id, domProps: { value: buil.id } },
+                        [
+                          _vm._v(
+                            "\n                    " +
+                              _vm._s(buil.name) +
+                              "\n                  "
+                          )
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "fx vertical_center pt-1" }, [
+                _c("div", { staticClass: "filter__items-t--title" }, [
+                  _vm._v("Ремонт:")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "select",
+                  {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.remont_id,
+                        expression: "remont_id"
+                      }
+                    ],
+                    staticClass: "filter__items_selection",
+                    attrs: { name: "remont" },
+                    on: {
+                      change: function($event) {
+                        var $$selectedVal = Array.prototype.filter
+                          .call($event.target.options, function(o) {
+                            return o.selected
+                          })
+                          .map(function(o) {
+                            var val = "_value" in o ? o._value : o.value
+                            return val
+                          })
+                        _vm.remont_id = $event.target.multiple
+                          ? $$selectedVal
+                          : $$selectedVal[0]
+                      }
+                    }
+                  },
+                  [
+                    _c("option", { attrs: { selected: "", value: "0" } }, [
+                      _vm._v("Все")
+                    ]),
+                    _vm._v(" "),
+                    _vm._l(_vm.remonts, function(remont) {
+                      return _c(
+                        "option",
+                        { key: remont.id, domProps: { value: remont.id } },
+                        [
+                          _vm._v(
+                            "\n                  " +
+                              _vm._s(remont.name) +
+                              "\n                "
+                          )
+                        ]
+                      )
+                    })
+                  ],
+                  2
+                )
+              ])
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "fx vertical_center" }, [
-              _c("div", { staticClass: "filter__items-price" }, [
-                _c("div", { staticClass: "filter__items-t" }, [
+            _c("div", { staticClass: "fx-1" }, [
+              _c("div", { staticClass: "filter__items-floor" }, [
+                _c(
+                  "div",
+                  { staticClass: "filter__items-floor fx vertical_center" },
+                  [
+                    _c("div", { staticClass: "filter__items-t--title" }, [
+                      _vm._v("Этаж:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.floor_from,
+                          expression: "floor_from"
+                        }
+                      ],
+                      staticClass: "filter__items_selection_inputs",
+                      attrs: { type: "number", placeholder: "от" },
+                      domProps: { value: _vm.floor_from },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.floor_from = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v("—\n                "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.floor_to,
+                          expression: "floor_to"
+                        }
+                      ],
+                      staticClass: "filter__items_selection_inputs",
+                      attrs: { type: "number", placeholder: "до" },
+                      domProps: { value: _vm.floor_to },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.floor_to = $event.target.value
+                        }
+                      }
+                    })
+                  ]
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "filter__items-floor pt-1" }, [
+                _c(
+                  "div",
+                  { staticClass: "filter__items-floor fx vertical_center" },
+                  [
+                    _c("div", { staticClass: "filter__items-t--title" }, [
+                      _vm._v("Этажей в доме:")
+                    ]),
+                    _vm._v(" "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.floor_c_from,
+                          expression: "floor_c_from"
+                        }
+                      ],
+                      staticClass: "filter__items_selection_inputs",
+                      attrs: { type: "number", placeholder: "от" },
+                      domProps: { value: _vm.floor_c_from },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.floor_c_from = $event.target.value
+                        }
+                      }
+                    }),
+                    _vm._v("—\n                "),
+                    _c("input", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.floor_c_to,
+                          expression: "floor_c_to"
+                        }
+                      ],
+                      staticClass: "filter__items_selection_inputs",
+                      attrs: { type: "number", placeholder: "до" },
+                      domProps: { value: _vm.floor_c_to },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.floor_c_to = $event.target.value
+                        }
+                      }
+                    })
+                  ]
+                )
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "fx-1" }, [
+              _c(
+                "div",
+                { staticClass: "filter__items-price fx vertical_center" },
+                [
                   _c("div", { staticClass: "filter__items-t--title" }, [
-                    _vm._v("Цена:")
+                    _vm._v("Площадь:")
                   ]),
                   _vm._v(" "),
                   _c("input", {
@@ -1587,19 +2044,19 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.price_from,
-                        expression: "price_from"
+                        value: _vm.area_from,
+                        expression: "area_from"
                       }
                     ],
                     staticClass: "filter__items_selection_inputs",
                     attrs: { type: "number", placeholder: "от" },
-                    domProps: { value: _vm.price_from },
+                    domProps: { value: _vm.area_from },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.price_from = $event.target.value
+                        _vm.area_from = $event.target.value
                       }
                     }
                   }),
@@ -1609,563 +2066,125 @@ var render = function() {
                       {
                         name: "model",
                         rawName: "v-model",
-                        value: _vm.price_to,
-                        expression: "price_to"
+                        value: _vm.area_to,
+                        expression: "area_to"
                       }
                     ],
                     staticClass: "filter__items_selection_inputs",
                     attrs: { type: "number", placeholder: "до" },
-                    domProps: { value: _vm.price_to },
+                    domProps: { value: _vm.area_to },
                     on: {
                       input: function($event) {
                         if ($event.target.composing) {
                           return
                         }
-                        _vm.price_to = $event.target.value
+                        _vm.area_to = $event.target.value
                       }
                     }
                   }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "filter__items-t--c fx" }, [
-                    _c(
-                      "span",
-                      _vm._l(_vm.show_cur, function(date) {
-                        return _c(
-                          "div",
-                          {
-                            key: date.id,
-                            class: { active: date.selected },
-                            on: {
-                              click: function($event) {
-                                return _vm.latest(date.id)
-                              }
-                            }
-                          },
-                          [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(date.name) +
-                                "\n                  "
-                            )
-                          ]
-                        )
-                      }),
-                      0
-                    ),
-                    _vm._v(" "),
-                    _c("span", [_vm._v("▼")])
-                  ])
-                ])
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", [
-              _c("div", { staticClass: "filter__items-building" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.photo_exist,
-                      expression: "photo_exist"
-                    }
-                  ],
-                  attrs: {
-                    type: "radio",
-                    name: "photo_exist",
-                    id: "photo_exist"
-                  },
-                  domProps: { value: 1, checked: _vm._q(_vm.photo_exist, 1) },
-                  on: {
-                    click: _vm.photoExist,
-                    change: function($event) {
-                      _vm.photo_exist = 1
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._m(1)
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", [
-              _c("div", { staticClass: "filter__items-building" }, [
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.house_type,
-                      expression: "house_type"
-                    }
-                  ],
-                  attrs: { type: "radio", name: "building", id: "building-n" },
-                  domProps: { value: 2, checked: _vm._q(_vm.house_type, 2) },
-                  on: {
-                    click: _vm.houseType,
-                    change: function($event) {
-                      _vm.house_type = 2
-                    }
-                  }
-                }),
-                _vm._v(" "),
-                _vm._m(2)
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", [
-              _c("div", { staticClass: "filter__items-type" }, [
-                _c("div", { staticClass: "ownerDiv" }, [
-                  _c(
-                    "div",
-                    { staticClass: "ownerDiv__input" },
-                    [
-                      _vm.ownerstypeSelected.length == 0
-                        ? _c("div", { staticClass: "ownerDiv-items_exist" }, [
-                            _vm._v(
-                              "\n                   Выберите владельца\n                "
-                            )
-                          ])
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _vm._l(_vm.ownerstypeSelected, function(selected) {
-                        return _c(
-                          "div",
-                          {
-                            key: selected.id,
-                            staticClass: "ownerDiv__input-items"
-                          },
-                          [
-                            _vm._v(
-                              "\n                  " +
-                                _vm._s(selected.name) +
-                                " "
-                            ),
-                            _vm.ownerstypeSelected.length != 1 &&
-                            _vm.ownerstypeSelected.length != 0
-                              ? _c("span", [_vm._v(",")])
-                              : _vm._e()
-                          ]
-                        )
-                      })
-                    ],
-                    2
-                  ),
+                  _vm._v("м"),
+                  _c("sup", [_vm._v("2")])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "filter__items-city fx vertical_center pt-1" },
+                [
+                  _c("div", { staticClass: "filter__items-t--title" }, [
+                    _vm._v("Район:")
+                  ]),
                   _vm._v(" "),
                   _c(
-                    "div",
-                    { staticClass: "ownerDiv__selection" },
-                    _vm._l(_vm.ownerstype, function(type) {
-                      return _c(
-                        "div",
+                    "select",
+                    {
+                      directives: [
                         {
-                          key: type.id,
-                          staticClass: "ownerDiv__selection-items",
-                          on: {
-                            click: function($event) {
-                              return _vm.checkownertype(type.id)
-                            }
-                          }
-                        },
-                        [
-                          type.selected == true
-                            ? _c("span", [_vm._v("✓")])
-                            : _vm._e(),
-                          _vm._v(
-                            " " + _vm._s(type.name) + " \n                "
-                          )
-                        ]
-                      )
-                    }),
-                    0
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.selected_city,
+                          expression: "selected_city"
+                        }
+                      ],
+                      staticClass: "filter__items_selection",
+                      attrs: { name: "choosecity" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.selected_city = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", { attrs: { value: "0" } }, [
+                        _vm._v("Город Ташкен")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "1600" } }, [
+                        _vm._v("Ташкентская область")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "1" } }, [
+                        _vm._v("Чиланзарский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "5" } }, [
+                        _vm._v("Алмазарский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "8" } }, [
+                        _vm._v("Яккасарайский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "11" } }, [
+                        _vm._v("Юнусабадский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "13" } }, [
+                        _vm._v("Мирзо-Улугбекский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "15" } }, [
+                        _vm._v("Яшнабадский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "16" } }, [
+                        _vm._v("Олмазорский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "17" } }, [
+                        _vm._v("Шайхантахурский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "18" } }, [
+                        _vm._v("Сергелийский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "19" } }, [
+                        _vm._v("Учтепинский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "20" } }, [
+                        _vm._v("Мирабадский район")
+                      ]),
+                      _vm._v(" "),
+                      _c("option", { attrs: { value: "22" } }, [
+                        _vm._v("Бектемирский район")
+                      ])
+                    ]
                   )
-                ])
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "filter__items_div" }, [
-          _c("div", { staticClass: "fx-1" }, [
-            _c("div", { staticClass: "fx vertical_center" }, [
-              _c("div", { staticClass: "filter__items-t--title" }, [
-                _vm._v("Тип дома")
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.buildingType,
-                        expression: "buildingType"
-                      }
-                    ],
-                    staticClass: "filter__items_selection",
-                    attrs: { name: "building_type" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.buildingType = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  _vm._l(_vm.building_type, function(buil) {
-                    return _c(
-                      "option",
-                      { key: buil.id, domProps: { value: buil.id } },
-                      [
-                        _vm._v(
-                          "\n                " +
-                            _vm._s(buil.name) +
-                            "\n              "
-                        )
-                      ]
-                    )
-                  }),
-                  0
-                )
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "fx vertical_center pt-1" }, [
-              _c("div", { staticClass: "filter__items-t--title" }, [
-                _vm._v("Ремонт:")
-              ]),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.remont_id,
-                      expression: "remont_id"
-                    }
-                  ],
-                  staticClass: "filter__items_selection",
-                  attrs: { name: "remont" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.remont_id = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    }
-                  }
-                },
-                [
-                  _c("option", { attrs: { selected: "", value: "0" } }, [
-                    _vm._v("Все")
-                  ]),
-                  _vm._v(" "),
-                  _vm._l(_vm.remonts, function(remont) {
-                    return _c(
-                      "option",
-                      { key: remont.id, domProps: { value: remont.id } },
-                      [
-                        _vm._v(
-                          "\n              " +
-                            _vm._s(remont.name) +
-                            "\n            "
-                        )
-                      ]
-                    )
-                  })
-                ],
-                2
-              )
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "fx-1" }, [
-            _c("div", { staticClass: "filter__items-floor" }, [
-              _c(
-                "div",
-                { staticClass: "filter__items-floor fx vertical_center" },
-                [
-                  _c("div", { staticClass: "filter__items-t--title" }, [
-                    _vm._v("Этаж:")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.floor_from,
-                        expression: "floor_from"
-                      }
-                    ],
-                    staticClass: "filter__items_selection_inputs",
-                    attrs: { type: "number", placeholder: "от" },
-                    domProps: { value: _vm.floor_from },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.floor_from = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v("—\n            "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.floor_to,
-                        expression: "floor_to"
-                      }
-                    ],
-                    staticClass: "filter__items_selection_inputs",
-                    attrs: { type: "number", placeholder: "до" },
-                    domProps: { value: _vm.floor_to },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.floor_to = $event.target.value
-                      }
-                    }
-                  })
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "filter__items-floor pt-1" }, [
-              _c(
-                "div",
-                { staticClass: "filter__items-floor fx vertical_center" },
-                [
-                  _c("div", { staticClass: "filter__items-t--title" }, [
-                    _vm._v("Этажей в доме:")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.floor_c_from,
-                        expression: "floor_c_from"
-                      }
-                    ],
-                    staticClass: "filter__items_selection_inputs",
-                    attrs: { type: "number", placeholder: "от" },
-                    domProps: { value: _vm.floor_c_from },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.floor_c_from = $event.target.value
-                      }
-                    }
-                  }),
-                  _vm._v("—\n            "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.floor_c_to,
-                        expression: "floor_c_to"
-                      }
-                    ],
-                    staticClass: "filter__items_selection_inputs",
-                    attrs: { type: "number", placeholder: "до" },
-                    domProps: { value: _vm.floor_c_to },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.floor_c_to = $event.target.value
-                      }
-                    }
-                  })
                 ]
               )
             ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "fx-1" }, [
-            _c(
-              "div",
-              { staticClass: "filter__items-price fx vertical_center" },
-              [
-                _c("div", { staticClass: "filter__items-t--title" }, [
-                  _vm._v("Площадь:")
-                ]),
-                _vm._v(" "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.area_from,
-                      expression: "area_from"
-                    }
-                  ],
-                  staticClass: "filter__items_selection_inputs",
-                  attrs: { type: "number", placeholder: "от" },
-                  domProps: { value: _vm.area_from },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.area_from = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v("—\n          "),
-                _c("input", {
-                  directives: [
-                    {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.area_to,
-                      expression: "area_to"
-                    }
-                  ],
-                  staticClass: "filter__items_selection_inputs",
-                  attrs: { type: "number", placeholder: "до" },
-                  domProps: { value: _vm.area_to },
-                  on: {
-                    input: function($event) {
-                      if ($event.target.composing) {
-                        return
-                      }
-                      _vm.area_to = $event.target.value
-                    }
-                  }
-                }),
-                _vm._v("м"),
-                _c("sup", [_vm._v("2")])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "filter__items-city fx vertical_center pt-1" },
-              [
-                _c("div", { staticClass: "filter__items-t--title" }, [
-                  _vm._v("Район:")
-                ]),
-                _vm._v(" "),
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.selected_city,
-                        expression: "selected_city"
-                      }
-                    ],
-                    staticClass: "filter__items_selection",
-                    attrs: { name: "choosecity" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.selected_city = $event.target.multiple
-                          ? $$selectedVal
-                          : $$selectedVal[0]
-                      }
-                    }
-                  },
-                  [
-                    _c("option", { attrs: { value: "0" } }, [
-                      _vm._v("Город Ташкен")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "1600" } }, [
-                      _vm._v("Ташкентская область")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "1" } }, [
-                      _vm._v("Чиланзарский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "5" } }, [
-                      _vm._v("Алмазарский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "8" } }, [
-                      _vm._v("Яккасарайский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "11" } }, [
-                      _vm._v("Юнусабадский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "13" } }, [
-                      _vm._v("Мирзо-Улугбекский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "15" } }, [
-                      _vm._v("Яшнабадский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "16" } }, [
-                      _vm._v("Олмазорский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "17" } }, [
-                      _vm._v("Шайхантахурский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "18" } }, [
-                      _vm._v("Сергелийский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "19" } }, [
-                      _vm._v("Учтепинский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "20" } }, [
-                      _vm._v("Мирабадский район")
-                    ]),
-                    _vm._v(" "),
-                    _c("option", { attrs: { value: "22" } }, [
-                      _vm._v("Бектемирский район")
-                    ])
-                  ]
-                )
-              ]
-            )
           ])
         ]),
         _vm._v(" "),

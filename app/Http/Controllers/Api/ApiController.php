@@ -905,8 +905,14 @@ class ApiController extends Controller
         $photo_exist = request()->photo_exist;
         $owner_type = request()->owner_type;
         $owner_arr = '';
+       
         if($owner_type!=null){
+            if(Str::contains($owner_type, '1')){
+                $owner_type.=',4';
+               
+            }
             $owner_arr = explode(',',$owner_type);
+            // dd($owner_arr);
         }
         $room1 = request()->room1;
         $arr  = [];
@@ -1124,43 +1130,26 @@ class ApiController extends Controller
 
     public function showingEstate($slug)
     {
-
         $estate = Estate::where('slug', $slug)->first();
         if ($estate) {
-
-
-            // dd($estate);
-            // dd(Price::where('estate_id', $estate->id)->get());
-            if ($estate->getCity()) {
-                $estate['city'] = $estate->getCity()->name;
+            $city = $estate->getCity();
+            if ($city) {
+                $estate['city'] = $city->name;
             }
-            if ($estate->getRegion()) {
-                $estate['region'] = $estate->getRegion()->name;
+            $region = $estate->getRegion();
+            if ($region) {
+                $estate['region'] = $region->name;
             }
-
-            // dd($items);
-            // dd($items['currency']);
-            // dd(last($items));
-            // dd(count($items));
             $all_prices = Price::select('price', 'created_at')->where('estate_id', $estate->id)->get();
-            // dd($all_prices);
-            // $t = [];
-            // $p = [];
             foreach ($all_prices as $key => $all_price) {
 
                 $all_price[Carbon::parse($all_price->created_at)->format('Y-m-d H:i')] = $all_price->price;
                 $all_price->makeHidden('created_at');
                 $all_price->makeHidden('price');
             }
-            $estate['update_time'] = Carbon::parse($estate->updated_at)->locale('ru_RU')->isoFormat('LLLL');
-            $price = Price::where('estate_id', $estate->id)->where('price', $estate->price)->first();
-            if ($price) {
-                $estate['price'] = $price->price;
-                $estate['price_cur'] = $price->currency;
-            } else {
-                $estate['price'] = $price->price;
-                $estate['price_cur'] = 'у.е';
-            }
+            $estate['update_at']= $estate->updated_at->format('d.m.Y H:i');
+            $estate['create_at']= $estate->created_at->format('d.m.Y H:i');
+            // $estate['update_time'] = Carbon::parse($estate->updated_at)->locale('ru_RU')->isoFormat('LLLL');
             $map = explode(',', Str::of($estate->map)->replace('{', '')->replace('}', '')->replace(' ', ''));
             $lat = Str::of(explode(':', $map[0])[1])->replace("'", "");
             $lon = Str::of(explode(':', $map[1])[1])->replace("'", "");
@@ -1170,55 +1159,44 @@ class ApiController extends Controller
             if (Str::contains($estate->img, 'https')) {
                 $estate['imgs'] = explode(",", Str::of($estate->img)->replace('[', '')->replace(']', '')->replace("'", '')->replace(' ', ''));
             }
-            if ($estate->owner()->first()) {
-                $estate['owner'] = $estate->owner()->first();
+            $owner = $estate->owner()->first();
+            if ($owner) {
+                $estate['owner'] = $owner;
 
-                $estate['owner']['update_at'] = $estate->owner()->first()->created_at->format('m d Y H:i');;
+                $estate['owner']['update_at'] = $owner->created_at->format('m d Y H:i');;
             } else {
                 $estate['owner'] = null;
             }
+            $announcement = $owner->type;
+            if($announcement){
+                $estate['announcement'] =$announcement->name;
+            }
+            
+            
+            $owner_estate = $owner->estates()->where('estates.id', '!=', $estate->id)->orderby('estates.updated_at','desc')->get()->take(3);
+            if ($owner && count($owner_estate) > 0) {
 
-            if ($estate->owner()->first() && count($estate->owner()->first()->estates()->where('estates.id', '!=', $estate->id)->get()) > 0) {
-
-                $estate['owner_estates'] = $estate->owner()->first()->estates()->where('estates.id', '!=', $estate->id)->get();
+                $estate['owner_estates'] = $owner_estate;
                 foreach ($estate['owner_estates'] as $own) {
-                    if ($own->getCity()) {
-                        $own['city'] = $own->getCity()->name;
+                    $own_city = $own->getCity();
+                    if ($own_city) {
+                        $own['city'] = $own_city->name;
                     }
-                    if ($own->getRegion()) {
-                        $own['region'] = $own->getRegion()->name;
+                    $own_region  = $own->getRegion();
+                    if ($own_region) {
+                        $own['region'] = $own_region->name;
                     }
-                    $own['update_time'] = Carbon::parse($own->updated_at)->locale('ru_RU')->isoFormat('LLLL');
-                    $price_own = Price::where('estate_id', $own->id)->where('price', $own->price)->first();
-                    if ($price_own) {
-                        $own['price'] = $price_own->price;
-                        $own['price_cur'] = $price_own->currency;
-                    } else {
-                        $own['price'] = $own->price;
-                        $own['price_cur'] = 'у.е';
-                    }
-
-                    // $items_own =json_decode($own->price, true); 
-                    // if(count($items_own)>3){
-                    //     $own['price'] = last($items_own)['price'];
-                    //     $own['price_cur'] = last($items_own)['currency'];
-                    // }else{
-                    //     $own['price_cur'] = $items_own['currency'];
-                    //     $own['price'] = $items_own['price'];
-                    // }
-
+                    $own['update_at'] = Carbon::parse($own->updated_at)->format('d.m.Y H:i');
                 }
             }
 
-            $estate['announcement'] = null;
+            
             $estate['apartment_has'] = '' . Str::of($estate->apartment_has)->replace(', ', '<br>')->replace("\n", "<br>");
             $estate['near_has'] = '' . Str::of($estate->near_has)->replace('Средняя', '<br>Средняя')->replace("\n", "<br>")->replace(",", "<br>");
             $estate['body'] = '' . Str::of($estate->body)->replace('- показать телефон -', '');
 
 
-            if ($estate->owner()->first()) {
-                $estate['announcement'] = $estate->owner()->first()->type()->first();
-            }
+           
 
 
             return response()->json([
@@ -1237,9 +1215,11 @@ class ApiController extends Controller
     {
         $owner_type = request()->type;
         $search = request()->s;
-
-
-        // dd($owner_type);
+        $own = false;
+        if($owner_type==1){
+            $own = true;
+        }
+        
         if ($owner_type == null || $owner_type == 0) {
 
             if ($search != null) {
@@ -1259,25 +1239,32 @@ class ApiController extends Controller
             if ($search != null) {
                 $replaced = Str::of($search)->replace(' ', '');
                 if (Str::length($replaced) == 0) {
-                    $owners = Owner::where('announcement', $owner_type)->orderby('updated_at', 'desc')->paginate(30);
+                    $owners = Owner::where('announcement', $owner_type)->when($own, function($query){
+                        return $query->orwhere('announcement',4);
+                    })->orderby('updated_at', 'desc')->paginate(30);
                 } else {
-                    $owners = Owner::where('announcement', $owner_type)->where('name', 'LIKE', '%' . $search . '%')->orwhere('number', 'LIKE', '%' . $search . '%')->orderby('updated_at', 'desc')->paginate(30);
+                    $owners = Owner::where('announcement', $owner_type)->when($own, function($query){
+                        return $query->orwhere('announcement',4);
+                    })->where('name', 'LIKE', '%' . $search . '%')->orwhere('number', 'LIKE', '%' . $search . '%')->orderby('updated_at', 'desc')->paginate(30);
                 }
             } else {
-                $owners = Owner::where('announcement', $owner_type)->orderby('updated_at', 'desc')->paginate(30);
+                $owners = Owner::where('announcement', $owner_type)->when($own, function($query){
+                    return $query->orwhere('announcement',4);
+                })->orderby('updated_at', 'desc')->paginate(30);
             }
         }
 
         foreach ($owners as $key => $owner) {
-
-            if ($owner->type) {
-                $owner['types'] = $owner->type->name;
+            $type =$owner->type;
+            if ($type) {
+                $owner['types'] = $type->name;
             }
             $owner['update_at'] = $owner->created_at->format('m d Y H:i');
             $owner['number'] = [];
-            $owner['count_all'] = $owner->estates->count();
-            $owner['newhouse_count'] = $owner->estates->where('house_type', 2)->count();
-            $owner['oldhouse_count'] = $owner->estates->where('house_type', 1)->count();
+            $est = $owner->estates;
+            $owner['count_all'] = $est->count();
+            $owner['newhouse_count'] = $est->where('house_type', 2)->count();
+            $owner['oldhouse_count'] = $est->where('house_type', 1)->count();
         }
         return response()->json([
             'status' => true,
@@ -1295,9 +1282,7 @@ class ApiController extends Controller
             }else{
                 $ownersTypez['selected'] = false;
             }
-            
-            
-            if (!Str::contains($ownersTypez->name, 'Агентство')) {
+            if (!Str::contains($ownersTypez->name, 'Агентство') && !Str::contains($ownersTypez->name, 'Developer')) {
                 $ownersType[] = $ownersTypez;
             }
         }
@@ -1357,23 +1342,26 @@ class ApiController extends Controller
 
                 $es['price_cur'] = $es->currency;
 
-                // $es['price'] = json_decode($es->price)->price;
-                if ((int)$es['building_type'] == 1) {
+                
+                if ((int)$es['house_type'] == 1) {
+                    // dd($es);
                     $es['housingtype'] = 'вр';
-                } elseif ($es['building_type'] == 2) {
+                } elseif ($es['house_type'] == 2 || $es['house_type'] == null) {
+                    
                     $es['housingtype'] = 'нв';
                 }
-                // $es['remont'] = ' ';
-                if ($es->getRemont()) {
-                    $es['remont'] = $es->getRemont()->name;
+                $remont = $es->getRemont();
+                if ($remont) {
+                    $es['remont'] = $remont->name;
                 }
+                $city = $es->getCity();
+                if ($city) {
 
-                if ($es->getCity()) {
-
-                    $es['city'] = $es->getCity()->name;
+                    $es['city'] = $city->name;
                 }
-                if ($es->getRegion()) {
-                    $es['region'] = $es->getRegion()->name;
+                $region = $es->getRegion();
+                if ($region) {
+                    $es['region'] = $region->name;
                 }
                 $es['update_time'] = Carbon::parse($es->updated_at)->locale('ru_RU')->diffForHumans();
                 $es['created_time'] = Carbon::parse($es->created_at)->locale('ru_RU')->diffForHumans();

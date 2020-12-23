@@ -437,12 +437,12 @@ export default {
     openEstate(slug) {
       // console.log(show_date)
       // console.log(slug);
-      // let routeData = this.$router.resolve({ name: 'estate', params: { slug: slug } });
-      // window.open(routeData.href, '_blank');
-      let routeData = this.$router.push({
-        name: "estate",
-        params: { slug: slug },
-      });
+      let routeData = this.$router.resolve({ name: 'estate', params: { slug: slug } });
+      window.open(routeData.href, '_blank');
+      // let routeData = this.$router.push({
+      //   name: "estate",
+      //   params: { slug: slug },
+      // });
     },
     openwithslug(id,slug){
       

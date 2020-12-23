@@ -7,11 +7,12 @@
     }
     &__left__side {
         width: 100%;
+        height: 200px;
         background-color: $white;
         transition: all 0.2s ease-in-out;
     }
     &__left__side.closedactive{
-        margin-top: -223px;
+        margin-top: -200px;
     }
     &__center {
         background-color: $white;

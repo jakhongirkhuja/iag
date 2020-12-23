@@ -4,54 +4,61 @@
             <div class="estate__mainpart fx">
                 <div class="estate__mainpart__imgs fx-1">
                     <div class="estate__mainpart__imgs_big">
-                        <img :src=main_image >
+                        <img :src=main_image @click="openModal(2)" >
                     </div>
                     <div class="estate__mainpart__imgs__thumbnails">
-                        <div v-for="img in this.imgs" :key="img.id" v-on:click="changemainimg(img)">
+                        <div v-for="img in imgs" :key="img.id" v-on:click="changemainimg(img)">
                             <img :src=img>
                         </div>    
                     </div>
                 </div>
                 <div class="estate__mainpart__shortinfo fx-1">
                     <div class="estate__mainpart__shortinfo__title">
-                        <h1>{{ this.estate.title }} <a style="font-size:0.8rem;" target="_blank" v-bind:href=this.estate.url>перейти на сайт</a></h1>
+                        <h1>{{ estate.title }} </h1>
                     </div>
                     <div class="estate__mainpart__shortinfo__loc_upd">
                         <div class="estate__mainpart__shortinfo__loc_upd-l">
-                            {{ this.estate.city }}, <br> {{ this.estate.region }} 
+                            {{ estate.city }}, <br> {{ estate.region }} 
                         </div>
-                        <div class="estate__mainpart__shortinfo__loc_upd-u">
+                        <div class="estate__mainpart__shortinfo__loc_upd-u" v-if="estate.update_at!= estate.create_at">
                             <span>( обновлено )</span> <br>
-                            {{ this.estate.update_time }}
+                            {{ estate.update_at }}<br>
+                            <span>( добавлено )</span> <br>
+                            {{ estate.create_at }}
                         </div>
+                        <div class="estate__mainpart__shortinfo__loc_upd-u" v-else>
+                            <span>( добавлено )</span> <br>
+                            {{ estate.create_at }}
+                        </div>
+
                     </div>
                     <div class="estate__mainpart__shortinfo__area__price">
                         <div class="estate__mainpart__shortinfo__area__price-a">
                             <p>Площадь</p>
-                            <p>{{this.estate.total_area}} m <sup>2</sup></p>
+                            <p>{{estate.total_area}} m <sup>2</sup></p>
                         </div>
                         <div class="estate__mainpart__shortinfo__area__price-p">
                              <p>Цена</p>
-                            <p v-if="this.estate.price!=0">{{this.estate.price}} {{this.estate.price_cur}}</p>
+                            <p v-if="estate.price!=0">{{estate.price}} {{estate.currency}}</p>
                             <p v-else>Договорная</p>
                         </div>
                     </div>
                     <div class="estate__mainpart__shortinfo__list">
                         <div class="estate__mainpart__shortinfo__list__items">
                             <p>Комнат</p>
-                            <p>{{ this.estate.num_rooms }}</p>
+                            <p>{{ estate.num_rooms }}</p>
                         </div>
                         <div class="estate__mainpart__shortinfo__list__items">
                             <p>Этаж</p>
-                            <p>{{ this.estate.floor }}</p>
+                            <p>{{ estate.floor }}</p>
                         </div>
                         <div class="estate__mainpart__shortinfo__list__items">
                             <p>Этажность</p>
-                            <p>{{ this.estate.floor_house }}</p>
+                            <p>{{ estate.floor_house }}</p>
                         </div>
                         <div class="estate__mainpart__shortinfo__list__items">
                             <p>Статус</p>
-                            <p v-if="this.estate.status==1">&#10003;</p>
+                            <p v-if="estate.status==1">&#10003;</p>
                             <p v-else>&#10006;</p>
                         </div>
                     </div>
@@ -80,7 +87,12 @@
                                 Пожаловаться
                             </div>
                         </div>
+                        
                     </div>
+                    <div style="text-align: right; margin-top: 0.5rem;">
+                        <a style="font-size:0.8rem; text-decoration: underline" target="_blank" v-bind:href=this.estate.url>открыть исходник</a>
+                    </div>
+                    
                 </div>
             </div>
             <div class="estate__secondary fx">
@@ -132,7 +144,7 @@
                     <div class="estate__secondary__owner__info">
                         <div class="estate__secondary__owner__info-name" v-if="this.estate.owner">
                             <h3>{{ this.estate.owner.name }}</h3>
-                            <p v-if="this.estate.announcement">  {{ this.estate.announcement.name  }}</p>
+                            <p>  {{ this.estate.announcement }}</p>
                         </div>
                         <div class="estate__secondary__owner__info-number" v-if="estate.owner" >
                             <div class="btn btn-primary" @click="getNumber( estate.owner.id,estate.owner.update_at)" v-if="number.length==0">Открыть номер</div>
@@ -144,7 +156,7 @@
                         </div>
                     </div>
                     <div class="estate__secondary__owner__others" v-if="this.estate.owner_estates">
-                        <h3 style="cursor:pointer" @click="OpenOwnerEstates">другие объявления автора</h3>
+                        <h3 style="cursor:pointer" @click="OpenOwnerEstates">открыть все объявления автора</h3>
                         <div  class="estate__secondary__owner__others__items">
                             <router-link  
                                 :to="{ 
@@ -161,7 +173,7 @@
                                             {{ ownother.city}}, {{ ownother.region }}
                                         </div>
                                          <div class="estate__secondary__owner__others-u">
-                                            {{ ownother.update_time }}
+                                            {{ ownother.update_at }}
                                         </div>
                                     </div>
                                     <div class="estate__secondary__owner__others__item_a_p">
@@ -169,7 +181,7 @@
                                             <div>комнат: {{ ownother.num_rooms }}</div>
                                             <div>площадь: {{ ownother.total_area}} m <sup>2</sup></div>
                                             
-                                            <div class="estate__secondary__owner__others-a_p">{{ ownother.price }} {{ownother.price_cur}}</div>
+                                            <div class="estate__secondary__owner__others-a_p">{{ ownother.price }} {{ownother.currency}}</div>
                                         </div>
                                     </div>
                             </router-link>
@@ -178,7 +190,21 @@
                 </div>
             </div>
         </div>
-         
+        <div class="modal__image"  v-if="showmodal">
+            <div class="modal__image__container" v-bind:class="{ active: showmodal}">
+                <div class="modal__image__container-body">
+                    <span class="modal__image-close" @click="closeModal">&#10005;</span>
+                    <div class="slideshow-container" v-if="main_image">
+                        <div class="mySlides fade" >
+                            <div class="numbertext">{{ slideIndex+1 }} / {{ imgs.length+1 }}</div>
+                            <img :src="main_image" style="max-width: 100%; max-height: 80vh;">
+                        </div>
+                        <a class="prev" @click="plusSlides(slideIndex-1)">&#10094;</a>
+                        <a class="next" @click="plusSlides(slideIndex+1)">&#10095;</a>
+                    </div>
+                </div>
+            </div>
+        </div> 
     </div>
 </template>
 
@@ -188,6 +214,8 @@ export default {
     name:'estate',
     data() {
         return {
+            slideIndex: 1,
+            showmodal: false,
             estate: [],
             main_image: this.$api_url+'/img/no.jpg',
             imgs: [
@@ -210,6 +238,26 @@ export default {
     },
 
     methods: {
+        closeModal(){
+            this.showmodal = false;
+        },
+        openModal(index){
+            this.showmodal = true;
+            
+        },
+        plusSlides(n) {
+            this.slideIndex = n;
+            
+            if(n==0 || n==-1){
+                this.slideIndex = this.imgs.length-1;
+            }
+            if(this.imgs.length ==n){
+                this.slideIndex = 0;
+            }
+            this.main_image = this.imgs[this.slideIndex];
+            console.log(n);
+        },
+        
         po(d){
             return parseInt(d*this.m);
         },
@@ -240,7 +288,9 @@ export default {
         
         },
         OpenOwnerEstates(){
-            this.$router.push({ name: "OwnersEach", params: {id:this.estate.owner.id} });
+            // this.$router.push({ name: "OwnersEach", params: {id:this.estate.owner.id} });
+            let routeData = this.$router.resolve({ name: 'OwnersEach', params: {id:this.estate.owner.id} });
+                window.open(routeData.href, '_blank');
         },
         changemainimg(img){
             this.main_image = img;
@@ -283,7 +333,7 @@ export default {
     },
     
     mounted(){
-         
+       
     }
 }
 </script>

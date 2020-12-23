@@ -193,10 +193,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'estate',
   data: function data() {
     return {
+      slideIndex: 1,
+      showmodal: false,
       estate: [],
       main_image: this.$api_url + '/img/no.jpg',
       imgs: [this.$api_url + '/img/no.jpg', this.$api_url + '/img/no.jpg', this.$api_url + '/img/no.jpg', this.$api_url + '/img/no.jpg', this.$api_url + '/img/no.jpg', this.$api_url + '/img/no.jpg'],
@@ -211,6 +239,26 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    closeModal: function closeModal() {
+      this.showmodal = false;
+    },
+    openModal: function openModal(index) {
+      this.showmodal = true;
+    },
+    plusSlides: function plusSlides(n) {
+      this.slideIndex = n;
+
+      if (n == 0 || n == -1) {
+        this.slideIndex = this.imgs.length - 1;
+      }
+
+      if (this.imgs.length == n) {
+        this.slideIndex = 0;
+      }
+
+      this.main_image = this.imgs[this.slideIndex];
+      console.log(n);
+    },
     po: function po(d) {
       return parseInt(d * this.m);
     },
@@ -240,12 +288,14 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     OpenOwnerEstates: function OpenOwnerEstates() {
-      this.$router.push({
-        name: "OwnersEach",
+      // this.$router.push({ name: "OwnersEach", params: {id:this.estate.owner.id} });
+      var routeData = this.$router.resolve({
+        name: 'OwnersEach',
         params: {
           id: this.estate.owner.id
         }
       });
+      window.open(routeData.href, '_blank');
     },
     changemainimg: function changemainimg(img) {
       this.main_image = img;
@@ -312,13 +362,20 @@ var render = function() {
       _c("div", { staticClass: "estate__mainpart fx" }, [
         _c("div", { staticClass: "estate__mainpart__imgs fx-1" }, [
           _c("div", { staticClass: "estate__mainpart__imgs_big" }, [
-            _c("img", { attrs: { src: _vm.main_image } })
+            _c("img", {
+              attrs: { src: _vm.main_image },
+              on: {
+                click: function($event) {
+                  return _vm.openModal(2)
+                }
+              }
+            })
           ]),
           _vm._v(" "),
           _c(
             "div",
             { staticClass: "estate__mainpart__imgs__thumbnails" },
-            _vm._l(this.imgs, function(img) {
+            _vm._l(_vm.imgs, function(img) {
               return _c(
                 "div",
                 {
@@ -338,17 +395,7 @@ var render = function() {
         _vm._v(" "),
         _c("div", { staticClass: "estate__mainpart__shortinfo fx-1" }, [
           _c("div", { staticClass: "estate__mainpart__shortinfo__title" }, [
-            _c("h1", [
-              _vm._v(_vm._s(this.estate.title) + " "),
-              _c(
-                "a",
-                {
-                  staticStyle: { "font-size": "0.8rem" },
-                  attrs: { target: "_blank", href: this.estate.url }
-                },
-                [_vm._v("перейти на сайт")]
-              )
-            ])
+            _c("h1", [_vm._v(_vm._s(_vm.estate.title) + " ")])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "estate__mainpart__shortinfo__loc_upd" }, [
@@ -357,29 +404,53 @@ var render = function() {
               { staticClass: "estate__mainpart__shortinfo__loc_upd-l" },
               [
                 _vm._v(
-                  "\n                        " + _vm._s(this.estate.city) + ", "
+                  "\n                        " + _vm._s(_vm.estate.city) + ", "
                 ),
                 _c("br"),
                 _vm._v(
-                  " " + _vm._s(this.estate.region) + " \n                    "
+                  " " + _vm._s(_vm.estate.region) + " \n                    "
                 )
               ]
             ),
             _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "estate__mainpart__shortinfo__loc_upd-u" },
-              [
-                _c("span", [_vm._v("( обновлено )")]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(
-                  "\n                        " +
-                    _vm._s(this.estate.update_time) +
-                    "\n                    "
+            _vm.estate.update_at != _vm.estate.create_at
+              ? _c(
+                  "div",
+                  { staticClass: "estate__mainpart__shortinfo__loc_upd-u" },
+                  [
+                    _c("span", [_vm._v("( обновлено )")]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.estate.update_at)
+                    ),
+                    _c("br"),
+                    _vm._v(" "),
+                    _c("span", [_vm._v("( добавлено )")]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.estate.create_at) +
+                        "\n                    "
+                    )
+                  ]
                 )
-              ]
-            )
+              : _c(
+                  "div",
+                  { staticClass: "estate__mainpart__shortinfo__loc_upd-u" },
+                  [
+                    _c("span", [_vm._v("( добавлено )")]),
+                    _vm._v(" "),
+                    _c("br"),
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(_vm.estate.create_at) +
+                        "\n                    "
+                    )
+                  ]
+                )
           ]),
           _vm._v(" "),
           _c(
@@ -393,7 +464,7 @@ var render = function() {
                   _c("p", [_vm._v("Площадь")]),
                   _vm._v(" "),
                   _c("p", [
-                    _vm._v(_vm._s(this.estate.total_area) + " m "),
+                    _vm._v(_vm._s(_vm.estate.total_area) + " m "),
                     _c("sup", [_vm._v("2")])
                   ])
                 ]
@@ -405,12 +476,12 @@ var render = function() {
                 [
                   _c("p", [_vm._v("Цена")]),
                   _vm._v(" "),
-                  this.estate.price != 0
+                  _vm.estate.price != 0
                     ? _c("p", [
                         _vm._v(
-                          _vm._s(this.estate.price) +
+                          _vm._s(_vm.estate.price) +
                             " " +
-                            _vm._s(this.estate.price_cur)
+                            _vm._s(_vm.estate.currency)
                         )
                       ])
                     : _c("p", [_vm._v("Договорная")])
@@ -426,7 +497,7 @@ var render = function() {
               [
                 _c("p", [_vm._v("Комнат")]),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(this.estate.num_rooms))])
+                _c("p", [_vm._v(_vm._s(_vm.estate.num_rooms))])
               ]
             ),
             _vm._v(" "),
@@ -436,7 +507,7 @@ var render = function() {
               [
                 _c("p", [_vm._v("Этаж")]),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(this.estate.floor))])
+                _c("p", [_vm._v(_vm._s(_vm.estate.floor))])
               ]
             ),
             _vm._v(" "),
@@ -446,7 +517,7 @@ var render = function() {
               [
                 _c("p", [_vm._v("Этажность")]),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(this.estate.floor_house))])
+                _c("p", [_vm._v(_vm._s(_vm.estate.floor_house))])
               ]
             ),
             _vm._v(" "),
@@ -456,7 +527,7 @@ var render = function() {
               [
                 _c("p", [_vm._v("Статус")]),
                 _vm._v(" "),
-                this.estate.status == 1
+                _vm.estate.status == 1
                   ? _c("p", [_vm._v("✓")])
                   : _c("p", [_vm._v("✖")])
               ]
@@ -569,7 +640,25 @@ var render = function() {
                 )
               ]
             )
-          ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticStyle: { "text-align": "right", "margin-top": "0.5rem" } },
+            [
+              _c(
+                "a",
+                {
+                  staticStyle: {
+                    "font-size": "0.8rem",
+                    "text-decoration": "underline"
+                  },
+                  attrs: { target: "_blank", href: this.estate.url }
+                },
+                [_vm._v("открыть исходник")]
+              )
+            ]
+          )
         ])
       ]),
       _vm._v(" "),
@@ -681,11 +770,7 @@ var render = function() {
                   [
                     _c("h3", [_vm._v(_vm._s(this.estate.owner.name))]),
                     _vm._v(" "),
-                    this.estate.announcement
-                      ? _c("p", [
-                          _vm._v("  " + _vm._s(this.estate.announcement.name))
-                        ])
-                      : _vm._e()
+                    _c("p", [_vm._v("  " + _vm._s(this.estate.announcement))])
                   ]
                 )
               : _vm._e(),
@@ -744,7 +829,7 @@ var render = function() {
                     staticStyle: { cursor: "pointer" },
                     on: { click: _vm.OpenOwnerEstates }
                   },
-                  [_vm._v("другие объявления автора")]
+                  [_vm._v("открыть все объявления автора")]
                 ),
                 _vm._v(" "),
                 _c(
@@ -815,7 +900,7 @@ var render = function() {
                               [
                                 _vm._v(
                                   "\n                                        " +
-                                    _vm._s(ownother.update_time) +
+                                    _vm._s(ownother.update_at) +
                                     "\n                                    "
                                 )
                               ]
@@ -862,7 +947,7 @@ var render = function() {
                                     _vm._v(
                                       _vm._s(ownother.price) +
                                         " " +
-                                        _vm._s(ownother.price_cur)
+                                        _vm._s(ownother.currency)
                                     )
                                   ]
                                 )
@@ -879,7 +964,79 @@ var render = function() {
             : _vm._e()
         ])
       ])
-    ])
+    ]),
+    _vm._v(" "),
+    _vm.showmodal
+      ? _c("div", { staticClass: "modal__image" }, [
+          _c(
+            "div",
+            {
+              staticClass: "modal__image__container",
+              class: { active: _vm.showmodal }
+            },
+            [
+              _c("div", { staticClass: "modal__image__container-body" }, [
+                _c(
+                  "span",
+                  {
+                    staticClass: "modal__image-close",
+                    on: { click: _vm.closeModal }
+                  },
+                  [_vm._v("✕")]
+                ),
+                _vm._v(" "),
+                _vm.main_image
+                  ? _c("div", { staticClass: "slideshow-container" }, [
+                      _c("div", { staticClass: "mySlides fade" }, [
+                        _c("div", { staticClass: "numbertext" }, [
+                          _vm._v(
+                            _vm._s(_vm.slideIndex + 1) +
+                              " / " +
+                              _vm._s(_vm.imgs.length + 1)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("img", {
+                          staticStyle: {
+                            "max-width": "100%",
+                            "max-height": "80vh"
+                          },
+                          attrs: { src: _vm.main_image }
+                        })
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "prev",
+                          on: {
+                            click: function($event) {
+                              return _vm.plusSlides(_vm.slideIndex - 1)
+                            }
+                          }
+                        },
+                        [_vm._v("❮")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          staticClass: "next",
+                          on: {
+                            click: function($event) {
+                              return _vm.plusSlides(_vm.slideIndex + 1)
+                            }
+                          }
+                        },
+                        [_vm._v("❯")]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            ]
+          )
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []

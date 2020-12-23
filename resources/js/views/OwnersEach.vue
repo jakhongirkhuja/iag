@@ -137,6 +137,7 @@ export default {
                 query: que,
                 })
                 .catch((err) => {});
+                
             this.getEstates();
             },
         changePagination(page) {
