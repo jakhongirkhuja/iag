@@ -45,6 +45,11 @@ export default {
     //  [App.vue specific] When App.vue is finish loading finish the progress bar
   },
   created() {
+    this.$router
+        .replace({
+          path: "/",
+        })
+        .catch((err) => {});
     this.getEstates();
   },
   methods: {
@@ -168,6 +173,19 @@ export default {
       room4,
       room5,
     ) {
+      
+      if(price_from=='' || price_from==null ){
+        
+        price_from = null;
+      }else{
+        price_from = parseInt(price_from.replace(/\s/g, ''));
+      }
+      if(price_to=='' || price_to==null ){
+        price_to = null;
+      }else{
+        price_to = parseInt(price_to.replace(/\s/g, ''));
+      }
+     
       this.$router.replace({
         path: "/",
         query: {
@@ -197,7 +215,7 @@ export default {
           room4, room4,
           room5, room5,
         },
-      });
+      }).catch(()=>{});
       this.getEstates();
     },
   },

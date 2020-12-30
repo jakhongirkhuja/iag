@@ -382,6 +382,32 @@ __webpack_require__.r(__webpack_exports__);
       }]
     };
   },
+  watch: {
+    price_from: function price_from() {
+      if (this.price_from != '') {
+        var letters = /^[A-Za-z]+$/;
+
+        if (!this.price_from.match(letters)) {
+          this.price_from = parseFloat(this.price_from.replace(/\s/g, '')).toLocaleString('ru-Ru');
+        } else {
+          this.price_from = '';
+        }
+      } // this.price_from= new Intl.NumberFormat('ru-RU', { maximumSignificantDigits: 3 }).format(parseInt(this.price_from.replace(' ','')));
+
+    },
+    price_to: function price_to() {
+      if (this.price_to != '') {
+        var letters = /^[A-Za-z]+$/;
+
+        if (!this.price_to.match(letters)) {
+          this.price_to = parseFloat(this.price_to.replace(/\s/g, '')).toLocaleString('ru-Ru');
+        } else {
+          this.price_to = '';
+        }
+      } // this.price_from= new Intl.NumberFormat('ru-RU', { maximumSignificantDigits: 3 }).format(parseInt(this.price_from.replace(' ','')));
+
+    }
+  },
   maunted: function maunted() {},
   created: function created() {
     var query = this.$route.query;
@@ -648,6 +674,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {//  [App.vue specific] When App.vue is finish loading finish the progress bar
   },
   created: function created() {
+    this.$router.replace({
+      path: "/"
+    })["catch"](function (err) {});
     this.getEstates();
   },
   methods: {
@@ -740,6 +769,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     filterAllEstates: function filterAllEstates(type, house_type, room, area_from, area_to, currency, price_from, price_to, floor_from, floor_to, floor_c_from, floor_c_to, remont_id, selected_city, buildingType, photo_exist, owner_type, room1, room2, room3, room4, room5) {
       var _query;
 
+      if (price_from == '' || price_from == null) {
+        price_from = null;
+      } else {
+        price_from = parseInt(price_from.replace(/\s/g, ''));
+      }
+
+      if (price_to == '' || price_to == null) {
+        price_to = null;
+      } else {
+        price_to = parseInt(price_to.replace(/\s/g, ''));
+      }
+
       this.$router.replace({
         path: "/",
         query: (_query = {
@@ -765,7 +806,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           owner_type: owner_type,
           room1: room1
         }, _defineProperty(_query, "room1", room1), _defineProperty(_query, "room2", room2), _defineProperty(_query, "room2", room2), _defineProperty(_query, "room3", room3), _defineProperty(_query, "room3", room3), _defineProperty(_query, "room4", room4), _defineProperty(_query, "room4", room4), _defineProperty(_query, "room5", room5), _defineProperty(_query, "room5", room5), _query)
-      });
+      })["catch"](function () {});
       this.getEstates();
     }
   }
@@ -1591,7 +1632,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "filter__items_selection_inputs",
-                        attrs: { type: "number", placeholder: "от" },
+                        attrs: { type: "text", placeholder: "от" },
                         domProps: { value: _vm.price_from },
                         on: {
                           input: function($event) {
@@ -1613,7 +1654,7 @@ var render = function() {
                           }
                         ],
                         staticClass: "filter__items_selection_inputs",
-                        attrs: { type: "number", placeholder: "до" },
+                        attrs: { type: "text", placeholder: "до" },
                         domProps: { value: _vm.price_to },
                         on: {
                           input: function($event) {

@@ -266,6 +266,7 @@ __webpack_require__.r(__webpack_exports__);
       return parseInt(t.match(/\d/g).join(""));
     },
     h: function h(_h) {
+      console.log(window.btoa(_h));
       return window.btoa(_h);
     },
     getNumber: function getNumber(id, t) {

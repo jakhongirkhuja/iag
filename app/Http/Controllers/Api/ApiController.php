@@ -1414,11 +1414,16 @@ class ApiController extends Controller
                 $p = (int)$n->format('d') + (int)$n->format('m');
                 $s = (int)$n->format('d') * (int)$n->format('m');
                 $y = (int)$n->format('Y');
+                
+                
                 $id = $request->id;
                 $t = (string)Str::of($owner->created_at->format('m d Y H:i'))->replace(' ', '')->replace(':', '');
                 $all = $p * $s * $y * $id;
+               
                 $sd = (int)$all + (int)$t;
+                
                 $base = base64_encode($sd);
+                // dd($base);
                 // dd($base, $request->t);
                 if ($base == $request->t) {
                     $number = $owner->number;

@@ -259,17 +259,22 @@ export default {
         },
         
         po(d){
+            
             return parseInt(d*this.m);
         },
         o(t){
+            
             return parseInt(t.match(/\d/g).join("")); 
         },
         h(h){
+            console.log(window.btoa(h));
             return window.btoa(h);
         },
         getNumber(id, t){
+            
             //  let sd = window.btoa(t);
             let sd =  this.po(id)+this.o(t);
+           
             const article = { id: id, t: this.h(sd)};
             axios.post(this.$api_url + "/api/getnumber", article)
             .then((response) => {

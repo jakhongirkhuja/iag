@@ -82,13 +82,13 @@
                   <div class="filter__items-t--title">Цена:</div>
                   <input
                     class="filter__items_selection_inputs"
-                    type="number"
+                    type="text"
                     v-model="price_from"
                     placeholder="от"
                   />&#8212;
                   <input
                     class="filter__items_selection_inputs"
-                    type="number"
+                    type="text"
                     v-model="price_to"
                     placeholder="до"
                   />
@@ -384,7 +384,35 @@ export default {
       ],
     };
   },
+  watch:{
+    price_from: function(){
+      if(this.price_from!=''){
+        let letters = /^[A-Za-z]+$/;
+        if(!this.price_from.match(letters)){
+          this.price_from = parseFloat(this.price_from.replace(/\s/g, '')).toLocaleString('ru-Ru');
+        }else{
+          this.price_from = '';
+        }
+      }
+      
+      
+      // this.price_from= new Intl.NumberFormat('ru-RU', { maximumSignificantDigits: 3 }).format(parseInt(this.price_from.replace(' ','')));
+    },
+    price_to: function(){
 
+      if(this.price_to!=''){
+        let letters = /^[A-Za-z]+$/;
+        if(!this.price_to.match(letters)){
+          this.price_to = parseFloat(this.price_to.replace(/\s/g, '')).toLocaleString('ru-Ru');
+        }else{
+          this.price_to = '';
+        }
+        
+      }
+      
+      // this.price_from= new Intl.NumberFormat('ru-RU', { maximumSignificantDigits: 3 }).format(parseInt(this.price_from.replace(' ','')));
+    },
+  },
   maunted() {},
   created() {
     const { query } = this.$route;
@@ -485,6 +513,7 @@ export default {
       let ownerdId = this.ownerstypeSelected.map(a => a.id);
       // console.log(ownerdId.toString());
       // alert(this.owner_type);
+      
       this.$parent.filterAllEstates(
         this.type,
         this.house_type,
