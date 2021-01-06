@@ -1,4 +1,7 @@
 
+## Aigent Test Version 0.22
+** Added Social Login Auth
+ 
 ## Aigent Test Version 0.21
 ** Modified input prices
 

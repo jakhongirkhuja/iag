@@ -680,6 +680,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     this.getEstates();
   },
   methods: {
+    setCookie: function setCookie(name, value, days) {
+      var expires = "";
+
+      if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+        expires = "; expires=" + date.toUTCString();
+      }
+
+      document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    },
     changeRouterULR: function changeRouterULR() {
       var query = JSON.parse(JSON.stringify(this.$route.query));
       query.latest = this.latest;

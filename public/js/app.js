@@ -2071,16 +2071,57 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      showmenu: false
+      showmenu: false,
+      user: [],
+      url: "get/a_u",
+      logout_url: "logout"
     };
   },
-  created: function created() {},
+  created: function created() {
+    this.getAuthuser();
+  },
+  mounted: function mounted() {//  [App.vue specific] When App.vue is finish loading finish the progress bar
+  },
   methods: {
+    getAuthuser: function getAuthuser() {
+      var _this = this;
+
+      axios.get(this.$api_url + "/" + this.url).then(function (response) {
+        if (response.data.status) {
+          // console.log(response);
+          if (response.data.user == null) {
+            _this.user = [];
+          } else {
+            _this.user = response.data.user;
+          }
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
+    logout: function logout() {
+      var _this2 = this;
+
+      axios.get(this.$api_url + "/" + this.logout_url).then(function (response) {
+        if (response.data.status) {
+          // console.log(response);
+          _this2.user = [];
+        }
+      })["catch"](function (error) {
+        console.log(error);
+      });
+    },
     gotohomepage: function gotohomepage() {
       window.location.href = this.$api_url;
+    },
+    login: function login() {
+      window.location.href = this.$api_url + '/login';
     }
   }
 });
@@ -44742,42 +44783,67 @@ var render = function() {
       [_vm._v("\n        Iagent Test\n    ")]
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "nav__menu" }, [
-      _c(
-        "div",
-        {
-          staticClass: "nav__menu__user",
-          on: {
-            click: function($event) {
-              _vm.showmenu = !_vm.showmenu
-            }
-          }
-        },
-        [
-          _c("img", { attrs: { src: "/ava.jpg", width: "30" } }),
+    _vm.user.length != 0
+      ? _c("div", { staticClass: "nav__menu" }, [
+          _c(
+            "div",
+            {
+              staticClass: "nav__menu__user",
+              on: {
+                click: function($event) {
+                  _vm.showmenu = !_vm.showmenu
+                }
+              }
+            },
+            [
+              _c("img", { attrs: { src: "/ava.jpg", width: "30" } }),
+              _vm._v(" "),
+              _c("span", [_vm._v(_vm._s(_vm.user.name))]),
+              _vm._v(" "),
+              _c("span", { class: { active: _vm.showmenu } }, [_vm._v("▼")])
+            ]
+          ),
           _vm._v(" "),
-          _c("span", [_vm._v("Tamara Kulikova")]),
-          _vm._v(" "),
-          _c("span", { class: { active: _vm.showmenu } }, [_vm._v("▼")])
-        ]
-      ),
-      _vm._v(" "),
-      _vm.showmenu
-        ? _c("div", { staticClass: "nav__menu__dash" }, [
-            _c("div", { staticClass: "nav__menu__dash-items" }, [
-              _vm._v("Профиль")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "nav__menu__dash-items" }, [
-              _vm._v("Объявление")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "nav__menu__dash-items" }, [
-              _vm._v("Виход")
-            ])
-          ])
-        : _vm._e()
-    ])
+          _vm.showmenu
+            ? _c("div", { staticClass: "nav__menu__dash" }, [
+                _c("div", { staticClass: "nav__menu__dash-items" }, [
+                  _vm._v("Профиль")
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "nav__menu__dash-items" }, [
+                  _vm._v("Объявление")
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  {
+                    staticClass: "nav__menu__dash-items",
+                    on: { click: _vm.logout }
+                  },
+                  [_vm._v("Виход")]
+                )
+              ])
+            : _vm._e()
+        ])
+      : _c(
+          "div",
+          {
+            staticClass: "nav__menu",
+            staticStyle: {
+              display: "flex",
+              cursor: "pointer",
+              "align-items": "center"
+            },
+            on: { click: _vm.login }
+          },
+          [
+            _vm._v("\n        Вход "),
+            _c("img", {
+              staticStyle: { "margin-left": "0.5rem" },
+              attrs: { src: "/img/enter.svg", width: "20" }
+            })
+          ]
+        )
   ])
 }
 var staticRenderFns = []

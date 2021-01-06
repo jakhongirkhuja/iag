@@ -81,3 +81,10 @@
                 
                 
             </div>
+
+
+
+            <a href="{{ route('redirectauth',['name'=>'github']) }}" >GITHUB</a>
+            <a href="{{ route('redirectauth',['name'=>'telegram']) }}">Telegram</a>
+            <a href="{{ route('redirectauth',['name'=>'google']) }}">Google</a>
+            <a href="{{ route('redirectauth',['name'=>'facebook']) }}">facebook</a>

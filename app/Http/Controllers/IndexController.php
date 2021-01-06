@@ -17,7 +17,9 @@ use App\Models\Region;
 use App\Models\City;
 use App\Models\ParsingPage;
 use App\Models\Price;
+use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class IndexController extends Controller
 {
@@ -106,21 +108,7 @@ class IndexController extends Controller
     }
     public function admin()
     {
-        $ess = Estate::where('announcement',null)->get()->take(15000);
-        // dd(count($ess));
-        foreach ($ess as $key => $es) {
-            $owners = $es->owner->first();
-            if($owners){
-                $es->announcement = $owners->announcement;
-                $es->timestamps = false;
-                // dd($es);
-                $es->save();
-                // dd($es);
-               
-            }
-           
-        }
-       
+        
         // dd(Estate::where('img','!=',"['']")->first());
         // $st1 = 'sd';
         // $st2 = 'sd';

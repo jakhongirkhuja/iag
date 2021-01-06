@@ -37,3 +37,4 @@ Route::get('/show/owner/estate/{id}','Api\ApiController@OwnerEstate')->name('Own
 Route::get('/show/owner/info/{id}','Api\ApiController@OwnerInfo')->name('OwnerInfo');
 
 Route::post('/getnumber','Api\ApiController@getnumber')->name('getnumber');
+

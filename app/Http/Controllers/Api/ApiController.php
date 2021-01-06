@@ -1406,7 +1406,7 @@ class ApiController extends Controller
     }
     public function getnumber(Request $request)
     {
-
+        
         if ($request->isMethod('post')) {
             $owner = Owner::find($request->id);
             if ($owner) {
@@ -1456,4 +1456,5 @@ class ApiController extends Controller
             ]);
         }
     }
+    
 }
