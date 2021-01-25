@@ -38,3 +38,8 @@ Route::get('/show/owner/info/{id}','Api\ApiController@OwnerInfo')->name('OwnerIn
 
 Route::post('/getnumber','Api\ApiController@getnumber')->name('getnumber');
 
+
+
+Route::get('/getposttocheck','Api\ApiController@getposttocheck')->name('getposttocheck');
+Route::post('/setStatusEstate','Api\ApiController@setStatusEstate')->name('setStatusEstate');
+

@@ -1,6 +1,6 @@
 <template>
   <div class="main__center fx-1">
-    <div class="main__table__header fx vertical_center">
+    <div class="main__table__header fx vertical_center container">
       <div class="main__table__header__items">{{ count_all }} найдено</div>
       <div class="main__table__header__items">
         <div class="main__table__header__items__selection">
@@ -95,20 +95,20 @@
         </div>
       </div>
     </div>
-    <div class="main__table__body">
+    <div class="main__table__body container" >
       <table class="table table-hover" style="width: 100%">
         <thead>
-          <tr>
+          <tr style="display:none">
             <th scope="col">#</th>
             <th scope="col" style="text-align: left; padding-left: 1rem">
               Район
             </th>
             <th scope="col">Комнат</th>
             <th scope="col">Площадь</th>
-            <th scope="col">Этаж</th>
+           
             <th scope="col">Цена</th>
             <th scope="col">Ремонт</th>
-
+             <th scope="col">Номер</th>
             <th scope="col">Обновлено</th>
           </tr>
         </thead>
@@ -138,22 +138,27 @@
             :key="estate.id"
             v-on:click="openEstate(estate.slug)"
           >
-            <th scope="row">{{ estate.housingtype }}</th>
+            
 
             <td style="text-align: left; padding-left: 1rem">
               {{ estate.city }}, {{ estate.region }}
-              <span v-if="estate.ad_site == 1">(ol)</span>
-              <span v-else>(uy)</span>
+              <br><span v-if="estate.img!=0" style="font-size: 15px; display: flex; align-items: center;">
+                <img src="/img/camera.svg" width="17" style="margin-right:0.2rem"> {{ estate.img }}</span>
             </td>
-            <td>{{ estate.num_rooms }}</td>
-            <td>{{ estate.total_area }} m <sup>2</sup></td>
-            <td>{{ estate.floor }} ({{ estate.floor_house }})</td>
+            <td>{{ estate.num_rooms }}/{{ estate.floor }}/{{ estate.floor_house }}</td>
+            <td>Об: {{ estate.total_area }} m <sup>2</sup>
+                <span v-if="estate.living_space"> <br>Жл: {{ estate.living_space }} m<sup>2</sup></span>
+                <span v-if="estate.kitchen_area"> <br>Кх: {{ estate.kitchen_area }} m<sup>2</sup></span>
+            </td>
+            <td></td>
             <td>
-              {{ estate.price }} {{ estate.currency }} {{ estate.count_price }}
+              {{ new Intl.NumberFormat().format(estate.price)}} {{ estate.currency }} <br>{{ new Intl.NumberFormat().format(estate.cur_alter) }} 
+              <span v-if="estate.currency=='у.е'">сум</span>
+              <span v-else>у.е</span>
             </td>
             <td>{{ estate.remont }}</td>
-
-            <td>{{ estate.update_time }}</td>
+            <td style="text-decoration:underline">показать номер</td>
+            <td><span v-html="estate.update_time"></span></td>
           </tr>
         </tbody>
       </table>
@@ -189,6 +194,7 @@
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 <script>

@@ -1,7 +1,7 @@
 <template>
     <div class="nav fx vertical_center">
         <div @click='gotohomepage' class="fx-1 nav__logo">
-            Iagent Test
+            <img :src="this.$api_url+'/img/iagent.png'" width="75">
         </div>
        
         <div class="nav__menu" v-if="user.length!=0">
@@ -13,12 +13,12 @@
             <div class="nav__menu__dash" v-if="showmenu">
                 <div class="nav__menu__dash-items">Профиль</div>
                 <div class="nav__menu__dash-items">Объявление</div>
-                <div class="nav__menu__dash-items" @click="logout">Виход</div>
+                <div class="nav__menu__dash-items" @click="logout">Выход</div>
             </div>
             
         </div>
         <div class="nav__menu" @click='login' v-else style="display: flex; cursor:pointer; align-items: center;">
-            Вход <img src="/img/enter.svg" width="20" style="margin-left:0.5rem">
+            Войти в кабинет <img src="/img/enter.svg" width="20" style="margin-left:0.5rem">
         </div>
     </div>
 </template>

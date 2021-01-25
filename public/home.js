@@ -646,6 +646,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -675,7 +676,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   created: function created() {
     this.$router.replace({
-      path: "/"
+      path: "/dash"
     })["catch"](function (err) {});
     this.getEstates();
   },
@@ -707,7 +708,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.itemsOrder = id2;
       var que = this.changeRouterULR();
       this.$router.replace({
-        path: "/",
+        path: "/dash",
         query: que
       })["catch"](function (err) {});
       this.getEstates();
@@ -717,7 +718,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.itemsOrder = id;
       var que = this.changeRouterULR();
       this.$router.replace({
-        path: "/",
+        path: "/dash",
         query: que
       })["catch"](function (err) {});
       this.getEstates();
@@ -726,7 +727,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.cur_page = page;
       var que = this.changeRouterULRPagination();
       this.$router.replace({
-        path: "/",
+        path: "/dash",
         query: que
       })["catch"](function (err) {});
       this.getEstates();
@@ -735,9 +736,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this = this;
 
       this.estates = [];
-      this.$Progress.start(); // const { query }  = this.$route;
+      this.$Progress.start();
+      var query = window.location.href.split('?')[1];
 
-      axios.get(this.$api_url + "/" + this.url + "/" + this.$route.fullPath).then(function (response) {
+      if (query == undefined) {
+        query = '';
+      } else {
+        query = '?' + query;
+      } // const { query }  = this.$route;
+
+
+      axios.get(this.$api_url + "/" + this.url + "/" + query).then(function (response) {
         if (response.data.status) {
           if (response.data.estate.data.length != 0) {
             _this.count_all = response.data.estate.total;
@@ -834,6 +843,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2420,287 +2435,300 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "main__center fx-1" }, [
-    _c("div", { staticClass: "main__table__header fx vertical_center" }, [
-      _c("div", { staticClass: "main__table__header__items" }, [
-        _vm._v(_vm._s(_vm.count_all) + " найдено")
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "main__table__header__items" }, [
-        _c("div", { staticClass: "main__table__header__items__selection" }, [
-          _c(
-            "div",
-            { staticClass: "main__table__header__items__selection-items" },
-            _vm._l(_vm.show_date, function(date) {
-              return _c(
-                "div",
-                {
-                  key: date.id,
-                  class: { active: date.selected },
-                  on: {
-                    click: function($event) {
-                      return _vm.latest(date.id)
-                    }
-                  }
-                },
-                [_vm._v("\n            " + _vm._s(date.days) + "\n          ")]
-              )
-            }),
-            0
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "main__table__header__items" }, [
-        _c("div", { staticClass: "main__table__header__items__selection" }, [
-          _c(
-            "div",
-            { staticClass: "main__table__header__items__selection-items" },
-            _vm._l(_vm.order_items, function(orders) {
-              return _c(
-                "div",
-                {
-                  key: orders.id,
-                  class: { active: orders.selected },
-                  on: {
-                    click: function($event) {
-                      return _vm.orderItems(orders.id)
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    "\n            " + _vm._s(orders.order) + "\n          "
-                  )
-                ]
-              )
-            }),
-            0
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "main__table__header__items" }, [
-        this.search_text
-          ? _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.input_search,
-                  expression: "input_search"
-                }
-              ],
-              class: { active: _vm.search_active },
-              attrs: { type: "text", placeholder: "Продается квартира на ..." },
-              domProps: { value: _vm.input_search },
-              on: {
-                keydown: function($event) {
-                  return _vm.myChangeFunction(1)
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.input_search = $event.target.value
-                }
-              }
-            })
-          : _vm._e(),
+    _c(
+      "div",
+      { staticClass: "main__table__header fx vertical_center container" },
+      [
+        _c("div", { staticClass: "main__table__header__items" }, [
+          _vm._v(_vm._s(_vm.count_all) + " найдено")
+        ]),
         _vm._v(" "),
-        this.search_phone
-          ? _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.input_phone,
-                  expression: "input_phone"
-                }
-              ],
-              class: { active: _vm.search_active },
-              attrs: { type: "text", placeholder: "+998 (99) 999-99-99" },
-              domProps: { value: _vm.input_phone },
-              on: {
-                keydown: function($event) {
-                  return _vm.myChangeFunction(2)
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.input_phone = $event.target.value
-                }
-              }
-            })
-          : _vm._e(),
-        _vm._v(" "),
-        this.search_url
-          ? _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.input_url,
-                  expression: "input_url"
-                }
-              ],
-              class: { active: _vm.search_active },
-              attrs: {
-                type: "text",
-                placeholder: "https://www..../obyavlenie/prodaet..."
-              },
-              domProps: { value: _vm.input_url },
-              on: {
-                keydown: function($event) {
-                  return _vm.myChangeFunction(3)
-                },
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.input_url = $event.target.value
-                }
-              }
-            })
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.input_typing &&
-        (_vm.input_search.length != 0 ||
-          _vm.input_phone.length != 0 ||
-          _vm.input_url.length != 0)
-          ? _c("div", { staticClass: "showme" }, [
-              _vm.search_results.length == 0
-                ? _c(
-                    "div",
-                    {
-                      staticClass: "main__table-results",
-                      attrs: { tabindex: "0" },
-                      on: { focusout: _vm.handleFocusOut }
-                    },
-                    _vm._l(5, function(index) {
-                      return _c(
-                        "div",
-                        {
-                          key: index,
-                          staticClass: "main__table-results-loading"
-                        },
-                        [_c("h4"), _vm._v(" "), _c("p")]
-                      )
-                    }),
-                    0
-                  )
-                : _vm._e()
-            ])
-          : _vm._e(),
-        _vm._v(" "),
-        _vm.search_results.length != 0
-          ? _c(
+        _c("div", { staticClass: "main__table__header__items" }, [
+          _c("div", { staticClass: "main__table__header__items__selection" }, [
+            _c(
               "div",
-              {
-                staticClass: "main__table-results",
-                attrs: { tabindex: "0" },
-                on: { focusout: _vm.handleFocusOut }
-              },
-              _vm._l(_vm.search_results, function(result) {
+              { staticClass: "main__table__header__items__selection-items" },
+              _vm._l(_vm.show_date, function(date) {
                 return _c(
                   "div",
                   {
-                    key: result.id,
-                    staticClass: "result 3",
+                    key: date.id,
+                    class: { active: date.selected },
                     on: {
                       click: function($event) {
-                        return _vm.openwithslug(result.id, result.slug)
+                        return _vm.latest(date.id)
                       }
                     }
                   },
                   [
-                    _c("p", { domProps: { innerHTML: _vm._s(result.title) } }),
-                    _vm._v(" "),
-                    _c("p", {
-                      domProps: {
-                        innerHTML: _vm._s(
-                          result.body.length > 100
-                            ? "..." + result.body.substring(0, 100) + "..."
-                            : result.body + "..."
-                        )
-                      }
-                    })
+                    _vm._v(
+                      "\n            " + _vm._s(date.days) + "\n          "
+                    )
                   ]
                 )
               }),
               0
             )
-          : _vm._e()
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "main__table__header__items",
-          attrs: { title: "Поиск по текст" }
-        },
-        [
-          _c(
-            "div",
-            {
-              staticClass: "main__table__header__items__selection-items i_img"
-            },
-            [
-              _c("img", {
-                attrs: { src: this.btn_search, width: "25" },
-                on: { click: _vm.showSearchInput }
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "main__table__header__items" }, [
+          _c("div", { staticClass: "main__table__header__items__selection" }, [
+            _c(
+              "div",
+              { staticClass: "main__table__header__items__selection-items" },
+              _vm._l(_vm.order_items, function(orders) {
+                return _c(
+                  "div",
+                  {
+                    key: orders.id,
+                    class: { active: orders.selected },
+                    on: {
+                      click: function($event) {
+                        return _vm.orderItems(orders.id)
+                      }
+                    }
+                  },
+                  [
+                    _vm._v(
+                      "\n            " + _vm._s(orders.order) + "\n          "
+                    )
+                  ]
+                )
+              }),
+              0
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "main__table__header__items" }, [
+          this.search_text
+            ? _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.input_search,
+                    expression: "input_search"
+                  }
+                ],
+                class: { active: _vm.search_active },
+                attrs: {
+                  type: "text",
+                  placeholder: "Продается квартира на ..."
+                },
+                domProps: { value: _vm.input_search },
+                on: {
+                  keydown: function($event) {
+                    return _vm.myChangeFunction(1)
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.input_search = $event.target.value
+                  }
+                }
               })
-            ]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "main__table__header__items",
-          attrs: { title: "Поиск по номеру" }
-        },
-        [
-          _c(
-            "div",
-            {
-              staticClass: "main__table__header__items__selection-items i_img"
-            },
-            [
-              _c("img", {
-                attrs: { src: this.btn_phone, width: "25" },
-                on: { click: _vm.showPhoneInput }
+            : _vm._e(),
+          _vm._v(" "),
+          this.search_phone
+            ? _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.input_phone,
+                    expression: "input_phone"
+                  }
+                ],
+                class: { active: _vm.search_active },
+                attrs: { type: "text", placeholder: "+998 (99) 999-99-99" },
+                domProps: { value: _vm.input_phone },
+                on: {
+                  keydown: function($event) {
+                    return _vm.myChangeFunction(2)
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.input_phone = $event.target.value
+                  }
+                }
               })
-            ]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "main__table__header__items",
-          attrs: { title: "Поиск по ссылке" }
-        },
-        [
-          _c(
-            "div",
-            {
-              staticClass: "main__table__header__items__selection-items i_img"
-            },
-            [
-              _c("img", {
-                attrs: { src: this.btn_url, width: "25" },
-                on: { click: _vm.showUrlInput }
+            : _vm._e(),
+          _vm._v(" "),
+          this.search_url
+            ? _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.input_url,
+                    expression: "input_url"
+                  }
+                ],
+                class: { active: _vm.search_active },
+                attrs: {
+                  type: "text",
+                  placeholder: "https://www..../obyavlenie/prodaet..."
+                },
+                domProps: { value: _vm.input_url },
+                on: {
+                  keydown: function($event) {
+                    return _vm.myChangeFunction(3)
+                  },
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.input_url = $event.target.value
+                  }
+                }
               })
-            ]
-          )
-        ]
-      )
-    ]),
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.input_typing &&
+          (_vm.input_search.length != 0 ||
+            _vm.input_phone.length != 0 ||
+            _vm.input_url.length != 0)
+            ? _c("div", { staticClass: "showme" }, [
+                _vm.search_results.length == 0
+                  ? _c(
+                      "div",
+                      {
+                        staticClass: "main__table-results",
+                        attrs: { tabindex: "0" },
+                        on: { focusout: _vm.handleFocusOut }
+                      },
+                      _vm._l(5, function(index) {
+                        return _c(
+                          "div",
+                          {
+                            key: index,
+                            staticClass: "main__table-results-loading"
+                          },
+                          [_c("h4"), _vm._v(" "), _c("p")]
+                        )
+                      }),
+                      0
+                    )
+                  : _vm._e()
+              ])
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.search_results.length != 0
+            ? _c(
+                "div",
+                {
+                  staticClass: "main__table-results",
+                  attrs: { tabindex: "0" },
+                  on: { focusout: _vm.handleFocusOut }
+                },
+                _vm._l(_vm.search_results, function(result) {
+                  return _c(
+                    "div",
+                    {
+                      key: result.id,
+                      staticClass: "result 3",
+                      on: {
+                        click: function($event) {
+                          return _vm.openwithslug(result.id, result.slug)
+                        }
+                      }
+                    },
+                    [
+                      _c("p", {
+                        domProps: { innerHTML: _vm._s(result.title) }
+                      }),
+                      _vm._v(" "),
+                      _c("p", {
+                        domProps: {
+                          innerHTML: _vm._s(
+                            result.body.length > 100
+                              ? "..." + result.body.substring(0, 100) + "..."
+                              : result.body + "..."
+                          )
+                        }
+                      })
+                    ]
+                  )
+                }),
+                0
+              )
+            : _vm._e()
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "main__table__header__items",
+            attrs: { title: "Поиск по текст" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "main__table__header__items__selection-items i_img"
+              },
+              [
+                _c("img", {
+                  attrs: { src: this.btn_search, width: "25" },
+                  on: { click: _vm.showSearchInput }
+                })
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "main__table__header__items",
+            attrs: { title: "Поиск по номеру" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "main__table__header__items__selection-items i_img"
+              },
+              [
+                _c("img", {
+                  attrs: { src: this.btn_phone, width: "25" },
+                  on: { click: _vm.showPhoneInput }
+                })
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "main__table__header__items",
+            attrs: { title: "Поиск по ссылке" }
+          },
+          [
+            _c(
+              "div",
+              {
+                staticClass: "main__table__header__items__selection-items i_img"
+              },
+              [
+                _c("img", {
+                  attrs: { src: this.btn_url, width: "25" },
+                  on: { click: _vm.showUrlInput }
+                })
+              ]
+            )
+          ]
+        )
+      ]
+    ),
     _vm._v(" "),
-    _c("div", { staticClass: "main__table__body" }, [
+    _c("div", { staticClass: "main__table__body container" }, [
       _c(
         "table",
         { staticClass: "table table-hover", staticStyle: { width: "100%" } },
@@ -2765,10 +2793,6 @@ var render = function() {
                       }
                     },
                     [
-                      _c("th", { attrs: { scope: "row" } }, [
-                        _vm._v(_vm._s(estate.housingtype))
-                      ]),
-                      _vm._v(" "),
                       _c(
                         "td",
                         {
@@ -2785,43 +2809,103 @@ var render = function() {
                               _vm._s(estate.region) +
                               "\n            "
                           ),
-                          estate.ad_site == 1
-                            ? _c("span", [_vm._v("(ol)")])
-                            : _c("span", [_vm._v("(uy)")])
+                          _c("br"),
+                          estate.img != 0
+                            ? _c(
+                                "span",
+                                {
+                                  staticStyle: {
+                                    "font-size": "15px",
+                                    display: "flex",
+                                    "align-items": "center"
+                                  }
+                                },
+                                [
+                                  _c("img", {
+                                    staticStyle: { "margin-right": "0.2rem" },
+                                    attrs: {
+                                      src: "/img/camera.svg",
+                                      width: "17"
+                                    }
+                                  }),
+                                  _vm._v(" " + _vm._s(estate.img))
+                                ]
+                              )
+                            : _vm._e()
                         ]
                       ),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(estate.num_rooms))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(estate.total_area) + " m "),
-                        _c("sup", [_vm._v("2")])
-                      ]),
-                      _vm._v(" "),
                       _c("td", [
                         _vm._v(
-                          _vm._s(estate.floor) +
-                            " (" +
-                            _vm._s(estate.floor_house) +
-                            ")"
+                          _vm._s(estate.num_rooms) +
+                            "/" +
+                            _vm._s(estate.floor) +
+                            "/" +
+                            _vm._s(estate.floor_house)
                         )
                       ]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v("Об: " + _vm._s(estate.total_area) + " m "),
+                        _c("sup", [_vm._v("2")]),
+                        _vm._v(" "),
+                        estate.living_space
+                          ? _c("span", [
+                              _c("br"),
+                              _vm._v(
+                                "Жл: " + _vm._s(estate.living_space) + " m"
+                              ),
+                              _c("sup", [_vm._v("2")])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        estate.kitchen_area
+                          ? _c("span", [
+                              _c("br"),
+                              _vm._v(
+                                "Кх: " + _vm._s(estate.kitchen_area) + " m"
+                              ),
+                              _c("sup", [_vm._v("2")])
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c("td"),
                       _vm._v(" "),
                       _c("td", [
                         _vm._v(
                           "\n            " +
-                            _vm._s(estate.price) +
+                            _vm._s(
+                              new Intl.NumberFormat().format(estate.price)
+                            ) +
                             " " +
                             _vm._s(estate.currency) +
-                            " " +
-                            _vm._s(estate.count_price) +
-                            "\n          "
-                        )
+                            " "
+                        ),
+                        _c("br"),
+                        _vm._v(
+                          _vm._s(
+                            new Intl.NumberFormat().format(estate.cur_alter)
+                          ) + " \n            "
+                        ),
+                        estate.currency == "у.е"
+                          ? _c("span", [_vm._v("сум")])
+                          : _c("span", [_vm._v("у.е")])
                       ]),
                       _vm._v(" "),
                       _c("td", [_vm._v(_vm._s(estate.remont))]),
                       _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(estate.update_time))])
+                      _c(
+                        "td",
+                        { staticStyle: { "text-decoration": "underline" } },
+                        [_vm._v("показать номер")]
+                      ),
+                      _vm._v(" "),
+                      _c("td", [
+                        _c("span", {
+                          domProps: { innerHTML: _vm._s(estate.update_time) }
+                        })
+                      ])
                     ]
                   )
                 }),
@@ -2906,7 +2990,7 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("thead", [
-      _c("tr", [
+      _c("tr", { staticStyle: { display: "none" } }, [
         _c("th", { attrs: { scope: "col" } }, [_vm._v("#")]),
         _vm._v(" "),
         _c(
@@ -2922,11 +3006,11 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Площадь")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Этаж")]),
-        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Цена")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Ремонт")]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Номер")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Обновлено")])
       ])

@@ -5,5 +5,7 @@
     "/Owner.js": "/Owner.js",
     "/OwnerEach.js": "/OwnerEach.js",
     "/home.js": "/home.js",
-    "/vendors~Owner~OwnerEach~home.js": "/vendors~Owner~OwnerEach~home.js"
+    "/vendors~Owner~OwnerEach~home.js": "/vendors~Owner~OwnerEach~home.js",
+    "/main.js": "/main.js",
+    "/vendors~Owner~OwnerEach~home~main.js": "/vendors~Owner~OwnerEach~home~main.js"
 }

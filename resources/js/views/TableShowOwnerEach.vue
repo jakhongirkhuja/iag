@@ -74,7 +74,7 @@
           
         </div>
         <tbody v-else style="text-align: center">
-          <tr
+          <tr v-bind:class="[{ notactive: estate.status==2 }, errorClass]"
             v-for="estate in estates"
             :key="estate.id"
             v-on:click="openEstate(estate.slug)"
@@ -270,4 +270,5 @@ export default {
     padding-bottom: 1rem;
     
   }
+  
 </style>

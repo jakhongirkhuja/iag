@@ -729,6 +729,7 @@ var render = function() {
                       _c("div", [
                         _c("iframe", {
                           staticClass: "pt-1",
+                          staticStyle: { "max-width": "640px" },
                           attrs: {
                             width: "100%",
                             height: "300",

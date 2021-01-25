@@ -108,99 +108,105 @@ class IndexController extends Controller
     }
     public function admin()
     {
-        
-        // dd(Estate::where('img','!=',"['']")->first());
-        // $st1 = 'sd';
-        // $st2 = 'sd';
-        // dd($st1==$st2);
-        // $owner = Owner::with('estates')
-        // ->withCount('estates')
-        // ->orderBy('estates_count', 'asc')
-        // ->get()->take(5);
-        // dd($owner, Owner::first()->estates->count());
-        // dd(Estate::first());
-        // $estate = Estate::where('currency', null)->get();
-        // dd($estate);
-        // foreach($estate as $es){
-        //     $check_price= Price::where('estate_id', $es->id)->where('price', $es->price)->first();
-        //     if($check_price){
-        //         $es->currency = $check_price->currency;
-        //         $es->save();
-        //     }
-        // }
-        
-		// $content = 'nomer: '.$number.',  summa: '.$price.', zakaz-id: '.$order_id;
-		// $body = '{"mobile_phone":"'.$number.'", "message":"'.$content.'"}';
-		// $r = $client->request('POST', 'notify.eskiz.uz/api/message/sms/send', [
-		// 	'body' => $body
-		// ]);
-		// $response = $r->getBody()->getContents();
-        // $estates = Estate::all();
-        // foreach ($estates as $key => $estate) {
-        //     $items =json_decode($estate->price, true); 
-        //     if(count($items)>3){
-        //         $price_last =  last($items)['price'];
-        //         // dd($items);
-        //         foreach ($items as $keys => $item) {
+        $urls = Estate::where('status',1)->where(function ($query){
+            $query->where('checked_at', null)
+            ->orwhere('checked_at','<', Carbon::today()->subWeek());
+        })->orderby('updated_at','asc')->take(10)->get();;
+        if(count($urls)>0){
+            $statuserror = [];
+            $statusgood = [];
+            foreach ($urls as $url) {
+                $intered = false;
+                echo $url->url;
+                var_dump($url->url);
+                if($url->ad_site==1){
+                    $response = Http::get($url->url);
                     
-                   
-        //             if(is_array($item)){
-        //                 $price = Price::where('estate_id', $estate->id)->where('price',$item['price'])->first();
-        //                 if(!$price){
-        //                     $new_price = new Price();
-        //                     $new_price->estate_id = $estate->id;
-        //                     $new_price->price = $item['price'];
-        //                     $new_price->currency = $item['currency'];
-        //                     $new_price->updated_at = Str::of($item['time'])->replace('"','');
-        //                     // dd($item['time']);
-        //                     $new_price->save();
-        //                 }
-        //                 // $arrs[]=$item['price'];
-        //                 // $arr_cur[] = $item['currency'];  
-        //             //    dd($item['price']);
-        //             }else{
+                    var_dump($response->status());
+                    if($response->status()==200){
+                        $str = $response->body();
+                        $contains = Str::contains($str, 'Простите, но данное объявление больше не доступно');
+                        if($contains){
+                            $statuserror[]= $url->id;
+                            // $url->status = 2;
+                            // $url->timestamps = false;
+                            // $url->checked_at = Carbon::now();
+                            // $url->save();
+                            $intered = true;
+                            var_dump('Простите, но данное объявление');
+                        }
                        
-        //                 // if(is_string($item)){
-        //                 //     $arrs[] =$item; 
-        //                 // }else{
-        //                 //     $arrs[] =$item; 
-                            
-        //                 // }
-        //                 // dd($arrs);
+                        $contains = Str::contains($str, 'Нам жаль, но мы не нашли эту страницу');
+                        if($contains){
+                           
+                            // $url->status = 2;
+                            $statuserror[]= $url->id;
+                            // $url->timestamps = false;
+                            // $url->checked_at = Carbon::now();
+                            // $url->save();
+                            $intered = true;
+                            var_dump('Нам жаль, но мы не нашли');
+                        }
+                       
                         
-        //             }
-        //         }
-        //         // dd($arrs, $arr_cur);
-        //         // $es['price'] = last($items)['price'];
-        //         // $es['price_cur'] = last($items)['currency'];
-        //     }else{
-        //         $price_last =$items['price'];
-        //         // dd($items['price']);
-        //         // $es['price_cur'] = $items['currency'];
-        //         // $es['price'] = $items['price'];
-        //         $price = Price::where('estate_id', $estate->id)->where('price',$items['price'])->first();
-        //         if(!$price){
-        //             $new_price = new Price();
-        //             $new_price->estate_id = $estate->id;
-        //             $new_price->price = $items['price'];
-        //             $new_price->currency = $items['currency'];
+                        $contains = Str::contains($str, 'Объявление не активно');
+                        if($contains){
+                           
+                            // $url->status = 2;
+                            // $url->timestamps = false;
+                            // $url->checked_at = Carbon::now();
+                            // $url->save();
+                            $statuserror[]= $url->id;
+                            $intered = true;
+                            var_dump('Объявление не активно');
+                        }
+                       
+                        
+                    }
+                    if($response->status()==404){
+                        
+                        // $url->status = 2;
+                        // $url->timestamps = false;
+                        // $url->checked_at = Carbon::now();
+                        // $url->save();
+                        $statuserror[]= $url->id;
+                        $intered = true;
+                        var_dump('here it is ');
+                    }
                     
-        //             $new_price->updated_at = Str::of($items['time'])->replace('"','');
-                   
-        //             $new_price->save();
-        //         }
-        //     }
-        //     $estate->price = $price_last;
-        //     $estate->save();
-        // }
-        // dd(count(Estate::all()->take(15)));
-    //      User::query()
-    // ->addSelect(['last_login_at' => Login::select('created_at')
-    //     ->whereColumn('user_id', 'users.id')
-    //     ->latest()
-    //     ->take(1)
-    // ])Price::where('estate_id', $estate_id)->where('price', (int)$price_notchanged)->first();
-    $yesterday = date("Y-m-d", strtotime( '-1 days' ) );
+                    
+                }else{
+                    $response = Http::get('https://uybor.uz/api/v2/listing/view/'.$url->ad_id);
+                    if($response->status()==404){
+                        // $url->timestamps = false;
+                        // $url->checked_at = Carbon::now();
+                        // $url->status = 2;
+                        // $url->save();
+                        $statuserror[]= $url->id;
+                        $intered = true;
+                        var_dump('uybor it is ');
+                    }
+                }
+                if(!$intered){
+                    // $url->timestamps = false;
+                    // $url->checked_at = Carbon::now();
+                    // $url->save();
+                    $statusgood[] = $url->id;
+                    var_dump('just changed checked_at');
+                }
+                sleep(2);
+            }
+        }
+         // $url->timestamps = false;
+                        // $url->checked_at = Carbon::now();
+                        // $url->status = 2;
+                        // $url->save();
+            $bad = DB::table('estates')->whereIn('id', $statuserror)
+              ->update(['status' => 2, 'checked_at'=>Carbon::now()],  ['timestamps' => false]);
+              $good =  DB::table('estates')->whereIn('id', $statusgood)
+              ->update(['checked_at'=>Carbon::now()],  ['timestamps' => false]);
+        dd($urls, $statuserror, $statusgood,$bad, $good);
+        $yesterday = date("Y-m-d", strtotime( '-1 days' ) );
     $countYesterdayOLX = Estate::where('ad_site',1)->whereDate('created_at', $yesterday )->get();
     if(count($countYesterdayOLX)>0){
         echo 'Olx:'.'('.Carbon::parse($countYesterdayOLX[0]->created_at)->format('d-m-Y').' ) '.count($countYesterdayOLX);
@@ -216,33 +222,6 @@ class IndexController extends Controller
     }
     
     
-    // $users = DB::table('estates')
-    
-    //         ->join('prices', function  ($join){
-    //             $join->on('estates.id', '=', 'prices.estate_id');
-    //             $join->on('estates.price','=','prices.price');
-    //         })
-            
-    //         ->where('prices.currency','сум')
-            
-    //         ->get()->take(5);
-    // dd($users);
-    
-                    // $slug = '245-ulucs-panel-cilanzar-20-61m2-balkon-26';
-        // dd(Carbon::now(), Price::orderby('created_at','desc')->where('estate_id',Estate::where('slug', $slug)->first()->id)->get(), 
-            // Estate::where('slug', $slug)->first());
-       
-        // $estate = Estate::where('slug', $slug)->first();
-        //  $time_change = json_decode($estate->ad_update_at, true);
-        //  if(count($time_change)==1){
-        //        $ok =  end($time_change);
-        //     }else{
-        //         $ok =end($time_change)['time'];
-        //     }
-             // dd($ok, $estate);
-        // $estate = Estate::where('slug','prodam-dvuxurovnevuyu-kvartiru-489-v-zk-parisien-1603015869')->first();
-        // dd($estate);
-        // dd(Owner::where('number','+998909728881')->first()->estates()->where('ad_site','1')->get());
-        return view('admin/index');
+     return view('admin/index');
     }
 }

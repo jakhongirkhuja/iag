@@ -46,6 +46,7 @@
                       <div v-if="owner.oldhouse_count!=0" class="main__table__owners--counting-items">
                           Вторичный: {{ owner.oldhouse_count}} 
                       </div>
+                     
                   </div>
               </div>
               <div class="main__table__owners--buttons">

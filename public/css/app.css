@@ -371,6 +371,7 @@ button:disabled:hover {
   font-size: 1rem;
   margin-top: 1rem;
   cursor: pointer;
+  line-height: 1.3rem;
 }
 
 .main__table__body tbody tr:hover {
@@ -726,6 +727,10 @@ button:disabled:hover {
   to {
     opacity: 0.8;
   }
+}
+
+.notactive {
+  text-decoration: line-through;
 }
 
 .estate {

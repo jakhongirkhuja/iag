@@ -20,6 +20,7 @@ use App\Models\ParsingPage;
 use App\Models\Price;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class ApiController extends Controller
 {
@@ -1094,16 +1095,18 @@ class ApiController extends Controller
             ->paginate(20);
 
         // dd($estate);
+        $currence =  Http::get('https://cbu.uz/ru/services/open_data/rates/json/');
+        if($currence->ok()){
+            $usd = (int)$currence[0]['G4'];
+           
+        }else{
+            $usd = 10400;
+        }
+
         foreach ($estate as $es) {
             // dd($es->asin_type);
             $es['price_cur'] = $es->currency;
-            if ((int)$es['house_type'] == 1) {
-                // dd($es);
-                $es['housingtype'] = 'вр';
-            } elseif ($es['house_type'] == 2 || $es['house_type'] == null) {
-                
-                $es['housingtype'] = 'нв';
-            }
+           
             $remont = $es->getRemont();
             if ($remont) {
                 $es['remont'] = $remont->name;
@@ -1117,7 +1120,22 @@ class ApiController extends Controller
             if ($region) {
                 $es['region'] = $region->name;
             }
-            $es['update_time'] = Carbon::parse($es->updated_at)->locale('ru_RU')->diffForHumans();
+            if($es->currency=='у.е'){
+               
+                $es['cur_alter'] = (int)$es->price*$usd;
+            }else{
+                $es['cur_alter'] = (int)$es->price/$usd;
+            }
+            if (Str::contains($es->img, 'https')) {
+                $c_img = count(explode(",", Str::of($es->img)->replace('[', '')->replace(']', '')->replace("'", '')->replace(' ', '')));
+                $es['img'] = $c_img;
+               
+                 
+            }else{
+                $es['img'] = 0;
+            }
+            $format = Carbon::parse($es->updated_at)->locale('ru_RU');
+            $es['update_time'] = $format->format('d.m.y') . '<br>'. $format->format('H:i');
             $es['created_time'] = Carbon::parse($es->created_at)->locale('ru_RU')->diffForHumans();
         }
 
@@ -1390,8 +1408,9 @@ class ApiController extends Controller
             $amount = $owner->estates()->get();
             if (count($amount) > 0) {
                 $owner['amount'] = count($amount);
-                $owner['newhouse'] = count($owner->estates()->where('ad_site', 1)->get());
-                $owner['oldhouse'] = count($owner->estates()->where('ad_site', 2)->get());
+                $owner['newhouse'] = $owner->estates()->where('house_type', 2)->count();
+                $owner['oldhouse'] = $owner->estates()->where('house_type', 1)->count();
+                $owner['archive']  = $owner->estates()->where('status', 2)->count();
             }
             return response()->json([
                 'status' => true,
@@ -1455,6 +1474,43 @@ class ApiController extends Controller
                 'error' => 'not post request',
             ]);
         }
+    }
+    public function getposttocheck()
+    {
+        return response()->json([
+            'status' => true,
+            'estate' => Estate::select('id','url', 'ad_site','ad_id')->where('status', 1)->orderby('updated_at','desc')->take(50)->get(),
+        ]);
+    }
+    public function setStatusEstate(Request $request)
+    {
+        if($request->isMethod('post')){
+            $header =  $request->header('token');
+            if($header=='2HixxqWaeJ6hJKGw3XxZcCaHSXo0XEHIZhdIPOb6zNMPpna84uRN4IRYzDid28Ck2XegJkInTsXs7dCNXE2HQlgD1ijuviUy9NCMbbC2sX9re2EIF5GeMD3VhnGcAn4fhrYrdiiTF6a0xOzko7Ef2m')
+            {
+               $estate = Estate::find($request->id);
+               if($estate){
+                    $estate->status == 2;
+                    if($estate->save()){
+                        return response()->json([
+                            'status' => true,
+                        ]);
+                    }
+               }
+               return response()->json([
+                    'status' => false,
+                ]);
+            }else{
+                return response()->json([
+                    'status' => false,
+                    'error'=>'not authenticated'
+                ],401);
+            }
+        }
+        return response()->json([
+            'status' => false,
+            'error'=>'not post method'
+        ]);
     }
     
 }

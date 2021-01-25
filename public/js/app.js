@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"Estate":"Estate","vendors~Owner~OwnerEach~home":"vendors~Owner~OwnerEach~home","Owner":"Owner","OwnerEach":"OwnerEach","home":"home"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"Estate":"Estate","vendors~Owner~OwnerEach~home~main":"vendors~Owner~OwnerEach~home~main","Owner":"Owner","OwnerEach":"OwnerEach","home":"home","main":"main"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -44780,7 +44780,11 @@ var render = function() {
     _c(
       "div",
       { staticClass: "fx-1 nav__logo", on: { click: _vm.gotohomepage } },
-      [_vm._v("\n        Iagent Test\n    ")]
+      [
+        _c("img", {
+          attrs: { src: this.$api_url + "/img/iagent.png", width: "75" }
+        })
+      ]
     ),
     _vm._v(" "),
     _vm.user.length != 0
@@ -44820,7 +44824,7 @@ var render = function() {
                     staticClass: "nav__menu__dash-items",
                     on: { click: _vm.logout }
                   },
-                  [_vm._v("Виход")]
+                  [_vm._v("Выход")]
                 )
               ])
             : _vm._e()
@@ -44837,7 +44841,7 @@ var render = function() {
             on: { click: _vm.login }
           },
           [
-            _vm._v("\n        Вход "),
+            _vm._v("\n        Войти в кабинет "),
             _c("img", {
               staticStyle: { "margin-left": "0.5rem" },
               attrs: { src: "/img/enter.svg", width: "20" }
@@ -60311,9 +60315,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "routes", function() { return routes; });
 var routes = [{
   path: '/',
+  name: 'main',
+  component: function component() {
+    return Promise.all(/*! import() | main */[__webpack_require__.e("vendors~Owner~OwnerEach~home~main"), __webpack_require__.e("main")]).then(__webpack_require__.bind(null, /*! ./views/Main */ "./resources/js/views/Main.vue"));
+  }
+}, {
+  path: '/dash',
   name: 'home',
   component: function component() {
-    return Promise.all(/*! import() | home */[__webpack_require__.e("vendors~Owner~OwnerEach~home"), __webpack_require__.e("home")]).then(__webpack_require__.bind(null, /*! ./views/Home */ "./resources/js/views/Home.vue"));
+    return Promise.all(/*! import() | home */[__webpack_require__.e("vendors~Owner~OwnerEach~home~main"), __webpack_require__.e("home")]).then(__webpack_require__.bind(null, /*! ./views/Home */ "./resources/js/views/Home.vue"));
   }
 }, {
   path: '/estate/:slug',
@@ -60325,13 +60335,13 @@ var routes = [{
   path: '/owners',
   name: 'owners',
   component: function component() {
-    return Promise.all(/*! import() | Owner */[__webpack_require__.e("vendors~Owner~OwnerEach~home"), __webpack_require__.e("Owner")]).then(__webpack_require__.bind(null, /*! ./views/Owners */ "./resources/js/views/Owners.vue"));
+    return Promise.all(/*! import() | Owner */[__webpack_require__.e("vendors~Owner~OwnerEach~home~main"), __webpack_require__.e("Owner")]).then(__webpack_require__.bind(null, /*! ./views/Owners */ "./resources/js/views/Owners.vue"));
   }
 }, {
   path: '/owners/:id',
   name: 'OwnersEach',
   component: function component() {
-    return Promise.all(/*! import() | OwnerEach */[__webpack_require__.e("vendors~Owner~OwnerEach~home"), __webpack_require__.e("OwnerEach")]).then(__webpack_require__.bind(null, /*! ./views/OwnersEach */ "./resources/js/views/OwnersEach.vue"));
+    return Promise.all(/*! import() | OwnerEach */[__webpack_require__.e("vendors~Owner~OwnerEach~home~main"), __webpack_require__.e("OwnerEach")]).then(__webpack_require__.bind(null, /*! ./views/OwnersEach */ "./resources/js/views/OwnersEach.vue"));
   }
 }];
 

@@ -2,6 +2,11 @@
 export const routes = [
     {
         path: '/',
+        name: 'main',
+        component: () => import(/* webpackChunkName: "main" */ './views/Main')
+    },
+    {
+        path: '/dash',
         name: 'home',
         component: () => import(/* webpackChunkName: "home" */ './views/Home')
     },

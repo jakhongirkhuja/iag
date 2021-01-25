@@ -362,6 +362,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "owners",
   props: ["owners", "pagination", "count_all", "next_page", "prev_page", "cur_page", "last_page", "empty_owners", "ownerstype"],

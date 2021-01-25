@@ -13,18 +13,21 @@
       />
     </div>
     <RigtSideBar />
+    
   </div>
 </template>
 <script>
 import Filter_s from "../layouts/Filter_s";
 import TableShow from "../views/TableShow";
 import RigtSideBar from "../layouts/RigtSideBar";
+
 export default {
   name: "home",
   components: {
     Filter_s,
     RigtSideBar,
     TableShow,
+    
   },
   data: function () {
     return {
@@ -50,7 +53,7 @@ export default {
   created() {
     this.$router
         .replace({
-          path: "/",
+          path: "/dash",
         })
         .catch((err) => {});
     this.getEstates();
@@ -88,7 +91,7 @@ export default {
 
       this.$router
         .replace({
-          path: "/",
+          path: "/dash",
           query: que,
         })
         .catch((err) => {});
@@ -100,7 +103,7 @@ export default {
       let que = this.changeRouterULR();
       this.$router
         .replace({
-          path: "/",
+          path: "/dash",
           query: que,
         })
         .catch((err) => {});
@@ -111,7 +114,7 @@ export default {
       let que = this.changeRouterULRPagination();
       this.$router
         .replace({
-          path: "/",
+          path: "/dash",
           query: que,
         })
         .catch((err) => {});
@@ -120,9 +123,16 @@ export default {
     getEstates() {
       this.estates = [];
       this.$Progress.start();
+       var query = window.location.href.split('?')[1];
+     
+      if(query ==undefined){
+        query ='';
+      }else{
+        query = '?'+query;
+      }
       // const { query }  = this.$route;
       axios
-        .get(this.$api_url + "/" + this.url + "/" + this.$route.fullPath)
+        .get(this.$api_url + "/" + this.url + "/"+query )
         .then((response) => {
           if (response.data.status) {
             if (response.data.estate.data.length != 0) {

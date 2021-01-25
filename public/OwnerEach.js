@@ -45,6 +45,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'OwnersEach',
@@ -626,6 +627,13 @@ var render = function() {
                   _vm._v("Вторичный рынок:"),
                   _c("b", [_vm._v(" " + _vm._s(_vm.owner.oldhouse))])
                 ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.owner.archive != 0 && _vm.owner.archive != null
+              ? _c("div", [
+                  _vm._v("В архиве:"),
+                  _c("b", [_vm._v(" " + _vm._s(_vm.owner.archive))])
+                ])
               : _vm._e()
           ])
         ]),
@@ -829,6 +837,10 @@ var render = function() {
                     "tr",
                     {
                       key: estate.id,
+                      class: [
+                        { notactive: estate.status == 2 },
+                        _vm.errorClass
+                      ],
                       on: {
                         click: function($event) {
                           return _vm.openEstate(estate.slug)

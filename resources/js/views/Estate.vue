@@ -128,7 +128,7 @@
                                 marginheight="0" 
                                 marginwidth="0" 
                                 :src="this.estate.map"
-                                >
+                                 style="max-width: 640px;">
                                 </iframe> 
                             </div>
                              

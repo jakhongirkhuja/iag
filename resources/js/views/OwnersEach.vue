@@ -7,6 +7,7 @@
                     <div>продажа: <b>{{owner.amount}}</b></div>
                     <div v-if="owner.newhouse!=0 && owner.newhouse!=null">Новостройки:<b> {{owner.newhouse}}</b></div>
                     <div v-if="owner.oldhouse!=0 && owner.oldhouse!=null">Вторичный рынок:<b> {{owner.oldhouse}}</b></div>
+                    <div v-if="owner.archive!=0 && owner.archive!=null">В архиве:<b> {{owner.archive}}</b></div>
                 </div>
                 
             </div>

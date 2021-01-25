@@ -52,7 +52,8 @@ class LoginController extends Controller
                 $user = User::where('email', $userResponse->getEmail())->first();
                 if($user){
                     if(Carbon::parse($user->created_token)->diffInMinutes(Carbon::now()) < 5){
-                        return redirect('/?user='.$user->remember_token);
+                        Auth::login($user);
+                        return redirect('/');
                     }else{
                         $user->remember_token = hash('sha256', Str::random(60));
                         $user->created_token = Carbon::now();

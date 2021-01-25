@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Estate;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\DB;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -36,54 +36,107 @@ class CheckUrl implements ShouldQueue
      */
     public function handle()
     {
-        $urls = Estate::where('status', 1)->get();
+        $urls = Estate::where('status',1)->where(function ($query){
+            $query->where('checked_at', null)
+            ->orwhere('checked_at','<', Carbon::today()->subWeek());
+        })->orderby('updated_at','asc')->take(10)->get();
+        $statuserror = [];
+        $statusgood = [];
         if(count($urls)>0){
+            
             foreach ($urls as $url) {
+                $intered = false;
+                echo $url->url;
+                var_dump($url->url);
                 if($url->ad_site==1){
                     $response = Http::get($url->url);
+                    
                     var_dump($response->status());
                     if($response->status()==200){
                         $str = $response->body();
                         $contains = Str::contains($str, 'Простите, но данное объявление больше не доступно');
                         if($contains){
-                            $estate = Estate::find($url->id);
-                            $estate->status = 2;
-                            $estate->save();
+                            $statuserror[]= $url->id;
+                            // $url->status = 2;
+                            // $url->timestamps = false;
+                            // $url->checked_at = Carbon::now();
+                            // $url->save();
+                            $intered = true;
+                            var_dump('Простите, но данное объявление');
                         }
-                        var_dump($contains, $url->url);
+                       
                         $contains = Str::contains($str, 'Нам жаль, но мы не нашли эту страницу');
                         if($contains){
-                            $estate = Estate::find($url->id);
-                            $estate->status = 2;
-                            $estate->save();
+                           
+                            // $url->status = 2;
+                            $statuserror[]= $url->id;
+                            // $url->timestamps = false;
+                            // $url->checked_at = Carbon::now();
+                            // $url->save();
+                            $intered = true;
+                            var_dump('Нам жаль, но мы не нашли');
                         }
-                        var_dump($contains);
+                       
                         
                         $contains = Str::contains($str, 'Объявление не активно');
                         if($contains){
-                            $estate = Estate::find($url->id);
-                            $estate->status = 2;
-                            $estate->save();
+                           
+                            // $url->status = 2;
+                            // $url->timestamps = false;
+                            // $url->checked_at = Carbon::now();
+                            // $url->save();
+                            $statuserror[]= $url->id;
+                            $intered = true;
+                            var_dump('Объявление не активно');
                         }
-                        var_dump($contains);
+                       
                         
                     }
                     if($response->status()==404){
-                        $estate = Estate::find($url->id);
-                        $estate->status = 2;
-                        $estate->save();
+                        
+                        // $url->status = 2;
+                        // $url->timestamps = false;
+                        // $url->checked_at = Carbon::now();
+                        // $url->save();
+                        $statuserror[]= $url->id;
+                        $intered = true;
+                        var_dump('here it is ');
                     }
+                    
+                    
                 }else{
                     $response = Http::get('https://uybor.uz/api/v2/listing/view/'.$url->ad_id);
                     if($response->status()==404){
-                        $estate = Estate::find($this->id);
-                        $estate->status = 2;
-                        $estate->save();
+                        // $url->timestamps = false;
+                        // $url->checked_at = Carbon::now();
+                        // $url->status = 2;
+                        // $url->save();
+                        $statuserror[]= $url->id;
+                        $intered = true;
+                        var_dump('uybor it is ');
                     }
                 }
-                sleep(5);
+                if(!$intered){
+                    // $url->timestamps = false;
+                    // $url->checked_at = Carbon::now();
+                    // $url->save();
+                    $statusgood[] = $url->id;
+                    var_dump('just changed checked_at');
+                }
+                sleep(2);
             }
+            var_dump('start to update');
+            $bad = DB::table('estates')->whereIn('id', $statuserror)
+                ->update(['status' => 2, 'checked_at'=>Carbon::now()],  ['timestamps' => false]);
+            $good =  DB::table('estates')->whereIn('id', $statusgood)
+                ->update(['checked_at'=>Carbon::now()],  ['timestamps' => false]);
+            var_dump('updated finished');
         }
+         // $url->timestamps = false;
+                        // $url->checked_at = Carbon::now();
+                        // $url->status = 2;
+                        // $url->save();
+        
     }
 }
 
