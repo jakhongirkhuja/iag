@@ -25,7 +25,7 @@
                         </div>
                         <div class="footer__each">
                             <h3>Звоните или Пишите</h3>
-                            <p class="fx vertical_center"><a href="tel:+998946121812" style="margin-right:1rem">+998 ( 94 ) 612-18-12</a> <a href="https://t.me/Bakers_Dozen"><img src="img/telegram.png" width="32"></a> </p>
+                            <p class="fx vertical_center"><a href="tel:+998946121812" style="margin-right:1rem">+998 ( 94 ) 612-18-12</a> <a href="https://t.me/Bakers_Dozen"><img src="{{ asset('img/telegram.png') }}" width="32"></a> </p>
                         </div>
                        
                     </div>
@@ -53,5 +53,14 @@
             }
         </style>
         <script src="{{ asset('js/app.js') }}"></script>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-7CY9YCM3HK"></script>
+        <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-7CY9YCM3HK');
+        </script>
     </body>
 </html>

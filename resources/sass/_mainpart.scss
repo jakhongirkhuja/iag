@@ -27,11 +27,20 @@
         position: relative;
     }
     &__table__body tbody tr {
-        height: 31px;
+        min-height: 31px;
         font-size: 1rem;
-        margin-top: 1rem;
         cursor: pointer;
-        line-height: 1.3rem;
+        line-height: 1.8rem; 
+        position: relative;
+    }
+    &__table__body tbody tr::after{
+        content: "";
+        display: block;
+        width: 100%;
+        height: 1px;
+        background-color: whitesmoke;
+        position: absolute;
+        left: 0;
     }
     &__table__body tbody tr:hover {
         background-color: $primary_light;
@@ -329,4 +338,9 @@ to {left: 100%;}
 
 .notactive{
     text-decoration: line-through;
+}
+.under_price{
+    color: #bbb4b4;
+    position: relative;
+    line-height: 1.5rem;
 }

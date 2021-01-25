@@ -1134,6 +1134,20 @@ class ApiController extends Controller
             }else{
                 $es['img'] = 0;
             }
+            $change = Price::select('price', 'created_at')->where('estate_id', $es->id)->orderby('created_at','desc')->take(2)->get();
+            if(count($change)>1){
+               
+                if((int)$change[0]->price>(int)$change[1]->price){
+                    $es['price_change'] = 1;
+                }else{
+                    $es['price_change'] = -1;
+                   
+                }
+                
+            }else{
+                $es['price_change'] = 0;
+            }
+            
             $format = Carbon::parse($es->updated_at)->locale('ru_RU');
             $es['update_time'] = $format->format('d.m.y') . '<br>'. $format->format('H:i');
             $es['created_time'] = Carbon::parse($es->created_at)->locale('ru_RU')->diffForHumans();

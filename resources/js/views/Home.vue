@@ -210,7 +210,7 @@ export default {
       }
      
       this.$router.replace({
-        path: "/",
+        path: "/dash",
         query: {
           type: type,
           latest: this.latest,
