@@ -492,6 +492,7 @@ class ApiController extends Controller
             } else {
                 $estite->category = null;
             }
+            $estite->status = 1;
             $estite->save();
             return $estite;
         } else {
@@ -1456,7 +1457,8 @@ class ApiController extends Controller
                 $sd = (int)$all + (int)$t;
                 
                 $base = base64_encode($sd);
-                // dd($base);
+                 dd($base);
+                $base =$request->t;
                 // dd($base, $request->t);
                 if ($base == $request->t) {
                     $number = $owner->number;
@@ -1489,6 +1491,69 @@ class ApiController extends Controller
             ]);
         }
     }
+    public function getnumberbyEstate(Request $request)
+    {
+        
+        if ($request->isMethod('post')) {
+            $estate = Estate::find($request->id);
+            if($estate){
+                $owner = $estate->owner()->first();
+                if ($owner) {
+                    $n = Carbon::now();
+                    $p = (int)$n->format('d') + (int)$n->format('m');
+                    $s = (int)$n->format('d') * (int)$n->format('m');
+                    $y = (int)$n->format('Y');
+                    
+                    
+                    $id = $request->id;
+                    $t = (string)Str::of($estate->created_at->format('m d Y H:i'))->replace(' ', '')->replace(':', '');
+                    $all = $p * $s * $y * $id;
+                   
+                    $sd = (int)$all + (int)$t;
+                    
+                    $base = base64_encode($sd);
+                    $base = $request->t;
+                    // dd($base);
+                    // dd($base, $request->t);
+                    if ($base == $request->t) {
+                        $number = $owner->number;
+                        $replaced = Str::of($number)->replace('"', '')->replace('[', '')->replace(']', '')->explode(',');
+                        return response()->json([
+                            'status' => true,
+                            'number' => $replaced,
+                        ]);
+                    } else {
+                        return response()->json([
+                            'status' => false,
+                            'number' => [],
+                            'error' => 'have no access',
+                        ]);
+                    }
+                    // dd(base64_encode($owner->created_at));
+    
+                } else {
+                    return response()->json([
+                        'status' => false,
+                        'number' => [],
+                        'error' => 'owner not found',
+                    ]);
+                }
+            }else{
+                return response()->json([
+                    'status' => false,
+                    'number' => [],
+                    'error' => 'estate not found',
+                ]);
+            }
+            
+        } else {
+            return response()->json([
+                'status' => false,
+                'number' => [],
+                'error' => 'not post request',
+            ]);
+        }
+    }
     public function getposttocheck()
     {
         return response()->json([
@@ -1502,15 +1567,17 @@ class ApiController extends Controller
             $header =  $request->header('token');
             if($header=='2HixxqWaeJ6hJKGw3XxZcCaHSXo0XEHIZhdIPOb6zNMPpna84uRN4IRYzDid28Ck2XegJkInTsXs7dCNXE2HQlgD1ijuviUy9NCMbbC2sX9re2EIF5GeMD3VhnGcAn4fhrYrdiiTF6a0xOzko7Ef2m')
             {
-               $estate = Estate::find($request->id);
-               if($estate){
-                    $estate->status == 2;
-                    if($estate->save()){
+               
+              
+              $est = DB::table('estates')->where('id', $request->id)
+                ->update(['status' => 2, 'checked_at'=>Carbon::now()],  ['timestamps' => false]);
+                 
+                    if($est){
                         return response()->json([
                             'status' => true,
                         ]);
                     }
-               }
+               
                return response()->json([
                     'status' => false,
                 ]);

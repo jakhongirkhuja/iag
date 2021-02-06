@@ -60134,7 +60134,7 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.config.productionTip = false;
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.config.devtools = false; // http://iagent.uz
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.$api_url = "http://localhost:8500";
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.$api_url = "http://iagent.uz";
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 var options = {
   color: '#bffaf3',

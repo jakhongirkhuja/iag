@@ -1054,6 +1054,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "tableshow",
   props: ["estates", "pagination", "count_all", "next_page", "prev_page", "cur_page", "last_page", "empty_estate"],
@@ -1099,11 +1102,17 @@ __webpack_require__.r(__webpack_exports__);
         id: 2,
         order: "сначала старые",
         selected: false
-      }]
+      }],
+      p: new Date().getDate() + new Date().getMonth() + 1,
+      s: new Date().getDate() * (new Date().getMonth() + 1),
+      y: new Date().getFullYear(),
+      m: null,
+      number: []
     };
   },
   mounted: function mounted() {},
   created: function created() {
+    this.m = this.p * this.s * this.y;
     var query = this.$route.query;
 
     if (query.latest) {
@@ -1127,6 +1136,39 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    po: function po(d) {
+      return parseInt(d * this.m);
+    },
+    o: function o(t) {
+      return parseInt(t.match(/\d/g).join(""));
+    },
+    h: function h(_h) {
+      return window.btoa(_h);
+    },
+    getNumber: function getNumber(event, id, t) {
+      // console.log(event.target.parentElement.innerHTML = 'ok');
+      //  let sd = window.btoa(t);
+      var sd = this.po(id) + this.o(t);
+      var article = {
+        id: id,
+        t: this.h(sd)
+      };
+      axios.post(this.$api_url + "/api/getnumberEstate", article).then(function (response) {
+        if (response.data.status) {
+          var numbers = response.data.number;
+          var st = '';
+          numbers.forEach(function (element) {
+            st = st + '<a href="tel:' + element + '">' + element + '</a>';
+          });
+          event.target.parentElement.innerHTML = st; // this.number =response.data.number; 
+        } else {
+          console.log(response.data.error);
+        }
+      })["catch"](function (error) {
+        console.error("There was an error!", error);
+      });
+      this.showmodal = true;
+    },
     handleFocusOut: function handleFocusOut() {
       this.input_typing = false;
       this.search_results = [];
@@ -2781,62 +2823,63 @@ var render = function() {
                 "tbody",
                 { staticStyle: { "text-align": "center" } },
                 _vm._l(_vm.estates, function(estate) {
-                  return _c(
-                    "tr",
-                    {
-                      key: estate.id,
-                      on: {
-                        click: function($event) {
-                          return _vm.openEstate(estate.slug)
-                        }
-                      }
-                    },
-                    [
-                      _c("td", [_vm._v(_vm._s(estate.construction_year))]),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticStyle: {
-                            "text-align": "left",
-                            "padding-left": "1rem"
-                          }
+                  return _c("tr", { key: estate.id }, [
+                    _c("td", [_vm._v(_vm._s(estate.construction_year))]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticStyle: {
+                          "text-align": "left",
+                          "padding-left": "1rem"
                         },
-                        [
-                          _vm._v(
-                            "\n            " +
-                              _vm._s(estate.city) +
-                              ", " +
-                              _vm._s(estate.region) +
-                              "\n            "
-                          ),
-                          _c("br"),
-                          estate.img != 0
-                            ? _c(
-                                "span",
-                                {
-                                  staticStyle: {
-                                    "font-size": "15px",
-                                    display: "flex",
-                                    "align-items": "center"
-                                  }
-                                },
-                                [
-                                  _c("img", {
-                                    staticStyle: { "margin-right": "0.2rem" },
-                                    attrs: {
-                                      src: "/img/camera.svg",
-                                      width: "17"
-                                    }
-                                  }),
-                                  _vm._v(" " + _vm._s(estate.img))
-                                ]
-                              )
-                            : _vm._e()
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("td", [
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          "\n            " +
+                            _vm._s(estate.city) +
+                            ", " +
+                            _vm._s(estate.region) +
+                            "\n            "
+                        ),
+                        _c("br"),
+                        estate.img != 0
+                          ? _c(
+                              "span",
+                              {
+                                staticStyle: {
+                                  "font-size": "15px",
+                                  display: "flex",
+                                  "align-items": "center"
+                                }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: { "margin-right": "0.2rem" },
+                                  attrs: { src: "/img/camera.svg", width: "17" }
+                                }),
+                                _vm._v(" " + _vm._s(estate.img))
+                              ]
+                            )
+                          : _vm._e()
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
                         _vm._v(
                           _vm._s(estate.num_rooms) +
                             "/" +
@@ -2844,9 +2887,19 @@ var render = function() {
                             "/" +
                             _vm._s(estate.floor_house)
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
                         _vm._v("Об: " + _vm._s(estate.total_area) + " m "),
                         _c("sup", [_vm._v("2")]),
                         _vm._v(" "),
@@ -2869,9 +2922,19 @@ var render = function() {
                               _c("sup", [_vm._v("2")])
                             ])
                           : _vm._e()
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
                         _c("span", [
                           _vm._v(
                             _vm._s(
@@ -2906,9 +2969,19 @@ var render = function() {
                               })
                             : _vm._e()
                         ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
                         _c("span", [
                           _vm._v(
                             _vm._s(
@@ -2934,23 +3007,80 @@ var render = function() {
                             ? _c("span", [_vm._v("сум")])
                             : _c("span", [_vm._v("у.е")])
                         ])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(estate.remont))]),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        { staticStyle: { "text-decoration": "underline" } },
-                        [_vm._v("показать номер")]
-                      ),
-                      _vm._v(" "),
-                      _c("td", [
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(estate.remont))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticStyle: { "text-decoration": "underline" },
+                        attrs: { id: estate.id }
+                      },
+                      [
+                        _vm.number.length == 0
+                          ? _c(
+                              "span",
+                              {
+                                on: {
+                                  click: function($event) {
+                                    return _vm.getNumber(
+                                      $event,
+                                      estate.id,
+                                      estate.created_at
+                                    )
+                                  }
+                                }
+                              },
+                              [_vm._v("показать номер")]
+                            )
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _vm._l(_vm.number, function(num) {
+                          return _c(
+                            "a",
+                            {
+                              key: num.id,
+                              staticStyle: {
+                                padding: "0 0.5rem",
+                                color: "inherit"
+                              },
+                              attrs: { href: "tel:" + num }
+                            },
+                            [_vm._v(_vm._s(num))]
+                          )
+                        })
+                      ],
+                      2
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
                         _c("span", {
                           domProps: { innerHTML: _vm._s(estate.update_time) }
                         })
-                      ])
-                    ]
-                  )
+                      ]
+                    )
+                  ])
                 }),
                 0
               )

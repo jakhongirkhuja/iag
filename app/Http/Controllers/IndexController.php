@@ -108,120 +108,23 @@ class IndexController extends Controller
     }
     public function admin()
     {
-        $urls = Estate::where('status',1)->where(function ($query){
-            $query->where('checked_at', null)
-            ->orwhere('checked_at','<', Carbon::today()->subWeek());
-        })->orderby('updated_at','asc')->take(10)->get();;
-        if(count($urls)>0){
-            $statuserror = [];
-            $statusgood = [];
-            foreach ($urls as $url) {
-                $intered = false;
-                echo $url->url;
-                var_dump($url->url);
-                if($url->ad_site==1){
-                    $response = Http::get($url->url);
-                    
-                    var_dump($response->status());
-                    if($response->status()==200){
-                        $str = $response->body();
-                        $contains = Str::contains($str, 'Простите, но данное объявление больше не доступно');
-                        if($contains){
-                            $statuserror[]= $url->id;
-                            // $url->status = 2;
-                            // $url->timestamps = false;
-                            // $url->checked_at = Carbon::now();
-                            // $url->save();
-                            $intered = true;
-                            var_dump('Простите, но данное объявление');
-                        }
-                       
-                        $contains = Str::contains($str, 'Нам жаль, но мы не нашли эту страницу');
-                        if($contains){
-                           
-                            // $url->status = 2;
-                            $statuserror[]= $url->id;
-                            // $url->timestamps = false;
-                            // $url->checked_at = Carbon::now();
-                            // $url->save();
-                            $intered = true;
-                            var_dump('Нам жаль, но мы не нашли');
-                        }
-                       
-                        
-                        $contains = Str::contains($str, 'Объявление не активно');
-                        if($contains){
-                           
-                            // $url->status = 2;
-                            // $url->timestamps = false;
-                            // $url->checked_at = Carbon::now();
-                            // $url->save();
-                            $statuserror[]= $url->id;
-                            $intered = true;
-                            var_dump('Объявление не активно');
-                        }
-                       
-                        
-                    }
-                    if($response->status()==404){
-                        
-                        // $url->status = 2;
-                        // $url->timestamps = false;
-                        // $url->checked_at = Carbon::now();
-                        // $url->save();
-                        $statuserror[]= $url->id;
-                        $intered = true;
-                        var_dump('here it is ');
-                    }
-                    
-                    
-                }else{
-                    $response = Http::get('https://uybor.uz/api/v2/listing/view/'.$url->ad_id);
-                    if($response->status()==404){
-                        // $url->timestamps = false;
-                        // $url->checked_at = Carbon::now();
-                        // $url->status = 2;
-                        // $url->save();
-                        $statuserror[]= $url->id;
-                        $intered = true;
-                        var_dump('uybor it is ');
-                    }
-                }
-                if(!$intered){
-                    // $url->timestamps = false;
-                    // $url->checked_at = Carbon::now();
-                    // $url->save();
-                    $statusgood[] = $url->id;
-                    var_dump('just changed checked_at');
-                }
-                sleep(2);
-            }
-        }
-         // $url->timestamps = false;
-                        // $url->checked_at = Carbon::now();
-                        // $url->status = 2;
-                        // $url->save();
-            $bad = DB::table('estates')->whereIn('id', $statuserror)
-              ->update(['status' => 2, 'checked_at'=>Carbon::now()],  ['timestamps' => false]);
-              $good =  DB::table('estates')->whereIn('id', $statusgood)
-              ->update(['checked_at'=>Carbon::now()],  ['timestamps' => false]);
-        dd($urls, $statuserror, $statusgood,$bad, $good);
-        $yesterday = date("Y-m-d", strtotime( '-1 days' ) );
-    $countYesterdayOLX = Estate::where('ad_site',1)->whereDate('created_at', $yesterday )->get();
-    if(count($countYesterdayOLX)>0){
-        echo 'Olx:'.'('.Carbon::parse($countYesterdayOLX[0]->created_at)->format('d-m-Y').' ) '.count($countYesterdayOLX);
-    }else{
-        echo 'Olx: 0';
-    }
-    echo '<br>';
-    $countYesterdayUybor = Estate::where('ad_site',2)->whereDate('created_at', $yesterday )->get();
-    if(count($countYesterdayUybor)>0){
-        echo 'Uybor:'.'('.Carbon::parse($countYesterdayUybor[0]->created_at)->format('d-m-Y').' ) '.count($countYesterdayUybor);
-    }else{
-        echo 'Uybor: 0';
-    }
-    
-    
-     return view('admin/index');
+
+        
+       $good = Estate::where('status', 1)->count();
+       $new = Estate::whereDate('created_at', Carbon::today())->count();
+       $owner = Estate::where('announcement',2)->whereDate('created_at', Carbon::today())->count();
+       $update = Estate::whereDate('updated_at', Carbon::today())->count();
+       $closed =  Estate::where('status', 2)->count();
+       $archive = Estate::count();
+       $newbuilding = Estate::where('house_type', 2)->count();
+     return view('admin/index',[
+        'good' => $good,
+        'new' => $new,
+        'owner'=>$owner,
+        'update'=>$update,
+        'closed'=>$closed,
+        'archive'=>$archive,
+        'newbuilding'=>$newbuilding
+     ]);
     }
 }

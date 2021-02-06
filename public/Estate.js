@@ -654,7 +654,10 @@ var render = function() {
                     "font-size": "0.8rem",
                     "text-decoration": "underline"
                   },
-                  attrs: { target: "_blank", href: this.estate.url }
+                  attrs: {
+                    target: "_blank",
+                    href: "http://mykorea.uz/redirect/?s=" + _vm.estate.url
+                  }
                 },
                 [_vm._v("открыть исходник")]
               )

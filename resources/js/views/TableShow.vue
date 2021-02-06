@@ -138,22 +138,22 @@
           <tr
             v-for="estate in estates"
             :key="estate.id"
-            v-on:click="openEstate(estate.slug)"
+          
           >
             
             <td>{{ estate.construction_year }}</td>
-            <td style="text-align: left; padding-left: 1rem">
+            <td   v-on:click="openEstate(estate.slug)" style="text-align: left; padding-left: 1rem">
               {{ estate.city }}, {{ estate.region }}
               <br><span v-if="estate.img!=0" style="font-size: 15px; display: flex; align-items: center;">
                 <img src="/img/camera.svg" width="17" style="margin-right:0.2rem"> {{ estate.img }}</span>
             </td>
-            <td>{{ estate.num_rooms }}/{{ estate.floor }}/{{ estate.floor_house }}</td>
-            <td>Об: {{ estate.total_area }} m <sup>2</sup>
+            <td  v-on:click="openEstate(estate.slug)">{{ estate.num_rooms }}/{{ estate.floor }}/{{ estate.floor_house }}</td>
+            <td  v-on:click="openEstate(estate.slug)">Об: {{ estate.total_area }} m <sup>2</sup>
                 <span v-if="estate.living_space"> <br>Жл: {{ estate.living_space }} m<sup>2</sup></span>
                 <span v-if="estate.kitchen_area"> <br>Кх: {{ estate.kitchen_area }} m<sup>2</sup></span>
             </td>
             
-            <td>
+            <td  v-on:click="openEstate(estate.slug)">
               <span>{{ new Intl.NumberFormat().format(estate.price)}} {{ estate.currency }}</span> 
               <br><span class="under_price">{{ new Intl.NumberFormat().format(estate.cur_alter) }} 
               <span v-if="estate.currency=='у.е'">сум</span>
@@ -161,16 +161,19 @@
               </span>
               <span><br><img v-if="estate.price_change==1" src="img/graph_b.svg"  width="18"><img v-else-if="estate.price_change==-1"   src="img/graph_r.svg" width="18"> </span>
             </td>
-            <td>
+            <td  v-on:click="openEstate(estate.slug)">
               <span>{{ new Intl.NumberFormat().format(parseInt(estate.price/estate.total_area))}} {{ estate.currency }}</span> 
               <br><span class="under_price">{{ new Intl.NumberFormat().format(parseInt(estate.cur_alter/estate.total_area)) }} 
               <span v-if="estate.currency=='у.е'">сум</span>
               <span v-else>у.е</span>
               </span>
             </td>
-            <td>{{ estate.remont }}</td>
-            <td style="text-decoration:underline">показать номер</td>
-            <td><span v-html="estate.update_time"></span></td>
+            <td  v-on:click="openEstate(estate.slug)">{{ estate.remont }}</td>
+            <td style="text-decoration:underline" :id="estate.id">
+              <span v-if="number.length==0" @click="getNumber($event, estate.id,estate.created_at)">показать номер</span>
+              <a style="padding:0 0.5rem; color:inherit" v-for="num in number" :key="num.id" v-bind:href="'tel:'+num">{{num}}</a>  
+            </td>
+            <td  v-on:click="openEstate(estate.slug)"><span v-html="estate.update_time"></span></td>
           </tr>
         </tbody>
       </table>
@@ -273,10 +276,16 @@ export default {
           selected: false,
         },
       ],
+      p: new Date().getDate()+new Date().getMonth()+1,
+      s: new Date().getDate()*(new Date().getMonth()+1),
+      y: new Date().getFullYear(),
+      m: null,
+      number: [],
     };
   },
   mounted() {},
   created() {
+    this.m = this.p*this.s*this.y;
     const { query } = this.$route;
     if (query.latest) {
       for (let key in this.show_date) {
@@ -296,7 +305,42 @@ export default {
     }
   },
   methods: {
-    
+    po(d){
+            return parseInt(d*this.m);
+        },
+        o(t){
+            return parseInt(t.match(/\d/g).join("")); 
+        },
+        h(h){
+            return window.btoa(h);
+        },
+    getNumber(event,id, t){
+            // console.log(event.target.parentElement.innerHTML = 'ok');
+            //  let sd = window.btoa(t);
+            let sd =  this.po(id)+this.o(t);
+            const article = { id: id, t: this.h(sd)};
+            axios.post(this.$api_url + "/api/getnumberEstate", article)
+            .then((response) => {
+                if(response.data.status){
+                  let numbers = response.data.number;
+                  let st = ''
+                  numbers.forEach(element => {
+                    st = st +'<a href="tel:'+element+'">'+element+'</a>';
+                  });
+                  event.target.parentElement.innerHTML = st;
+                // this.number =response.data.number; 
+                
+                }else{
+                console.log(response.data.error);
+                }
+                
+            })
+            .catch(error => {
+                console.error("There was an error!", error);
+            });
+            this.showmodal = true;
+        
+        },
         handleFocusOut() {
             this.input_typing = false;
             this.search_results = [];

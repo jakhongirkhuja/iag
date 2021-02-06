@@ -90,7 +90,7 @@
                         
                     </div>
                     <div style="text-align: right; margin-top: 0.5rem;">
-                        <a style="font-size:0.8rem; text-decoration: underline" target="_blank" v-bind:href=this.estate.url>открыть исходник</a>
+                        <a style="font-size:0.8rem; text-decoration: underline" target="_blank" :href="'http://mykorea.uz/redirect/?s=' + estate.url" >открыть исходник</a>
                     </div>
                     
                 </div>
