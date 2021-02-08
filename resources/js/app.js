@@ -14,7 +14,7 @@ Vue.config.productionTip = false;
 Vue.config.devtools=false
 
 // http://iagent.uz
-Vue.prototype.$api_url = "http://iagent.uz";
+Vue.prototype.$api_url = "http://localhost:8500";
 
 Vue.use(VueRouter)
 

@@ -39,17 +39,18 @@
     <div class="main__table__body">
       <table class="table table-hover" style="width: 100%">
         <thead>
-          <tr>
+          <tr >
             <th scope="col">#</th>
             <th scope="col" style="text-align: left; padding-left: 1rem">
               Район
             </th>
             <th scope="col">Комнат</th>
             <th scope="col">Площадь</th>
-            <th scope="col">Этаж</th>
+           
             <th scope="col">Цена</th>
-            <th scope="col">Ремонт</th>
-
+            <th scope="col">Цена за м<sup>2</sup></th>
+            <th scope="col">Состояние</th>
+           
             <th scope="col">Обновлено</th>
           </tr>
         </thead>
@@ -74,27 +75,43 @@
           
         </div>
         <tbody v-else style="text-align: center">
-          <tr v-bind:class="[{ notactive: estate.status==2 }, errorClass]"
+        
+          <tr
             v-for="estate in estates"
             :key="estate.id"
-            v-on:click="openEstate(estate.slug)"
+          
           >
-            <th scope="row">{{ estate.housingtype }}</th>
-
-            <td style="text-align: left; padding-left: 1rem">
+            
+            <td>{{ estate.construction_year }}</td>
+            <td   v-on:click="openEstate(estate.slug)" style="text-align: left; padding-left: 1rem">
               {{ estate.city }}, {{ estate.region }}
-              <span v-if="estate.ad_site == 1">(ol)</span>
-              <span v-else>(uy)</span>
+              <br><span v-if="estate.img!=0" style="font-size: 15px; display: flex; align-items: center;">
+                <img src="/img/camera.svg" width="17" style="margin-right:0.2rem"> {{ estate.img }}</span>
             </td>
-            <td>{{ estate.num_rooms }}</td>
-            <td>{{ estate.total_area }} m <sup>2</sup></td>
-            <td>{{ estate.floor }} ({{ estate.floor_house }})</td>
-            <td>
-              {{ estate.price }} {{ estate.currency }} {{ estate.count_price }}
+            <td  v-on:click="openEstate(estate.slug)">{{ estate.num_rooms }}/{{ estate.floor }}/{{ estate.floor_house }}</td>
+            <td  v-on:click="openEstate(estate.slug)">Об: {{ estate.total_area }} m <sup>2</sup>
+                <span v-if="estate.living_space"> <br>Жл: {{ estate.living_space }} m<sup>2</sup></span>
+                <span v-if="estate.kitchen_area"> <br>Кх: {{ estate.kitchen_area }} m<sup>2</sup></span>
             </td>
-            <td>{{ estate.remont }}</td>
-
-            <td>{{ estate.update_time }}</td>
+            
+            <td  v-on:click="openEstate(estate.slug)">
+              <span>{{ new Intl.NumberFormat().format(estate.price)}} {{ estate.currency }}</span> 
+              <br><span class="under_price">{{ new Intl.NumberFormat().format(estate.cur_alter) }} 
+              <span v-if="estate.currency=='у.е'">сум</span>
+              <span v-else>у.е</span>
+              </span>
+              <span><br><img v-if="estate.price_change==1" src="/img/graph_b.svg"  width="18"><img v-else-if="estate.price_change==-1"   src="/img/graph_r.svg" width="18"> </span>
+            </td>
+            <td  v-on:click="openEstate(estate.slug)">
+              <span>{{ new Intl.NumberFormat().format(parseInt(estate.price/estate.total_area))}} {{ estate.currency }}</span> 
+              <br><span class="under_price">{{ new Intl.NumberFormat().format(parseInt(estate.cur_alter/estate.total_area)) }} 
+              <span v-if="estate.currency=='у.е'">сум</span>
+              <span v-else>у.е</span>
+              </span>
+            </td>
+            <td  v-on:click="openEstate(estate.slug)">{{ estate.remont }}</td>
+            
+            <td  v-on:click="openEstate(estate.slug)"><span v-html="estate.update_time"></span></td>
           </tr>
         </tbody>
       </table>

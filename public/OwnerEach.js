@@ -355,6 +355,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "tableshow",
   props: ["estates", "pagination", "count_all", "next_page", "prev_page", "cur_page", "last_page", "empty_estate"],
@@ -833,80 +850,221 @@ var render = function() {
                 "tbody",
                 { staticStyle: { "text-align": "center" } },
                 _vm._l(_vm.estates, function(estate) {
-                  return _c(
-                    "tr",
-                    {
-                      key: estate.id,
-                      class: [
-                        { notactive: estate.status == 2 },
-                        _vm.errorClass
-                      ],
-                      on: {
-                        click: function($event) {
-                          return _vm.openEstate(estate.slug)
-                        }
-                      }
-                    },
-                    [
-                      _c("th", { attrs: { scope: "row" } }, [
-                        _vm._v(_vm._s(estate.housingtype))
-                      ]),
-                      _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          staticStyle: {
-                            "text-align": "left",
-                            "padding-left": "1rem"
-                          }
+                  return _c("tr", { key: estate.id }, [
+                    _c("td", [_vm._v(_vm._s(estate.construction_year))]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        staticStyle: {
+                          "text-align": "left",
+                          "padding-left": "1rem"
                         },
-                        [
-                          _vm._v(
-                            "\n            " +
-                              _vm._s(estate.city) +
-                              ", " +
-                              _vm._s(estate.region) +
-                              "\n            "
-                          ),
-                          estate.ad_site == 1
-                            ? _c("span", [_vm._v("(ol)")])
-                            : _c("span", [_vm._v("(uy)")])
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(estate.num_rooms))]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(_vm._s(estate.total_area) + " m "),
-                        _c("sup", [_vm._v("2")])
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
-                        _vm._v(
-                          _vm._s(estate.floor) +
-                            " (" +
-                            _vm._s(estate.floor_house) +
-                            ")"
-                        )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
                         _vm._v(
                           "\n            " +
-                            _vm._s(estate.price) +
-                            " " +
-                            _vm._s(estate.currency) +
-                            " " +
-                            _vm._s(estate.count_price) +
-                            "\n          "
+                            _vm._s(estate.city) +
+                            ", " +
+                            _vm._s(estate.region) +
+                            "\n            "
+                        ),
+                        _c("br"),
+                        estate.img != 0
+                          ? _c(
+                              "span",
+                              {
+                                staticStyle: {
+                                  "font-size": "15px",
+                                  display: "flex",
+                                  "align-items": "center"
+                                }
+                              },
+                              [
+                                _c("img", {
+                                  staticStyle: { "margin-right": "0.2rem" },
+                                  attrs: { src: "/img/camera.svg", width: "17" }
+                                }),
+                                _vm._v(" " + _vm._s(estate.img))
+                              ]
+                            )
+                          : _vm._e()
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v(
+                          _vm._s(estate.num_rooms) +
+                            "/" +
+                            _vm._s(estate.floor) +
+                            "/" +
+                            _vm._s(estate.floor_house)
                         )
-                      ]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(estate.remont))]),
-                      _vm._v(" "),
-                      _c("td", [_vm._v(_vm._s(estate.update_time))])
-                    ]
-                  )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
+                        _vm._v("Об: " + _vm._s(estate.total_area) + " m "),
+                        _c("sup", [_vm._v("2")]),
+                        _vm._v(" "),
+                        estate.living_space
+                          ? _c("span", [
+                              _c("br"),
+                              _vm._v(
+                                "Жл: " + _vm._s(estate.living_space) + " m"
+                              ),
+                              _c("sup", [_vm._v("2")])
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        estate.kitchen_area
+                          ? _c("span", [
+                              _c("br"),
+                              _vm._v(
+                                "Кх: " + _vm._s(estate.kitchen_area) + " m"
+                              ),
+                              _c("sup", [_vm._v("2")])
+                            ])
+                          : _vm._e()
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
+                        _c("span", [
+                          _vm._v(
+                            _vm._s(
+                              new Intl.NumberFormat().format(estate.price)
+                            ) +
+                              " " +
+                              _vm._s(estate.currency)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _c("span", { staticClass: "under_price" }, [
+                          _vm._v(
+                            _vm._s(
+                              new Intl.NumberFormat().format(estate.cur_alter)
+                            ) + " \n            "
+                          ),
+                          estate.currency == "у.е"
+                            ? _c("span", [_vm._v("сум")])
+                            : _c("span", [_vm._v("у.е")])
+                        ]),
+                        _vm._v(" "),
+                        _c("span", [
+                          _c("br"),
+                          estate.price_change == 1
+                            ? _c("img", {
+                                attrs: { src: "/img/graph_b.svg", width: "18" }
+                              })
+                            : estate.price_change == -1
+                            ? _c("img", {
+                                attrs: { src: "/img/graph_r.svg", width: "18" }
+                              })
+                            : _vm._e()
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
+                        _c("span", [
+                          _vm._v(
+                            _vm._s(
+                              new Intl.NumberFormat().format(
+                                parseInt(estate.price / estate.total_area)
+                              )
+                            ) +
+                              " " +
+                              _vm._s(estate.currency)
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("br"),
+                        _c("span", { staticClass: "under_price" }, [
+                          _vm._v(
+                            _vm._s(
+                              new Intl.NumberFormat().format(
+                                parseInt(estate.cur_alter / estate.total_area)
+                              )
+                            ) + " \n            "
+                          ),
+                          estate.currency == "у.е"
+                            ? _c("span", [_vm._v("сум")])
+                            : _c("span", [_vm._v("у.е")])
+                        ])
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [_vm._v(_vm._s(estate.remont))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      {
+                        on: {
+                          click: function($event) {
+                            return _vm.openEstate(estate.slug)
+                          }
+                        }
+                      },
+                      [
+                        _c("span", {
+                          domProps: { innerHTML: _vm._s(estate.update_time) }
+                        })
+                      ]
+                    )
+                  ])
                 }),
                 0
               )
@@ -1005,11 +1163,14 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Площадь")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Этаж")]),
-        _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Цена")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Ремонт")]),
+        _c("th", { attrs: { scope: "col" } }, [
+          _vm._v("Цена за м"),
+          _c("sup", [_vm._v("2")])
+        ]),
+        _vm._v(" "),
+        _c("th", { attrs: { scope: "col" } }, [_vm._v("Состояние")]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Обновлено")])
       ])

@@ -31,3 +31,6 @@ Route::post('/login/auth', 'Auth\LoginController@authlogin')->name('auth_login')
 Route::post('/register/auth', 'Auth\LoginController@authregister')->name('auth_register');
 Route::get('/logout', 'Auth\LoginController@logout')->name('logout');
 Route::get('/get/a_u', 'Auth\LoginController@getAU')->name('getAU');
+
+Route::get('/pdf/{id}','IndexController@pdf')->name('pdf');
+Route::get('/pdf-show/{id}','IndexController@pdfShow')->name('pdfShow');

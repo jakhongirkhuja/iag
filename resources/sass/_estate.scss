@@ -17,19 +17,19 @@
                 &-map{
                     div{
                        position: relative;
-                       &::after{
-                            content: "";
-                            display: block;
-                            width: 146px;
-                            height: 146px;
-                            position: absolute;
-                            background-color: #2888e559;
-                            box-shadow: 0px 0px 15px #00000033;
-                            border-radius: 50%;
-                            top: 50%;
-                            left: 50%;
-                            transform: translate(-50%, -50%);
-                       } 
+                    //    &::after{
+                    //         content: "";
+                    //         display: block;
+                    //         width: 146px;
+                    //         height: 146px;
+                    //         position: absolute;
+                    //         background-color: #2888e559;
+                    //         box-shadow: 0px 0px 15px #00000033;
+                    //         border-radius: 50%;
+                    //         top: 50%;
+                    //         left: 50%;
+                    //         transform: translate(-50%, -50%);
+                    //    } 
                     }
                     div#chart-1::after{
                         display: none;

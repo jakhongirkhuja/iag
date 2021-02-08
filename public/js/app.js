@@ -43,7 +43,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"Estate":"Estate","vendors~Owner~OwnerEach~home~main":"vendors~Owner~OwnerEach~home~main","Owner":"Owner","OwnerEach":"OwnerEach","home":"home","main":"main"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"vendors~Estate~Owner~OwnerEach~home~main":"vendors~Estate~Owner~OwnerEach~home~main","Estate":"Estate","Owner":"Owner","OwnerEach":"OwnerEach","home":"home","main":"main"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function
@@ -60134,7 +60134,7 @@ window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js")
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.config.productionTip = false;
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.config.devtools = false; // http://iagent.uz
 
-vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.$api_url = "http://iagent.uz";
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.prototype.$api_url = "http://localhost:8500";
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 var options = {
   color: '#bffaf3',
@@ -60317,31 +60317,31 @@ var routes = [{
   path: '/',
   name: 'main',
   component: function component() {
-    return Promise.all(/*! import() | main */[__webpack_require__.e("vendors~Owner~OwnerEach~home~main"), __webpack_require__.e("main")]).then(__webpack_require__.bind(null, /*! ./views/Main */ "./resources/js/views/Main.vue"));
+    return Promise.all(/*! import() | main */[__webpack_require__.e("vendors~Estate~Owner~OwnerEach~home~main"), __webpack_require__.e("main")]).then(__webpack_require__.bind(null, /*! ./views/Main */ "./resources/js/views/Main.vue"));
   }
 }, {
   path: '/dash',
   name: 'home',
   component: function component() {
-    return Promise.all(/*! import() | home */[__webpack_require__.e("vendors~Owner~OwnerEach~home~main"), __webpack_require__.e("home")]).then(__webpack_require__.bind(null, /*! ./views/Home */ "./resources/js/views/Home.vue"));
+    return Promise.all(/*! import() | home */[__webpack_require__.e("vendors~Estate~Owner~OwnerEach~home~main"), __webpack_require__.e("home")]).then(__webpack_require__.bind(null, /*! ./views/Home */ "./resources/js/views/Home.vue"));
   }
 }, {
   path: '/estate/:slug',
   name: 'estate',
   component: function component() {
-    return __webpack_require__.e(/*! import() | Estate */ "Estate").then(__webpack_require__.bind(null, /*! ./views/Estate */ "./resources/js/views/Estate.vue"));
+    return Promise.all(/*! import() | Estate */[__webpack_require__.e("vendors~Estate~Owner~OwnerEach~home~main"), __webpack_require__.e("Estate")]).then(__webpack_require__.bind(null, /*! ./views/Estate */ "./resources/js/views/Estate.vue"));
   }
 }, {
   path: '/owners',
   name: 'owners',
   component: function component() {
-    return Promise.all(/*! import() | Owner */[__webpack_require__.e("vendors~Owner~OwnerEach~home~main"), __webpack_require__.e("Owner")]).then(__webpack_require__.bind(null, /*! ./views/Owners */ "./resources/js/views/Owners.vue"));
+    return Promise.all(/*! import() | Owner */[__webpack_require__.e("vendors~Estate~Owner~OwnerEach~home~main"), __webpack_require__.e("Owner")]).then(__webpack_require__.bind(null, /*! ./views/Owners */ "./resources/js/views/Owners.vue"));
   }
 }, {
   path: '/owners/:id',
   name: 'OwnersEach',
   component: function component() {
-    return Promise.all(/*! import() | OwnerEach */[__webpack_require__.e("vendors~Owner~OwnerEach~home~main"), __webpack_require__.e("OwnerEach")]).then(__webpack_require__.bind(null, /*! ./views/OwnersEach */ "./resources/js/views/OwnersEach.vue"));
+    return Promise.all(/*! import() | OwnerEach */[__webpack_require__.e("vendors~Estate~Owner~OwnerEach~home~main"), __webpack_require__.e("OwnerEach")]).then(__webpack_require__.bind(null, /*! ./views/OwnersEach */ "./resources/js/views/OwnersEach.vue"));
   }
 }];
 

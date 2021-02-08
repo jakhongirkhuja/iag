@@ -1169,6 +1169,10 @@ class ApiController extends Controller
             if ($city) {
                 $estate['city'] = $city->name;
             }
+            $remont = $estate->getRemont();
+            if ($remont) {
+                $estate['remont'] = $remont->name;
+            }
             $region = $estate->getRegion();
             if ($region) {
                 $estate['region'] = $region->name;
@@ -1369,20 +1373,16 @@ class ApiController extends Controller
                 })
                 ->paginate(30);
 
-
-            foreach ($estate as $es) {
-                $es['i'] = $es->owner()->first();
-
-                $es['price_cur'] = $es->currency;
-
+            $currence =  Http::get('https://cbu.uz/ru/services/open_data/rates/json/');
+            if($currence->ok()){
+                $usd = (int)$currence[0]['G4'];
                 
-                if ((int)$es['house_type'] == 1) {
-                    // dd($es);
-                    $es['housingtype'] = 'вр';
-                } elseif ($es['house_type'] == 2 || $es['house_type'] == null) {
-                    
-                    $es['housingtype'] = 'нв';
-                }
+            }else{
+                $usd = 10500;
+            }
+            foreach ($estate as $es) {
+                $es['price_cur'] = $es->currency;
+           
                 $remont = $es->getRemont();
                 if ($remont) {
                     $es['remont'] = $remont->name;
@@ -1396,7 +1396,36 @@ class ApiController extends Controller
                 if ($region) {
                     $es['region'] = $region->name;
                 }
-                $es['update_time'] = Carbon::parse($es->updated_at)->locale('ru_RU')->diffForHumans();
+                if($es->currency=='у.е'){
+                
+                    $es['cur_alter'] = (int)$es->price*$usd;
+                }else{
+                    $es['cur_alter'] = (int)$es->price/$usd;
+                }
+                if (Str::contains($es->img, 'https')) {
+                    $c_img = count(explode(",", Str::of($es->img)->replace('[', '')->replace(']', '')->replace("'", '')->replace(' ', '')));
+                    $es['img'] = $c_img;
+                
+                    
+                }else{
+                    $es['img'] = 0;
+                }
+                $change = Price::select('price', 'created_at')->where('estate_id', $es->id)->orderby('created_at','desc')->take(2)->get();
+                if(count($change)>1){
+                
+                    if((int)$change[0]->price>(int)$change[1]->price){
+                        $es['price_change'] = 1;
+                    }else{
+                        $es['price_change'] = -1;
+                    
+                    }
+                    
+                }else{
+                    $es['price_change'] = 0;
+                }
+                
+                $format = Carbon::parse($es->updated_at)->locale('ru_RU');
+                $es['update_time'] = $format->format('d.m.y') . '<br>'. $format->format('H:i');
                 $es['created_time'] = Carbon::parse($es->created_at)->locale('ru_RU')->diffForHumans();
             }
 
@@ -1457,7 +1486,7 @@ class ApiController extends Controller
                 $sd = (int)$all + (int)$t;
                 
                 $base = base64_encode($sd);
-                 dd($base);
+                //  dd($base);
                 $base =$request->t;
                 // dd($base, $request->t);
                 if ($base == $request->t) {

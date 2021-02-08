@@ -42,6 +42,14 @@
                             <p v-if="estate.price!=0">{{estate.price}} {{estate.currency}}</p>
                             <p v-else>Договорная</p>
                         </div>
+                        <div class="estate__mainpart__shortinfo__area__price-p">
+                             <p>Цена за м<sup>2</sup></p>
+                            <p v-if="estate.price!=0">
+                                <span v-if="estate.total_area!=0">{{parseInt(estate.price/ estate.total_area) }} {{estate.currency}}</span>
+                                <span v-else>0 {{estate.currency}}</span>
+                                </p>
+                            <p v-else>Договорная</p>
+                        </div>
                     </div>
                     <div class="estate__mainpart__shortinfo__list">
                         <div class="estate__mainpart__shortinfo__list__items">
@@ -57,13 +65,17 @@
                             <p>{{ estate.floor_house }}</p>
                         </div>
                         <div class="estate__mainpart__shortinfo__list__items">
+                            <p>Ремонт</p>
+                            <p>{{ estate.remont }}</p>
+                        </div>
+                        <div class="estate__mainpart__shortinfo__list__items">
                             <p>Статус</p>
-                            <p v-if="estate.status==1">&#10003;</p>
-                            <p v-else>&#10006;</p>
+                            <p v-if="estate.status==1">&#10003; активный</p>
+                            <p v-else>&#10006; закрыто</p>
                         </div>
                     </div>
                     <div class="estate__mainpart__shortinfo__icons">
-                        <div class="estate__mainpart__shortinfo__icons__items">
+                        <div class="estate__mainpart__shortinfo__icons__items" v-on:click="downloadPDF(estate.id)">
                             <div class="estate__mainpart__shortinfo__icons__items__img">
                                 <img :src="this.$api_url+'/img/pdf.svg'" width="20">
                             </div>
@@ -79,7 +91,7 @@
                                 Распечатать
                             </div>
                         </div>
-                        <div class="estate__mainpart__shortinfo__icons__items">
+                        <div class="estate__mainpart__shortinfo__icons__items" v-on:click="сomplain(estate.id)">
                             <div class="estate__mainpart__shortinfo__icons__items__img">
                                 <img :src="this.$api_url+'/img/warning.svg'" width="20">
                             </div>
@@ -238,6 +250,13 @@ export default {
     },
 
     methods: {
+        сomplain(id){
+            window.open('https://t.me/Bakers_Dozen','_blank');
+        },
+        downloadPDF(id){
+            // console.log(id);
+            window.location = this.$api_url+'/pdf/'+id;
+        },
         closeModal(){
             this.showmodal = false;
         },
@@ -342,3 +361,6 @@ export default {
     }
 }
 </script>
+<style type="text/css" media="print">
+  @page { size: landscape; }
+</style>
